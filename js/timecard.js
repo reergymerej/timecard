@@ -1,32 +1,96 @@
-function TimeEvent(){
+
+/**
+* @param {object} data
+**/
+function TimeEvent(data){
 	var start,
 		end,
 		label,
 		color;
 
-	//	assume the start time is now
-	start = new Date();
+	if(data){
+		start = new Date(data.start);
+		end = data.end ? new Data(data.end) : undefined;
+		label = data.label;
+		color = data.color;
+	};
 
-	
-	this.getDescription = function(){
-		var friendlyTime = getFriendlyTime(start),
+	/**
+	* @param {Date} time
+	* @return {boolean} success
+	**/
+	this.setStart = function(time){
+		
+		if(end === undefined || time < end){
+			start = time;
+			return true;
+		};
+
+		return false;
+	};
+
+	this.getStart = function(){
+		return start;
+	};
+
+	/**
+	* @param {Date} time
+	* @return {boolean} success
+	**/
+	this.setEnd = function(time){
+		
+		if(time > start){
+			end = time;
+			return true;
+		};
+
+		return false;
+	};
+
+	this.getEnd = function(){
+		return end;
+	};
+
+	this.setLabel = function(newLabel){
+		label = newLabel;
+	};
+
+	this.toString = function(){
+		var friendlyStart = getFriendlyTime(start),
 			friendlyEnd = (end === undefined) ? '...' : getFriendlyTime(end);
 
-		return start + ' - ' + end + ' (' + label + ')';
+		return friendlyStart + ' - ' + friendlyEnd + ' (' + label + ')';
+
+		function getFriendlyTime(time){
+			var h = pad(time.getHours()),
+				m = pad(time.getMinutes()),
+				s = pad(time.getSeconds());
+
+			return h + ':' + m + ':' + s;
+
+			function pad(x){
+
+				//	allow type conversion
+				if(x < 10){
+					return '0' + x;
+				};
+
+				return x;
+			};
+		};
 	};
 
-	function getFriendlyTime(time){
-		return time.getHours() + ':' + time.getMinutes();
+	this.getData = function(){
+		
+		return {
+			start: start,
+			end: end,
+			label: label,
+			color: color
+		};
 	};
 };
 
-TimeEvent.prototype.setLabel = function(desc){
-	this.label = desc;
-};
-
-TimeEvent.prototype.toString = function(){
-	return this.getDescription();
-};
 
 /*
 have horizontal timeline
@@ -41,3 +105,40 @@ save to cookies
 save to DB
 export as JSON
 */
+
+
+function EventManager(){
+	var events = [];
+
+	/**
+	* @param {TimeEvent} e
+	**/
+	this.addEvent = function(e){
+		events.push(e);
+	};
+
+	/**
+	* @return {object}
+	**/
+	this.getEvents = function(){
+		
+		var e = {};
+
+		for(var i = 0; i < events.length; i++){
+			e[i] = events[i].toString();
+		};
+
+		return e;
+	};
+};
+
+var em = new EventManager();
+var e;
+for(var i = 0; i < 10; i++){
+	e = new TimeEvent();
+	e.setStart(new Date());
+	e.setLabel('event #' + i);
+	em.addEvent(e);
+};
+
+console.log(em.getEvents());
