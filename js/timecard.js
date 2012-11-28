@@ -1,3 +1,59 @@
+/*
+have horizontal timeline
+click to add a new event
+	initialize start at the current time
+	add label after
+when clicking on event, show options (change start, end, label, resume)
+click on current event to stop at current time
+drag edges of event to adjust start/end times, snap to 15 minutes
+horizontal timeline keeps updating every 60 seconds
+save to cookies
+save to DB
+export as JSON
+*/
+
+var Task = Backbone.Model.extend({
+	defaults: {
+		start: new Date(),
+		end: undefined,
+		label: 'no label'
+	}
+});
+
+
+
+
+
+var TaskView = Backbone.View.extend({
+	tagName: 'div',
+	className: 'task',
+	events: {
+		'click .icon': 'open'
+	},
+	render: function(){
+		
+	}
+});
+
+
+
+
+
+
+
+var t = new Task();
+
+console.log(t.get('start'));
+console.log(t.get('end'));
+console.log(t.get('label'));
+
+
+
+
+
+
+//
+
 
 /**
 * @param {object} data
@@ -92,21 +148,6 @@ function TimeEvent(data){
 };
 
 
-/*
-have horizontal timeline
-click to add a new event
-	initialize start at the current time
-	add label after
-when clicking on event, show options (change start, end, label, resume)
-click on current event to stop at current time
-drag edges of event to adjust start/end times, snap to 15 minutes
-horizontal timeline keeps updating every 60 seconds
-save to cookies
-save to DB
-export as JSON
-*/
-
-
 function EventManager(){
 	var events = [];
 
@@ -131,14 +172,3 @@ function EventManager(){
 		return e;
 	};
 };
-
-var em = new EventManager();
-var e;
-for(var i = 0; i < 10; i++){
-	e = new TimeEvent();
-	e.setStart(new Date());
-	e.setLabel('event #' + i);
-	em.addEvent(e);
-};
-
-console.log(em.getEvents());
