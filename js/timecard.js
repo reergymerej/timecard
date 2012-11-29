@@ -12,57 +12,16 @@ save to DB
 export as JSON
 */
 
-var Task = Backbone.Model.extend({
-	defaults: {
-		start: new Date(),
-		end: undefined,
-		label: 'no label'
-	}
-});
-
-
-
-
-
-var TaskView = Backbone.View.extend({
-	tagName: 'div',
-	className: 'task',
-	events: {
-		'click .icon': 'open'
-	},
-	render: function(){
-		
-	}
-});
-
-
-
-
-
-
-
-var t = new Task();
-
-console.log(t.get('start'));
-console.log(t.get('end'));
-console.log(t.get('label'));
-
-
-
-
-
-
-//
-
-
 /**
 * @param {object} data
 **/
-function TimeEvent(data){
-	var start,
+function Task(data){
+	var start = new Date(),
 		end,
-		label,
-		color;
+		label = 'new task',
+		color,
+		element,
+		instance = this;
 
 	if(data){
 		start = new Date(data.start);
@@ -70,6 +29,39 @@ function TimeEvent(data){
 		label = data.label;
 		color = data.color;
 	};
+
+
+	element = $('<div>')
+		.addClass('task')
+		.html(label)
+		.click(function(e){
+			
+			var input = $('<input>')
+				.click(function(e){
+					e.stopPropagation();
+				})
+
+				.blur(function(){
+
+					var newVal = $.trim($(this).val());
+
+					if(newVal !== ''){
+						
+						instance.setLabel(newVal);
+					};
+					
+					$(this).remove();
+				});
+
+
+			e.stopPropagation();
+
+			$(this).append(input);
+
+			input.focus();
+		})
+		.data('task', instance);
+
 
 	/**
 	* @param {Date} time
@@ -94,6 +86,8 @@ function TimeEvent(data){
 	* @return {boolean} success
 	**/
 	this.setEnd = function(time){
+
+		var time = time || new Date();
 		
 		if(time > start){
 			end = time;
@@ -109,6 +103,11 @@ function TimeEvent(data){
 
 	this.setLabel = function(newLabel){
 		label = newLabel;
+		element.html(newLabel);
+	};
+
+	this.getLabel = function(){
+		return label;
 	};
 
 	this.toString = function(){
@@ -141,18 +140,25 @@ function TimeEvent(data){
 		return {
 			start: start,
 			end: end,
-			label: label,
-			color: color
+			label: label
+			//color: color
 		};
+	};
+
+	this.getElement = function(){
+		return element;
 	};
 };
 
 
-function EventManager(){
+
+
+function TaskManager(){
+
 	var events = [];
 
 	/**
-	* @param {TimeEvent} e
+	* @param {Task} e
 	**/
 	this.addEvent = function(e){
 		events.push(e);
@@ -172,3 +178,69 @@ function EventManager(){
 		return e;
 	};
 };
+
+
+
+function TaskLine(){
+	var element,
+		task;
+
+	element = $('<div>')
+		.addClass('taskLine')
+		.click(function(){
+			
+			var taskHolder = $(this).find('.task');
+
+			task.setEnd();
+			taskHolder.addClass('finished');
+
+			//console.log( 'TaskLine:', $(this).find('.task').data('task').toString() );
+		});
+
+	task = new Task();
+
+	element.append(task.getElement());
+
+	this.getElement = function(){
+		return element;
+	};
+};
+
+/*********************************/
+
+var taskGraph,
+	taskManager = new TaskManager();
+
+$(function(){
+
+	var taskLineAdder = new TaskLine().getElement().click(addTaskLine).html('click for new task');
+
+	taskGraph = $('#taskGraph').append(taskLineAdder);
+
+
+//	addTaskLine();
+
+	$('button').click(function(){
+		var data = [],
+			tasks = $('.task');
+
+		for(var i = 0; i < tasks.length; i++){
+			data.push($(tasks[i]).data('task').getData());
+		};
+
+		console.log(data);
+		console.log(JSON.stringify(data));
+
+		localStorage.data = JSON.stringify(data);
+	});
+
+	function addTaskLine(){
+
+		var taskLine = new TaskLine();
+
+		//	add new TaskLine
+		taskGraph.prepend(taskLine.getElement());
+
+		taskGraph.prepend(taskLineAdder);
+	};
+});

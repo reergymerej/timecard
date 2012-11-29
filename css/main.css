@@ -1,0 +1,29 @@
+body {
+	font-size: 13px;
+}
+
+.taskGraph {
+	border:1px solid #555;
+	padding:1em;
+}
+
+.taskLine {
+	padding:.3em .5em;
+	background-color: #999;
+	min-height: 15px;
+	border:1px solid #666;
+}
+
+.task {
+	background-color: #CCC;
+	width:200px;
+}
+
+.task.finished {
+	background-color: red;
+}
+
+input {
+	z-index: 100;
+	background-color: #fff;
+}
