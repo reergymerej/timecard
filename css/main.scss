@@ -17,11 +17,22 @@ body {
 }
 
 .taskLine {
-	width:80%;
 	padding:.3em .5em;
-	background-color: #999;
 	border: 1px solid #555;
+
+	.timeline {
+		width:80%;
+		display:inline-block;
+		background-color: #999;
+		height:inherit;
+	}
+
+	.controls {
+		width:20%;
+		display:inline-block;
+	}
 }
+
 
 .taskLineControls {
 	width:200px;

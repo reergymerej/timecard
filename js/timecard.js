@@ -181,30 +181,7 @@ function TaskManager(){
 
 
 
-function TaskLine(){
-	var element,
-		task;
 
-	element = $('<div>')
-		.addClass('taskLine')
-		.click(function(){
-			
-			var taskHolder = $(this).find('.task');
-
-			task.setEnd();
-			taskHolder.addClass('finished');
-
-			//console.log( 'TaskLine:', $(this).find('.task').data('task').toString() );
-		});
-
-	task = new Task();
-
-	element.append(task.getElement());
-
-	this.getElement = function(){
-		return element;
-	};
-};
 
 /*********************************/
 
@@ -370,7 +347,95 @@ $(function(){
 
 
 
+	/******************/
+	(function(){
+		var taskGraph = new TaskGraph($('#test'));
+	})();
+
+
 });
+
+
+function TaskGraph(element){
+	var element = element,
+		newTaskButton,
+		taskLines = [];
+
+	//	set css
+	element.css({
+		position: 'relative',
+		width: '500px',
+		height: '300px'
+	});
+
+	element.addClass('taskGraph');
+
+	//	new task button
+	newTaskButton = $('<button>')
+		.html('new task')
+		.click(function(){
+			addTask();
+		});
+
+	element.before(newTaskButton);
+
+	function addTask(){
+		var taskLine = new TaskLine();
+
+		taskLines.push(taskLine);
+		element.prepend(taskLine.getElement());
+	};
+};
+
+function TaskLine(){
+	var element,
+		timeline,
+		controls,
+		label = 'new task',
+		tasks = [];
+
+	element = $('<div>')
+		.addClass('taskLine');
+
+	timeline = $('<div>').addClass('timeline');
+	controls = $('<div>').addClass('controls');
+
+	controls.append(
+		$('<div>')
+			.addClass('controls')
+			.html('toggle'),
+
+		new Label(label)
+	);
+
+	//	add components
+	element.append(timeline, controls);
+
+	//	add an initial task
+	addTask();
+
+	function addTask(){
+		var task = new Task();
+		tasks.push(task);
+
+		timeline.append(task.getElement());
+	};
+
+	function Label(label){
+
+		var element = $('<div>')
+			.addClass('label')
+			.html(label)
+
+		return element;
+	};
+
+	//element.append(task.getElement());
+
+	this.getElement = function(){
+		return element;
+	};
+};
 
 
 function convertSecondsToTime(sec){
@@ -393,4 +458,4 @@ function convertSecondsToTime(sec){
 
 			return x;
 		};
-	};
+};
