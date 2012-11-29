@@ -243,4 +243,109 @@ $(function(){
 
 		taskGraph.prepend(taskLineAdder);
 	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	var ticSeconds = 1000;
+	var ticIntervalSeconds = ticSeconds;
+	var startTime = new Date().getTime() / 1000;
+
+
+	//	load first tics
+	for(var i = 0; i < 10; i++){
+		addTic();
+	};
+
+	function addTic(){
+		var tic = getTic(),
+			timeline = $('#timeline'),
+			ticCount,
+			ticWidth,
+			timelineWidth = timeline.innerWidth(),
+			MAX_TICS = 20,
+			MIN_TICS = 10;
+
+		timeline.append(tic);
+
+		ticCount = Math.min($('.tic').length, MAX_TICS);
+
+		if(ticCount === MAX_TICS){
+			expandTicInterval();
+		};
+
+		ticWidth = timelineWidth/ticCount - 1; // border-width
+		$('.tic').css('width', ticWidth + 'px');
+
+		function getTic(){
+			var label = convertSecondsToTime(Number($('.tic').length) * ticIntervalSeconds/1000);
+			return $('<span>').html(label).addClass('tic');
+		};
+
+		function expandTicInterval(){
+			timeline.empty();
+
+			ticCount = MIN_TICS;
+			ticIntervalSeconds *= 2;
+
+			for(var i = 0; i < MIN_TICS; i++){
+				timeline.append(getTic());
+			};
+
+			
+		};
+	};
+
+
+	nextTic();
+
+	function nextTic(){
+		setTimeout(function(){
+			addTic();
+			setTimeout(nextTic, ticIntervalSeconds);
+		})
+	};
+	
+
+//	clearInterval(ticInterval);
+
+
+
 });
+
+
+function convertSecondsToTime(sec){
+		var h,
+			m,
+			s;
+
+		h = Math.floor( sec / (60 * 60) );
+		sec = sec % ( 60 * 60 );
+
+		m = Math.floor( sec / 60 );
+		s = sec % 60;
+
+		return pad(h) + ':' + pad(m) + ':' + pad(s);
+
+		function pad(x){
+			if(Number(x) < 10){
+				return '0' + x;
+			};
+
+			return x;
+		};
+	};
