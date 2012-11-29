@@ -220,7 +220,7 @@ $(function(){
 
 //	addTaskLine();
 
-	$('button').click(function(){
+	$('#save').click(function(){
 		var data = [],
 			tasks = $('.task');
 
@@ -233,6 +233,51 @@ $(function(){
 
 		localStorage.data = JSON.stringify(data);
 	});
+
+	
+
+	$('#summary').click(function(){
+		var data = JSON.parse($.trim(localStorage.data));
+		
+		console.log(data);
+
+		//	sort data
+		data.sort(function(a, b){
+			var a = String(a.label).substr(0, 1)
+				b = String(b.label).substr(0, 1);
+
+			if(a < b){
+				return -1;
+			} else if (a > b){
+				return 1;
+			} else {
+				return 0;
+			};
+		});
+
+		
+		$('#summaryOut').empty();
+
+		//	find times for each
+		for(var i = 0; i < data.length; i++){
+			var start = new Date(data[i].start),
+				end = new Date(data[i].end),
+				lineOut;
+
+			data[i].duration = Math.round((end.getTime() - start.getTime()) / 1000);
+
+			if(!isNaN(data[i].duration)){
+				data[i].duration = convertSecondsToTime(data[i].duration);
+
+				lineOut = data[i].duration + ' > ' + data[i].label;
+
+				console.log(lineOut);
+				$('#summaryOut').append($('<div>').html(lineOut));
+			};
+		};
+	});
+
+
 
 	function addTaskLine(){
 
