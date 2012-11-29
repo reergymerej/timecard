@@ -1,0 +1,52 @@
+* {
+/*	border:1px dotted #333;*/
+}
+
+body {
+	font-size: 13px;
+}
+
+.taskGraph {
+	border:1px solid #555;
+	padding:1em;
+}
+
+.row > div {
+	display: inline-block;
+	height: 50px;
+}
+
+.taskLine {
+	width:80%;
+	padding:.3em .5em;
+	background-color: #999;
+	border: 1px solid #555;
+}
+
+.taskLineControls {
+	width:200px;
+}
+
+.taskLineControls > div {
+	float:left;
+}
+
+.toggle {
+}
+
+.label {
+}
+
+.task {
+	background-color: #CCC;
+	min-height: 1em;
+	padding:.3em .5em;
+	width:80%;
+}
+
+.task.finished {
+	background-color: red;
+}
+
+input {
+}
