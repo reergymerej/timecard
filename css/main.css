@@ -30,11 +30,20 @@ body {
 .taskLineControls > div {
   float: left; }
 
+.toggle:hover {
+  cursor: pointer; }
+
+.label:hover {
+  cursor: pointer; }
+
 .task {
   background-color: #CCC;
   min-height: 1em;
   padding: .3em .5em;
-  width: 80%; }
+  width: 100px;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+  display: inline-block; }
 
 .task.finished {
   background-color: red; }
