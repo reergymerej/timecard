@@ -234,9 +234,7 @@ function TaskGraph(element){
 
 	//	set css
 	taskGraphElement.css({
-		position: 'relative',
-		width: '800px',
-		height: '300px'
+		position: 'relative'
 	});
 
 	taskGraphElement.addClass('taskGraph');
@@ -269,6 +267,7 @@ function TaskGraph(element){
 			summary.push( taskLines[i].getSummary() );
 		};
 
+		console.log(summary);
 		summary = JSON.stringify(summary);
 		localStorage.summary = summary;
 		console.log(summary);
@@ -314,7 +313,7 @@ function TaskGraph(element){
 				playing = true;
 
 			toggleElement = $('<div>')
-				.addClass('toggle')
+				.addClass('toggle pause')
 				.text('pause')
 				.click(toggle);
 
@@ -323,9 +322,13 @@ function TaskGraph(element){
 				var newestTask = tasks[tasks.length - 1];
 
 				if(playing){
-					toggleElement.text('play');
+					toggleElement
+						.text('play')
+						.toggleClass('play pause');
 				} else {
-					toggleElement.text('pause');
+					toggleElement
+						.text('pause')
+						.toggleClass('play pause');
 				};
 
 				if(newestTask.getEnd() === undefined){

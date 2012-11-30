@@ -8,10 +8,6 @@ body {
   border: 1px solid #555;
   padding: 1em; }
 
-.row > div {
-  display: inline-block;
-  height: 50px; }
-
 .taskLine {
   padding: .3em .5em;
   border: 1px solid #555; }
@@ -30,17 +26,35 @@ body {
 .taskLineControls > div {
   float: left; }
 
+.toggle {
+  float: left;
+  padding: .3em;
+  border: 1px solid #666;
+  font-size: .8em;
+  margin-right: .3em;
+  color: #fff; }
+
+.toggle.play {
+  background-color: #198B04; }
+
+.toggle.pause {
+  background-color: #AC2200; }
+
 .toggle:hover {
   cursor: pointer; }
 
+.label {
+  font-size: 1.5em; }
+
 .label:hover {
-  cursor: pointer; }
+  cursor: pointer;
+  color: #09f; }
 
 .task {
   background-color: #CCC;
   min-height: 1em;
   padding: .3em .5em;
-  width: 100px;
+  width: 30px;
   border-right: 1px solid #666;
   border-bottom: 1px solid #666;
   display: inline-block; }
