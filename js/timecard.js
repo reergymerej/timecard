@@ -20,67 +20,6 @@ export as JSON
 /*********************************/
 
 $(function(){
-	/*
-
-	var ticSeconds = 1000;
-	var ticIntervalSeconds = ticSeconds;
-	var startTime = new Date().getTime() / 1000;
-
-
-	//	load first tics
-	for(var i = 0; i < 10; i++){
-		addTic();
-	};
-
-	function addTic(){
-		var tic = getTic(),
-			timeline = $('#timeline'),
-			ticCount,
-			ticWidth,
-			timelineWidth = timeline.innerWidth(),
-			MAX_TICS = 20,
-			MIN_TICS = 10;
-
-		timeline.append(tic);
-
-		ticCount = Math.min($('.tic').length, MAX_TICS);
-
-		if(ticCount === MAX_TICS){
-			expandTicInterval();
-		};
-
-		ticWidth = timelineWidth/ticCount - 1; // border-width
-		$('.tic').css('width', ticWidth + 'px');
-
-		function getTic(){
-			var label = convertSecondsToTime(Number($('.tic').length) * ticIntervalSeconds/1000);
-			return $('<span>').html(label).addClass('tic');
-		};
-
-		function expandTicInterval(){
-			timeline.empty();
-
-			ticCount = MIN_TICS;
-			ticIntervalSeconds *= 2;
-
-			for(var i = 0; i < MIN_TICS; i++){
-				timeline.append(getTic());
-			};
-
-			
-		};
-	};
-
-
-	nextTic();
-
-	function nextTic(){
-		setTimeout(function(){
-			addTic();
-			setTimeout(nextTic, ticIntervalSeconds);
-		})
-	};
-	*/
 
 	var taskGraph = new TaskGraph($('#test'));
 
@@ -93,7 +32,9 @@ function TaskGraph(element){
 		summaryButton,
 		controls,
 		taskLines = [],
-		startTime = Date.now();
+		startTime = Date.now(),
+		refreshInterval = 250,
+		maxRefreshInterval = 1000;
 
 	//	set css
 	taskGraphElement.css({
@@ -117,7 +58,7 @@ function TaskGraph(element){
 	taskGraphElement.before(controls);
 
 	//	start clock
-	setInterval(adjustGraph, 1000);
+	setTimeout(adjustGraph, refreshInterval);
 
 	//	rescale graph
 	function adjustGraph(){
@@ -127,6 +68,11 @@ function TaskGraph(element){
 		for(var i = 0; i < taskLines.length; i++){
 			taskLines[i].scale(startTime, timeSpan);
 		};
+
+		//	set up next refresh
+		refreshInterval = Math.min(refreshInterval * 1.3, maxRefreshInterval);
+		$('#refresh').text(refreshInterval);
+		setTimeout(adjustGraph, refreshInterval);
 	};
 
 	function addTaskLine(){
