@@ -6,9 +6,11 @@ body {
 
 .taskGraph {
   border: 1px solid #555;
-  padding: 1em; }
+  padding: 1em;
+  position: relative; }
 
 .taskLine {
+  position: relative;
   padding: .3em .5em;
   border: 1px solid #555; }
   .taskLine .timeline {
@@ -52,12 +54,9 @@ body {
 
 .task {
   background-color: #CCC;
-  min-height: 1em;
-  padding: .3em .5em;
-  width: 30px;
-  border-right: 1px solid #666;
-  border-bottom: 1px solid #666;
-  display: inline-block; }
+  position: absolute;
+  top: 0;
+  height: 100%; }
 
 .task.finished {
   background-color: red; }

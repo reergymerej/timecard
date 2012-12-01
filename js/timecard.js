@@ -17,139 +17,10 @@ export as JSON
 **/
 
 
-
-
-
-function TaskManager(){
-
-	var events = [];
-
-	/**
-	* @param {Task} e
-	**/
-	this.addEvent = function(e){
-		events.push(e);
-	};
-
-	/**
-	* @return {object}
-	**/
-	this.getEvents = function(){
-		
-		var e = {};
-
-		for(var i = 0; i < events.length; i++){
-			e[i] = events[i].toString();
-		};
-
-		return e;
-	};
-};
-
-
-
-
-
 /*********************************/
-
-var taskGraph,
-	taskManager = new TaskManager();
 
 $(function(){
 	/*
-
-	var taskLineAdder = new TaskLine().getElement().click(addTaskLine).html('click for new task');
-
-	taskGraph = $('#taskGraph').append(taskLineAdder);
-
-
-//	addTaskLine();
-
-	$('#save').click(function(){
-		var data = [],
-			tasks = $('.task');
-
-		for(var i = 0; i < tasks.length; i++){
-			data.push($(tasks[i]).data('task').getData());
-		};
-
-		console.log(data);
-		console.log(JSON.stringify(data));
-
-		localStorage.data = JSON.stringify(data);
-	});
-
-	
-
-	$('#summary').click(function(){
-		var data = JSON.parse($.trim(localStorage.data));
-		
-		console.log(data);
-
-		//	sort data
-		data.sort(function(a, b){
-			var a = String(a.label).substr(0, 1)
-				b = String(b.label).substr(0, 1);
-
-			if(a < b){
-				return -1;
-			} else if (a > b){
-				return 1;
-			} else {
-				return 0;
-			};
-		});
-
-		
-		$('#summaryOut').empty();
-
-		//	find times for each
-		for(var i = 0; i < data.length; i++){
-			var start = new Date(data[i].start),
-				end = new Date(data[i].end),
-				lineOut;
-
-			data[i].duration = Math.round((end.getTime() - start.getTime()) / 1000);
-
-			if(!isNaN(data[i].duration)){
-				data[i].duration = convertSecondsToTime(data[i].duration);
-
-				lineOut = data[i].duration + ' > ' + data[i].label;
-
-				console.log(lineOut);
-				$('#summaryOut').append($('<div>').html(lineOut));
-			};
-		};
-	});
-
-
-
-	function addTaskLine(){
-
-		var taskLine = new TaskLine();
-
-		//	add new TaskLine
-		taskGraph.prepend(taskLine.getElement());
-
-		taskGraph.prepend(taskLineAdder);
-	};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	var ticSeconds = 1000;
 	var ticIntervalSeconds = ticSeconds;
@@ -209,18 +80,9 @@ $(function(){
 			setTimeout(nextTic, ticIntervalSeconds);
 		})
 	};
-	
+	*/
 
-//	clearInterval(ticInterval);
-*/
-
-
-	/******************/
-	(function(){
-		var taskGraph = new TaskGraph($('#test'));
-
-	})();
-
+	var taskGraph = new TaskGraph($('#test'));
 
 });
 
@@ -230,7 +92,8 @@ function TaskGraph(element){
 		newTaskButton,
 		summaryButton,
 		controls,
-		taskLines = [];
+		taskLines = [],
+		startTime = Date.now();
 
 	//	set css
 	taskGraphElement.css({
@@ -253,8 +116,21 @@ function TaskGraph(element){
 	controls = $('<div>').append(newTaskButton, summaryButton);
 	taskGraphElement.before(controls);
 
+	//	start clock
+	setInterval(adjustGraph, 1000);
+
+	//	rescale graph
+	function adjustGraph(){
+		var currentTime = Date.now(),
+			timeSpan = currentTime - startTime;
+
+		for(var i = 0; i < taskLines.length; i++){
+			taskLines[i].scale(startTime, timeSpan);
+		};
+	};
+
 	function addTaskLine(){
-		var taskLine = new TaskLine();
+		var taskLine = new TaskLine()
 
 		taskLines.push(taskLine);
 		taskGraphElement.prepend(taskLine.getElement());
@@ -276,6 +152,7 @@ function TaskGraph(element){
 	function TaskLine(){
 		var taskLineElement,
 			timeline,
+			timelineWidth,	// update this on window resize
 			controls,
 			toggle,
 			label,
@@ -307,49 +184,35 @@ function TaskGraph(element){
 			timeline.append(task.getElement());
 		};
 
-		function Toggle(){
+		function getElement(){
+			return taskLineElement;
+		};
 
-			var toggleElement,
-				playing = true;
-
-			toggleElement = $('<div>')
-				.addClass('toggle pause')
-				.text('pause')
-				.click(toggle);
-
-			function toggle(){
-
-				var newestTask = tasks[tasks.length - 1];
-
-				if(playing){
-					toggleElement
-						.text('play')
-						.toggleClass('play pause');
-				} else {
-					toggleElement
-						.text('pause')
-						.toggleClass('play pause');
-				};
-
-				if(newestTask.getEnd() === undefined){
-					newestTask.setEnd();
-				} else {
-					//	create a new task (to the user, this looks like resuming)
-					addTask();
-				};
-
-				playing = !playing;
+		//	return object
+		function getSummary(){
+			var summary = {
+				label: label.getLabel(),
+				tasks: []
 			};
 
-			function getElement(){
-				return toggleElement;
-			};	
+			for(var i = 0; i < tasks.length; i++){
+				summary.tasks.push( tasks[i].getSummary() );
+			};
 
-			return {
-				getElement: getElement
+			return summary;
+		};
+
+		function scale(start, timeSpan){
+			timelineWidth = timeline.width();
+
+			for(var i = 0; i < tasks.length; i++){
+				tasks[i].scale(start, timeSpan, timelineWidth);
 			};
 		};
 
+		/*********************************
+				constructors
+		*********************************/
 
 		function Label(){
 
@@ -414,34 +277,62 @@ function TaskGraph(element){
 			};
 		};
 
+		function Toggle(){
 
-		function getElement(){
-			return taskLineElement;
-		};
+			var toggleElement,
+				playing = true;
 
-		//	return object
-		function getSummary(){
-			var summary = {
-				label: label.getLabel(),
-				tasks: []
+			toggleElement = $('<div>')
+				.addClass('toggle pause')
+				.text('pause')
+				.click(toggle);
+
+			function toggle(){
+
+				var newestTask = tasks[tasks.length - 1];
+
+				if(playing){
+					toggleElement
+						.text('resume')
+						.toggleClass('play pause');
+				} else {
+					toggleElement
+						.text('pause')
+						.toggleClass('play pause');
+				};
+
+				if(newestTask.getEnd() === undefined){
+					newestTask.setEnd();
+				} else {
+					//	create a new task (to the user, this looks like resuming)
+					addTask();
+				};
+
+				playing = !playing;
 			};
 
-			for(var i = 0; i < tasks.length; i++){
-				summary.tasks.push( tasks[i].getSummary() );
-			};
+			function getElement(){
+				return toggleElement;
+			};	
 
-			return summary;
+			return {
+				getElement: getElement
+			};
 		};
+
+		/*********************************
+				public interface
+		*********************************/
 
 		return {
 			getElement: getElement,
-			getSummary: getSummary
+			getSummary: getSummary,
+			scale: scale
 		};
 	};
 
-
 	function Task(data){
-		var start = new Date(),
+		var start = new Date().getTime(),
 			end,
 			duration,
 			taskElement;
@@ -464,7 +355,7 @@ function TaskGraph(element){
 		function setStart(time){
 			
 			if(end === undefined || time < end){
-				start = time;
+				start = time.getTime();
 				return true;
 			};
 
@@ -487,7 +378,7 @@ function TaskGraph(element){
 				end = time;
 				
 				//	record duration
-				duration = Math.round((end.getTime() - start.getTime()) / 1000);
+				duration = Math.round((end.getTime() - start) / 1000);
 
 				if( !isNaN(duration) ){
 					duration = convertSecondsToTime(duration);
@@ -516,11 +407,31 @@ function TaskGraph(element){
 			return taskElement;
 		};
 
+		function scale(graphStart, timeSpan, timelinePixels){
+			
+			var left = (start - graphStart) / timeSpan * timelinePixels,
+				width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+			
+			taskElement.css({
+				left: left + 'px',
+				width: width + 'px'
+			});
+
+
+				//	identify left border & width
+
+			//	position
+		};
+
+		/*********************************
+				public interface
+		*********************************/
 		return {
 			getElement: getElement,
 			getSummary: getSummary,
 			getEnd: getEnd,
-			setEnd: setEnd
+			setEnd: setEnd,
+			scale: scale
 		};
 	};
 };
