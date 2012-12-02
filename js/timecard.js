@@ -19,12 +19,20 @@ export as JSON
 
 /*********************************/
 
+/**
+* Converts a valid Date object into m/d/y h:mi:s format.
+* @param {Date} time
+* @return {string}
+**/
 function getFriendlyTime(time){
 	var h = pad(time.getHours()),
-		m = pad(time.getMinutes()),
-		s = pad(time.getSeconds());
+		mi = pad(time.getMinutes()),
+		s = pad(time.getSeconds()),
+		m = time.getMonth() + 1,
+		d = time.getDate(),
+		y = time.getFullYear();
 
-	return h + ':' + m + ':' + s;
+	return m + '/' + d + '/' + y + ' ' + h + ':' + mi + ':' + s;
 
 	function pad(x){
 
@@ -37,6 +45,12 @@ function getFriendlyTime(time){
 	};
 };
 
+
+/**
+* Converts seconds into h:m:s format.
+* @param {integer} sec
+* @return {string}
+**/
 function convertSecondsToTime(sec){
 	var h,
 		m,
@@ -129,17 +143,16 @@ function TaskGraph(element){
 		taskGraphElement.prepend(taskGroup.getElement());
 	};
 
-	function showSummary(){
-		var summary = [];
+	function showSummary(start, end){
+		var summary = taskManager.getSummary(start, end),
+			summaryContainer = $('#summary');
 
-		for(var i = 0; i < taskLines.length; i++){
-			summary.push( taskLines[i].getSummary() );
+		//	empty existing summary
+		summaryContainer.empty();
+
+		for(var i = 0; i < summary.length; i++){			
+			summaryContainer.append($('<div>').text(summary[i]));
 		};
-
-		console.log(summary);
-		summary = JSON.stringify(summary);
-		localStorage.summary = summary;
-		console.log(summary);
 	};
 
 	function save(){
@@ -182,10 +195,39 @@ function TaskManager(){
 		history.saveTasks(tasksUsed);
 	};
 
+	function getSummary(start, end){
+		
+		var tasks = history.getTasks(start, end);
+
+		//	sort tasks by start
+		tasks.sort(function(a, b){
+			return a.start - b.start;
+		});
+
+		//	add additional info to each task
+		for(var i = 0; i < tasks.length; i++){
+			
+			if(tasks[i].duration){
+				tasks[i].end = getFriendlyTime(new Date(tasks[i].start + tasks[i].duration * 1000));
+				tasks[i].duration = convertSecondsToTime(tasks[i].duration);
+			} else {
+				tasks[i].end = 'now';
+				tasks[i].duration = convertSecondsToTime( Math.round( (Date.now() - tasks[i].start) / 1000) );
+			};
+
+			tasks[i].start = getFriendlyTime(new Date(tasks[i].start));
+
+			tasks[i] = tasks[i].start + ' - ' + tasks[i].end + ' (' + tasks[i].duration + ') : ' + tasks[i].category;
+		};
+
+		return tasks;
+	};
+
 	//	public
 	return {
 		addTaskGroup: addTaskGroup,
-		save: save
+		save: save,
+		getSummary: getSummary
 	}
 };
 
@@ -589,8 +631,15 @@ function HistoryProxy(location){
 		setTasks(tasks);
 	};
 
+	function getTasksFromHistory(start, end){
+		console.warn('ignoring start & end');
+
+		return getTasks();
+	};
+
 	return {
 		saveCategories: saveCategories,
-		saveTasks: saveTasks
+		saveTasks: saveTasks,
+		getTasks: getTasksFromHistory
 	};
 };
