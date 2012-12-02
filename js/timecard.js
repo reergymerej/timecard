@@ -19,12 +19,52 @@ export as JSON
 
 /*********************************/
 
+function getFriendlyTime(time){
+	var h = pad(time.getHours()),
+		m = pad(time.getMinutes()),
+		s = pad(time.getSeconds());
+
+	return h + ':' + m + ':' + s;
+
+	function pad(x){
+
+		//	allow type conversion
+		if(x < 10){
+			return '0' + x;
+		};
+
+		return x;
+	};
+};
+
+function convertSecondsToTime(sec){
+	var h,
+		m,
+		s;
+
+	h = Math.floor( sec / (60 * 60) );
+	sec = sec % ( 60 * 60 );
+
+	m = Math.floor( sec / 60 );
+	s = sec % 60;
+
+	return pad(h) + ':' + pad(m) + ':' + pad(s);
+
+	function pad(x){
+		if(Number(x) < 10){
+			return '0' + x;
+		};
+
+		return x;
+	};
+};
+
+
 $(function(){
-
 	var taskGraph = new TaskGraph($('#test'));
-
 });
 
+/**********************/
 
 function TaskGraph(element){
 	var taskGraphElement = element,
@@ -103,374 +143,394 @@ function TaskGraph(element){
 	};
 
 	function save(){
-
-	};
-
-	function TaskGroup(){
-		var taskLineElement,
-			timeline,
-			timelineWidth,	// update this on window resize
-			controls,
-			toggle,
-			label,
-			tasks = [];
-
-		taskLineElement = $('<div>')
-			.addClass('taskLine');
-
-		timeline = $('<div>').addClass('timeline');
-		controls = $('<div>').addClass('controls');
-
-		//	initialize
-		addTask();
-		toggle = new Toggle();
-		label = new Label();
-
-		controls.append(
-			toggle.getElement(),
-			label.getElement()
-		);
-
-		//	add components
-		taskLineElement.append(timeline, controls);
-
-		function addTask(){
-			var task = new Task();
-			tasks.push(task);
-
-			timeline.append(task.getElement());
-		};
-
-		function getElement(){
-			return taskLineElement;
-		};
-
-		//	return object
-		function getSummary(){
-			var summary = {
-				label: label.getLabel(),
-				tasks: []
-			};
-
-			for(var i = 0; i < tasks.length; i++){
-				summary.tasks.push( tasks[i].getSummary() );
-			};
-
-			return summary;
-		};
-
-
-		function save(){
-			//	assign category to each task
-		};
-
-		function scale(start, timeSpan){
-			timelineWidth = timeline.width();
-
-			for(var i = 0; i < tasks.length; i++){
-				tasks[i].scale(start, timeSpan, timelineWidth);
-			};
-		};
-
-		/*********************************
-				constructors
-		*********************************/
-
-		function Label(){
-
-			var labelElement,
-				label = 'label';
-
-			labelElement = $('<div>')
-				.addClass('label')
-				.click(function(){
-
-					var input,
-						oldLabel;
-
-					oldLabel = $(this).text();
-
-					$(this).empty();
-
-					input = $('<input>')
-						.val(oldLabel)
-						.click(function(e){
-							e.stopPropagation();
-						})
-
-						.blur(function(){
-
-							var newVal = $.trim($(this).val());
-
-							$(this).remove();
-
-							if(newVal !== ''){
-								setLabel(newVal);
-							} else {
-								setLabel(oldLabel);
-							};
-						});
-
-					input
-						.appendTo(labelElement)
-						.focus();
-				});
-
-			//	set initial label
-			setLabel(label);
-
-			function setLabel(newLabel){
-				label = newLabel;
-				labelElement.text(label);
-			};
-
-			function getLabel(){
-				return label;
-			};
-
-			function getElement(){
-				return labelElement;
-			};
-
-			return {
-				setLabel: setLabel,
-				getLabel: getLabel,
-				getElement: getElement
-			};
-		};
-
-		function Toggle(){
-
-			var toggleElement,
-				playing = true;
-
-			toggleElement = $('<div>')
-				.addClass('toggle pause')
-				.text('pause')
-				.click(toggle);
-
-			function toggle(){
-
-				var newestTask = tasks[tasks.length - 1];
-
-				if(playing){
-					toggleElement
-						.text('resume')
-						.toggleClass('play pause');
-				} else {
-					toggleElement
-						.text('pause')
-						.toggleClass('play pause');
-				};
-
-				if(newestTask.getEnd() === undefined){
-					newestTask.setEnd();
-				} else {
-					//	create a new task (to the user, this looks like resuming)
-					addTask();
-				};
-
-				playing = !playing;
-			};
-
-			function getElement(){
-				return toggleElement;
-			};	
-
-			return {
-				getElement: getElement
-			};
-		};
-
-		/*********************************
-				public interface
-		*********************************/
-
-		return {
-			getElement: getElement,
-			getSummary: getSummary,
-			scale: scale,
-			save: save
-		};
-	};
-
-	function Task(data){
-		var start = new Date().getTime(),
-			end,
-			duration,
-			taskElement,
-			category;
-
-		if(data){
-			start = new Date(data.start);
-			end = data.end ? new Data(data.end) : undefined;
-		};
-
-		taskElement = $('<div>')
-			.addClass('task')
-			.click(function(e){
-				e.stopPropagation();
-			});
-
-		/**
-		* @param {Date} time
-		* @return {boolean} success
-		**/
-		function setStart(time){
-			
-			if(end === undefined || time < end){
-				start = time.getTime();
-				return true;
-			};
-
-			return false;
-		};
-
-		function getStart(){
-			return start;
-		};
-
-		/**
-		* @param {Date} time
-		* @return {boolean} success
-		**/
-		function setEnd(time){
-
-			var time = time || new Date();
-			
-			if(time > start){
-				end = time;
-				
-				//	record duration
-				duration = Math.round((end.getTime() - start) / 1000);
-
-				if( !isNaN(duration) ){
-					duration = convertSecondsToTime(duration);
-				};
-
-				return true;
-			};
-
-			return false;
-		};
-
-		function getEnd(){
-			return end;
-		};
-
-		function getSummary(){
-
-			return {
-				start: start,
-				duration: duration,
-				category: category
-			};
-		};
-
-		function getElement(){
-			return taskElement;
-		};
-
-		function scale(graphStart, timeSpan, timelinePixels){
-			
-			var left = (start - graphStart) / timeSpan * timelinePixels,
-				width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
-			
-			taskElement.css({
-				left: left + 'px',
-				width: width + 'px'
-			});
-
-
-				//	identify left border & width
-
-			//	position
-		};
-
-		function setCategory(c){
-			category = c;
-		};
-
-		/*********************************
-				public interface
-		*********************************/
-		return {
-			getElement: getElement,
-			getSummary: getSummary,
-			getEnd: getEnd,
-			setEnd: setEnd,
-			scale: scale,
-			setCategory: setCategory
-		};
+		taskManager.save();
 	};
 };
 
 
 function TaskManager(){
-	var taskGroups = [],
-		tasks = [];
-
-	function addTask(t){
-		tasks.push(t);
-	};
-
-	function getTasks(){
-		return tasks;
-	};
+	var taskGroups = [];
 
 	function addTaskGroup(tg){
 		taskGroups.push(tg);
 	};
 
-	function getTaskGroups(){
-		return taskGroups;
+	function save(){
+
+		var categoriesUsed = [],
+			category,
+			tasksUsed = [];
+		
+		//	capture current organization of Tasks and TaskGroups
+		for(var i = 0; i < taskGroups.length; i++){
+			
+			taskGroups[i].save();
+
+			//	concatenate so arrays returned from TaskGroup are combined into one
+			tasksUsed = tasksUsed.concat(taskGroups[i].getTasks());
+
+			//	collect categories used
+			category = taskGroups[i].getCategory();
+			if(categoriesUsed.indexOf(category) === -1){
+				categoriesUsed.push(category);
+			};
+		};
+
+		console.log(categoriesUsed, tasksUsed);
+
+
+		//	save to localStorage for now
+		saveCategories(categoriesUsed);
+		saveTasks(tasksUsed);
+
+		//	merge these categories with previously saved so we have a unique list
+		function saveCategories(newCategories){
+			var oldCategories = localStorage.categories,
+				categories = [];
+
+			//	convert from JSON or create a new array
+			if(oldCategories !== undefined){
+				oldCategories = JSON.parse(oldCategories);
+			} else {
+				oldCategories = [];
+			};
+
+			//	combine oldCategories and categoriesUsed
+			oldCategories = oldCategories.concat(newCategories);
+
+			//	filter to only unique
+			for(var i = 0; i < oldCategories.length; i++){
+				if(categories.indexOf(oldCategories[i]) === -1){
+					categories.push(oldCategories[i]);
+				};
+			};
+
+			// save combined list
+			localStorage.categories = JSON.stringify(categories);
+		};
+
+		//	add these new tasks
+		function saveTasks(newTasks){
+			var oldTasks = localStorage.tasks,
+				tasks = [];
+
+			//	convert from JSON or create a new array
+			if(oldTasks !== undefined){
+				oldTasks = JSON.parse(oldTasks);
+			} else {
+				oldTasks = [];
+			};
+
+			//	TODO dedupe
+			tasks = tasks.concat(oldTasks, newTasks);
+
+			localStorage.tasks = JSON.stringify(tasks);
+		};
 	};
 
 	//	public
 	return {
-		addTask: addTask,
-		getTasks: getTasks,
 		addTaskGroup: addTaskGroup,
-		getTaskGroups: getTaskGroups
+		save: save
 	}
 };
 
-function getFriendlyTime(time){
-	var h = pad(time.getHours()),
-		m = pad(time.getMinutes()),
-		s = pad(time.getSeconds());
 
-	return h + ':' + m + ':' + s;
+function TaskGroup(){
+	var taskLineElement,
+		timeline,
+		timelineWidth,	// update this on window resize
+		controls,
+		toggle,
+		label,
+		category,
+		tasks = [];
 
-	function pad(x){
+	taskLineElement = $('<div>')
+		.addClass('taskLine');
 
-		//	allow type conversion
-		if(x < 10){
-			return '0' + x;
+	timeline = $('<div>').addClass('timeline');
+	controls = $('<div>').addClass('controls');
+
+	//	initialize
+	addTask();
+	toggle = new Toggle();
+	label = new Label();
+
+	controls.append(
+		toggle.getElement(),
+		label.getElement()
+	);
+
+	//	add components
+	taskLineElement.append(timeline, controls);
+
+	function addTask(){
+		var task = new Task();
+		tasks.push(task);
+
+		timeline.append(task.getElement());
+	};
+
+	function getElement(){
+		return taskLineElement;
+	};
+
+	function save(){
+
+		//	record category
+		category = label.getLabel();
+
+		//	assign category to each task
+		for(var i = 0; i < tasks.length; i++){
+			tasks[i].setCategory(category);
+		};
+	};
+
+	function scale(start, timeSpan){
+		timelineWidth = timeline.width();
+
+		for(var i = 0; i < tasks.length; i++){
+			tasks[i].scale(start, timeSpan, timelineWidth);
+		};
+	};
+
+	function getCategory(){
+		return category;
+	};
+
+	function getTasks(){
+		var taskSummaries = [];
+
+		for(var i = 0; i < tasks.length; i++){
+			taskSummaries.push(tasks[i].getSummary());
 		};
 
-		return x;
+		return taskSummaries;
+	};
+
+	/*********************************
+			constructors
+	*********************************/
+
+	function Label(){
+
+		var labelElement,
+			label = 'label';
+
+		labelElement = $('<div>')
+			.addClass('label')
+			.click(function(){
+
+				var input,
+					oldLabel;
+
+				oldLabel = $(this).text();
+
+				$(this).empty();
+
+				input = $('<input>')
+					.val(oldLabel)
+					.click(function(e){
+						e.stopPropagation();
+					})
+
+					.blur(function(){
+
+						var newVal = $.trim($(this).val());
+
+						$(this).remove();
+
+						if(newVal !== ''){
+							setLabel(newVal);
+						} else {
+							setLabel(oldLabel);
+						};
+					});
+
+				input
+					.appendTo(labelElement)
+					.focus();
+			});
+
+		//	set initial label
+		setLabel(label);
+
+		function setLabel(newLabel){
+			label = newLabel;
+			labelElement.text(label);
+		};
+
+		function getLabel(){
+			return label;
+		};
+
+		function getElement(){
+			return labelElement;
+		};
+
+		return {
+			setLabel: setLabel,
+			getLabel: getLabel,
+			getElement: getElement
+		};
+	};
+
+	function Toggle(){
+
+		var toggleElement,
+			playing = true;
+
+		toggleElement = $('<div>')
+			.addClass('toggle pause')
+			.text('pause')
+			.click(toggle);
+
+		function toggle(){
+
+			var newestTask = tasks[tasks.length - 1];
+
+			if(playing){
+				toggleElement
+					.text('resume')
+					.toggleClass('play pause');
+			} else {
+				toggleElement
+					.text('pause')
+					.toggleClass('play pause');
+			};
+
+			if(newestTask.getEnd() === undefined){
+				newestTask.setEnd();
+			} else {
+				//	create a new task (to the user, this looks like resuming)
+				addTask();
+			};
+
+			playing = !playing;
+		};
+
+		function getElement(){
+			return toggleElement;
+		};	
+
+		return {
+			getElement: getElement
+		};
+	};
+
+	/*********************************
+			public interface
+	*********************************/
+
+	return {
+		getElement: getElement,
+		getCategory: getCategory,
+		getTasks: getTasks,
+		scale: scale,
+		save: save
 	};
 };
 
-function convertSecondsToTime(sec){
-		var h,
-			m,
-			s;
 
-		h = Math.floor( sec / (60 * 60) );
-		sec = sec % ( 60 * 60 );
+function Task(data){
+	var start = new Date().getTime(),
+		end,
+		duration,
+		taskElement,
+		category;
 
-		m = Math.floor( sec / 60 );
-		s = sec % 60;
+	if(data){
+		start = new Date(data.start);
+		end = data.end ? new Data(data.end) : undefined;
+	};
 
-		return pad(h) + ':' + pad(m) + ':' + pad(s);
+	taskElement = $('<div>')
+		.addClass('task')
+		.click(function(e){
+			e.stopPropagation();
+		});
 
-		function pad(x){
-			if(Number(x) < 10){
-				return '0' + x;
-			};
-
-			return x;
+	/**
+	* @param {Date} time
+	* @return {boolean} success
+	**/
+	function setStart(time){
+		
+		if(end === undefined || time < end){
+			start = time.getTime();
+			return true;
 		};
+
+		return false;
+	};
+
+	/**
+	* @param {Date} time
+	* @return {boolean} success
+	**/
+	function setEnd(time){
+
+		var time = time || new Date();
+		
+		if(time > start){
+			end = time;
+			
+			//	record duration
+			duration = Math.round((end.getTime() - start) / 1000);
+
+			return true;
+		};
+
+		return false;
+	};
+
+	function getEnd(){
+		return end;
+	};
+
+	function getSummary(){
+
+		return {
+			start: start,
+			duration: duration,
+			category: category
+		};
+	};
+
+	function getElement(){
+		return taskElement;
+	};
+
+	function scale(graphStart, timeSpan, timelinePixels){
+		
+		var left = (start - graphStart) / timeSpan * timelinePixels,
+			width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+		
+		taskElement.css({
+			left: left + 'px',
+			width: width + 'px'
+		});
+
+
+			//	identify left border & width
+
+		//	position
+	};
+
+	function setCategory(c){
+		category = c;
+	};
+
+	/*********************************
+			public interface
+	*********************************/
+	return {
+		getElement: getElement,
+		getSummary: getSummary,
+		getEnd: getEnd,
+		setEnd: setEnd,
+		scale: scale,
+		setCategory: setCategory
+	};
 };
