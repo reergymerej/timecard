@@ -83,7 +83,6 @@ $(function(){
 function TaskGraph(element){
 	var taskGraphElement = element,
 		newTaskButton,
-		summaryButton,
 		saveButton,
 		controls,
 		taskLines = [],
@@ -105,16 +104,62 @@ function TaskGraph(element){
 		.click(addTaskGroup);
 
 	//	summary button
-	summaryButton = $('<button>')
-		.text('summary')
-		.click(showSummary);
+	$('#summary_form')
+		.submit(function(){
+			var start = $('#start').val(),
+				end = $('#end').val();
+
+			//	convert these values into dates
+			start = convertToDate(start);
+			end = convertToDate(end);
+			
+			showSummary();
+			return false;
+
+			/**
+			* [m/d[/y] ]h24[:mi[:s]]
+			**/
+			function convertToDate(x){
+				//	new Date(year, month, day [, hour, minute, second, millisecond])
+				//	if no d/m/y, assume we're using today
+
+				var m,
+					d,
+					y,
+					h,
+					mi,
+					s,
+					parts = [],
+					dayPart,
+					timePart;
+
+				//	What did they provide?
+				if(x.indexOf(' ') !== -1){
+					parts = x.split(' ');
+					dayPart = parts[0];
+					timePart = parts[1];
+
+				} else if(x.indexOf('/') !== -1) {
+					dayPart = x;
+				} else {
+					timePart = x;
+				};
+
+				//	set defaults if not provided
+				
+
+				console.log(dayPart, timePart);
+
+				return x;
+			};
+		});
 
 	saveButton = $('<button>')
 		.text('save')
 		.click(save);
 
 	//	wrapper for controls
-	controls = $('<div>').append(newTaskButton, summaryButton, saveButton);
+	controls = $('<div>').append(newTaskButton, saveButton);
 	taskGraphElement.before(controls);
 
 	//	start clock
