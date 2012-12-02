@@ -149,7 +149,8 @@ function TaskGraph(element){
 
 
 function TaskManager(){
-	var taskGroups = [];
+	var taskGroups = []
+		history = new HistoryProxy('localStorage');
 
 	function addTaskGroup(tg){
 		taskGroups.push(tg);
@@ -185,15 +186,10 @@ function TaskManager(){
 
 		//	merge these categories with previously saved so we have a unique list
 		function saveCategories(newCategories){
-			var oldCategories = localStorage.categories,
+			var oldCategories = history.getCategories(),
 				categories = [];
 
-			//	convert from JSON or create a new array
-			if(oldCategories !== undefined){
-				oldCategories = JSON.parse(oldCategories);
-			} else {
-				oldCategories = [];
-			};
+			
 
 			//	combine oldCategories and categoriesUsed
 			oldCategories = oldCategories.concat(newCategories);
@@ -532,5 +528,15 @@ function Task(data){
 		setEnd: setEnd,
 		scale: scale,
 		setCategory: setCategory
+	};
+};
+
+function HistoryProxy(location){
+	 localStorage.categories,
+	 //	convert from JSON or create a new array
+	if(oldCategories !== undefined){
+		oldCategories = JSON.parse(oldCategories);
+	} else {
+		oldCategories = [];
 	};
 };
