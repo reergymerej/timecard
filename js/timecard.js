@@ -177,51 +177,9 @@ function TaskManager(){
 			};
 		};
 
-		console.log(categoriesUsed, tasksUsed);
-
-
 		//	save to localStorage for now
-		saveCategories(categoriesUsed);
-		saveTasks(tasksUsed);
-
-		//	merge these categories with previously saved so we have a unique list
-		function saveCategories(newCategories){
-			var oldCategories = history.getCategories(),
-				categories = [];
-
-			
-
-			//	combine oldCategories and categoriesUsed
-			oldCategories = oldCategories.concat(newCategories);
-
-			//	filter to only unique
-			for(var i = 0; i < oldCategories.length; i++){
-				if(categories.indexOf(oldCategories[i]) === -1){
-					categories.push(oldCategories[i]);
-				};
-			};
-
-			// save combined list
-			localStorage.categories = JSON.stringify(categories);
-		};
-
-		//	add these new tasks
-		function saveTasks(newTasks){
-			var oldTasks = localStorage.tasks,
-				tasks = [];
-
-			//	convert from JSON or create a new array
-			if(oldTasks !== undefined){
-				oldTasks = JSON.parse(oldTasks);
-			} else {
-				oldTasks = [];
-			};
-
-			//	TODO dedupe
-			tasks = tasks.concat(oldTasks, newTasks);
-
-			localStorage.tasks = JSON.stringify(tasks);
-		};
+		history.saveCategories(categoriesUsed);
+		history.saveTasks(tasksUsed);
 	};
 
 	//	public
@@ -531,12 +489,108 @@ function Task(data){
 	};
 };
 
+/**
+* Used to abstract saving from where data is actually saved.  Provides a single interface for saving to localStorage or db.
+* @param {string} location 'localStorage' is the only supported value so far
+**/
 function HistoryProxy(location){
-	 localStorage.categories,
-	 //	convert from JSON or create a new array
-	if(oldCategories !== undefined){
-		oldCategories = JSON.parse(oldCategories);
-	} else {
-		oldCategories = [];
+
+	var location = location;
+
+	/**
+	* returns an array of categories from history
+	**/
+	function getCategories(){
+		if(location === 'localStorage'){
+			return getCategoriesLocal();
+		};
+	};
+
+	function setCategories(c){
+		if(location === 'localStorage'){
+			setCategoriesLocal(c);
+		};
+	}
+
+	function getTasks(){
+		if(location === 'localStorage'){
+			return getTasksLocal();
+		};
+	};
+
+	function setTasks(t){
+		if(location === 'localStorage'){
+			setTasksLocal(t);
+		};
+	};
+
+	function getCategoriesLocal(){
+		
+		var categories = localStorage.categories;
+
+		//	convert from JSON or create a new array
+		if(categories !== undefined){
+			categories = JSON.parse(categories);
+		} else {
+			categories = [];
+		};
+
+		return categories;
+	};
+
+	function setCategoriesLocal(c){
+		localStorage.categories = JSON.stringify(c);
+	};
+
+	function getTasksLocal(){
+		var tasks = localStorage.tasks;
+
+		//	convert from JSON or create a new array
+		if(tasks !== undefined){
+			tasks = JSON.parse(tasks);
+		} else {
+			tasks = [];
+		};
+
+		return tasks;
+	};
+
+	function setTasksLocal(t){
+		localStorage.tasks = JSON.stringify(t);
+	};
+
+	//	merge these categories with previously saved so we have a unique list
+	function saveCategories(newCategories){
+		var oldCategories = getCategories(),
+			categories = [];
+
+		//	combine oldCategories and categoriesUsed
+		oldCategories = oldCategories.concat(newCategories);
+
+		//	filter to only unique
+		for(var i = 0; i < oldCategories.length; i++){
+			if(categories.indexOf(oldCategories[i]) === -1){
+				categories.push(oldCategories[i]);
+			};
+		};
+
+		// save combined list
+		setCategories(categories);
+	};
+
+	function saveTasks(newTasks){
+
+		var oldTasks = getTasks(),
+			tasks = [];
+
+		//	TODO dedupe
+		tasks = tasks.concat(oldTasks, newTasks);
+
+		setTasks(tasks);
+	};
+
+	return {
+		saveCategories: saveCategories,
+		saveTasks: saveTasks
 	};
 };
