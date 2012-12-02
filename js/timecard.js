@@ -112,24 +112,21 @@ function TaskGraph(element){
 			//	convert these values into dates
 			start = convertToDate(start);
 			end = convertToDate(end);
+
+			console.log(start);
+			console.log(end);
 			
 			showSummary();
 			return false;
 
 			/**
 			* [m/d[/y] ]h24[:mi[:s]]
+			* @return {Date}
 			**/
 			function convertToDate(x){
 				//	new Date(year, month, day [, hour, minute, second, millisecond])
-				//	if no d/m/y, assume we're using today
-
-				var m,
-					d,
-					y,
-					h,
-					mi,
-					s,
-					parts = [],
+				
+				var parts = [],
 					dayPart,
 					timePart;
 
@@ -145,12 +142,81 @@ function TaskGraph(element){
 					timePart = x;
 				};
 
-				//	set defaults if not provided
-				
+				//	complete the parts
+				dayPart = getDayPart(dayPart);
+				timePart = getTimePart(timePart);
 
 				console.log(dayPart, timePart);
 
-				return x;
+				return new Date(dayPart.y, dayPart.m, dayPart.d, timePart.h, timePart.mi, timePart.s);
+
+				/**
+				* @return {object.m}
+				* @return {object.d}
+				* @return {object.y}
+				**/
+				function getDayPart(dayPart){
+					var m, d, y, 
+						parts = [],
+						now = new Date();
+
+					//	set defaults
+					m = now.getMonth() + 1;
+					y = now.getFullYear();
+					d = now.getDate();
+
+					if(dayPart){
+						
+						parts = dayPart.split('/');
+						m = parts[0];
+						d = parts[1];
+
+						//	they provided a year, too
+						if(parts.length === 3){
+							y = parts[2];
+						};
+					};
+					
+					return {
+						m: m - 1,
+						d: d,
+						y: y
+					};
+				};
+
+				/**
+				* @return {object.h}
+				* @return {object.mi}
+				* @return {object.s}
+				**/
+				function getTimePart(timePart){
+					var h, mi, s, 
+						parts = [],
+						now = new Date();
+
+					//	set defaults
+					h = now.getHours();
+					mi = 0;
+					s = 0;
+
+					if(timePart){
+						
+						parts = timePart.split(':');
+						h = parts[0];
+						mi = parts[1] || 0;
+
+						//	they provided seconds, too
+						if(parts.length === 3){
+							s = parts[2];
+						};
+					};
+
+					return {
+						h: h,
+						mi: mi,
+						s: s
+					};
+				};
 			};
 		});
 
