@@ -30,11 +30,13 @@ function TaskGraph(element){
 	var taskGraphElement = element,
 		newTaskButton,
 		summaryButton,
+		saveButton,
 		controls,
 		taskLines = [],
 		startTime = Date.now(),
 		refreshInterval = 250,
-		maxRefreshInterval = 1000;
+		maxRefreshInterval = 1000,
+		taskManager = new TaskManager();
 
 	//	set css
 	taskGraphElement.css({
@@ -46,15 +48,19 @@ function TaskGraph(element){
 	//	new task button
 	newTaskButton = $('<button>')
 		.text('new task')
-		.click(addTaskLine);
+		.click(addTaskGroup);
 
 	//	summary button
 	summaryButton = $('<button>')
 		.text('summary')
 		.click(showSummary);
 
+	saveButton = $('<button>')
+		.text('save')
+		.click(save);
+
 	//	wrapper for controls
-	controls = $('<div>').append(newTaskButton, summaryButton);
+	controls = $('<div>').append(newTaskButton, summaryButton, saveButton);
 	taskGraphElement.before(controls);
 
 	//	start clock
@@ -75,11 +81,12 @@ function TaskGraph(element){
 		setTimeout(adjustGraph, refreshInterval);
 	};
 
-	function addTaskLine(){
-		var taskLine = new TaskLine()
+	function addTaskGroup(){
+		var taskGroup = new TaskGroup()
 
-		taskLines.push(taskLine);
-		taskGraphElement.prepend(taskLine.getElement());
+		taskLines.push(taskGroup);
+		taskManager.addTaskGroup(taskGroup);
+		taskGraphElement.prepend(taskGroup.getElement());
 	};
 
 	function showSummary(){
@@ -95,7 +102,11 @@ function TaskGraph(element){
 		console.log(summary);
 	};
 
-	function TaskLine(){
+	function save(){
+
+	};
+
+	function TaskGroup(){
 		var taskLineElement,
 			timeline,
 			timelineWidth,	// update this on window resize
@@ -146,6 +157,11 @@ function TaskGraph(element){
 			};
 
 			return summary;
+		};
+
+
+		function save(){
+			//	assign category to each task
 		};
 
 		function scale(start, timeSpan){
@@ -273,7 +289,8 @@ function TaskGraph(element){
 		return {
 			getElement: getElement,
 			getSummary: getSummary,
-			scale: scale
+			scale: scale,
+			save: save
 		};
 	};
 
@@ -281,7 +298,8 @@ function TaskGraph(element){
 		var start = new Date().getTime(),
 			end,
 			duration,
-			taskElement;
+			taskElement,
+			category;
 
 		if(data){
 			start = new Date(data.start);
@@ -344,8 +362,8 @@ function TaskGraph(element){
 
 			return {
 				start: start,
-				end: end,
-				duration: duration
+				duration: duration,
+				category: category
 			};
 		};
 
@@ -369,6 +387,10 @@ function TaskGraph(element){
 			//	position
 		};
 
+		function setCategory(c){
+			category = c;
+		};
+
 		/*********************************
 				public interface
 		*********************************/
@@ -377,9 +399,40 @@ function TaskGraph(element){
 			getSummary: getSummary,
 			getEnd: getEnd,
 			setEnd: setEnd,
-			scale: scale
+			scale: scale,
+			setCategory: setCategory
 		};
 	};
+};
+
+
+function TaskManager(){
+	var taskGroups = [],
+		tasks = [];
+
+	function addTask(t){
+		tasks.push(t);
+	};
+
+	function getTasks(){
+		return tasks;
+	};
+
+	function addTaskGroup(tg){
+		taskGroups.push(tg);
+	};
+
+	function getTaskGroups(){
+		return taskGroups;
+	};
+
+	//	public
+	return {
+		addTask: addTask,
+		getTasks: getTasks,
+		addTaskGroup: addTaskGroup,
+		getTaskGroups: getTaskGroups
+	}
 };
 
 function getFriendlyTime(time){
