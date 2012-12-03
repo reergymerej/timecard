@@ -369,10 +369,34 @@ function TaskGroup(){
 	taskLineElement.append(timeline, controls);
 
 	function addTask(){
-		var task = new Task();
+		var task = new Task(),
+			taskElement = task.getElement();
+
 		tasks.push(task);
 
-		timeline.append(task.getElement());
+		timeline.append(taskElement);
+
+		taskElement.click(function(e){
+			e.stopPropagation();
+
+			console.log('pause graph adjustment until this is over');
+			//	showTimeAdjuster
+			$(this).append( new TaskModifier(task) );
+
+			//	focus on first input
+			$(this).find('input').first().focus();
+		});
+	};
+
+	function deleteTask(t){
+		
+		for(var i = 0; i < tasks.length; i++){
+			if(tasks[i] === t){
+				tasks[i].getElement().remove();
+				tasks.splice(i, 1);
+				return;
+			};
+		};
 	};
 
 	function getElement(){
@@ -415,6 +439,62 @@ function TaskGroup(){
 	/*********************************
 			constructors
 	*********************************/
+
+	function TaskModifier(task){
+
+		var form = $('<form>')
+			.addClass('timeAdjuster')
+			.append( newInput('start'), newInput('end'), $('<input>', {type: 'submit'}) )
+			.submit(function(e){
+				var start = $('#start', this).val(),
+					end = $('#end', this).val();
+
+				if(start) {
+					start = convertUserInputToDate(start);
+					task.setStart(start);
+				};
+
+				if(end){
+					end = convertUserInputToDate(end);
+					task.setEnd(end);
+				};
+
+				$(this).parent().remove();
+				return false;
+			})
+			.click(function(e){
+				//	form submission triggers a click
+				e.stopPropagation();
+			})
+			.blur(function(){
+				console.log('blur');
+			});
+
+		var del =  $('<a>', {href: '#'})
+			.text('delete task')
+			.click(function(){
+				console.log('delete', task);
+				deleteTask(task);
+				return false;
+			});
+
+		return $('<div>')
+			.addClass('taskModifier')
+			.css({
+				top: 10,
+				left: 10
+			})
+			.append(form, del);
+
+		function newInput(id, blur){
+			var input = $('<input>', {id: id})
+				.click(function(e){
+					e.stopPropagation();
+				});
+
+			return input;
+		};
+	};
 
 	function Label(){
 
@@ -503,7 +583,7 @@ function TaskGroup(){
 					.toggleClass('play pause');
 			};
 
-			if(newestTask.getEnd() === undefined){
+			if(newestTask && newestTask.getEnd() === undefined){
 				newestTask.setEnd();
 			} else {
 				//	create a new task (to the user, this looks like resuming)
@@ -542,7 +622,7 @@ function Task(data){
 		duration,
 		taskElement,
 		category,
-		instance;
+		instance = this;
 
 	if(data){
 		start = new Date(data.start);
@@ -550,54 +630,7 @@ function Task(data){
 	};
 
 	taskElement = $('<div>')
-		.addClass('task')
-		.click(function(e){
-			e.stopPropagation();
-
-			console.log('pause graph adjustment until this is over');
-			//	showTimeAdjuster
-			$(this).append(
-				$('<form>')
-					.addClass('timeAdjuster')
-					.append( newInput('start'), newInput('end'), $('<input>', {type: 'submit'}) )
-					.submit(function(e){
-						var start = $('#start', this).val(),
-							end = $('#end', this).val();
-
-						if(start) {
-							start = convertUserInputToDate(start);
-							setStart(start);
-						};
-
-						if(end){
-							end = convertUserInputToDate(end);
-							setEnd(end);
-						};
-
-						$(this).remove();
-						return false;
-					})
-					.click(function(e){
-						//	form submission triggers a click
-						e.stopPropagation();
-					})
-					.blur(function(){
-						console.log('blur');
-					})
-			);
-
-			//	focus on first input
-			$(this).find('input').first().focus();
-
-			function newInput(id, blur){
-				var input = $('<input>', {id: id})
-					.click(function(e){
-						e.stopPropagation();
-					});
-
-				return input;
-			};
-		});
+		.addClass('task');
 
 	/**
 	* @param {Date} time
@@ -676,6 +709,7 @@ function Task(data){
 	return {
 		getElement: getElement,
 		getSummary: getSummary,
+		setStart: setStart,
 		getEnd: getEnd,
 		setEnd: setEnd,
 		scale: scale,

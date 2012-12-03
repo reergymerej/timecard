@@ -76,3 +76,14 @@ body {
 .task.finished {
 	background-color: red;
 }
+
+.taskModifier {
+	background-color:#fff;
+	z-index:100;
+	border:1px solid #666;
+	position:absolute;
+	width: 200px;
+	border-radius:.5em;
+	box-shadow: 5px 5px 5px #666;
+	padding:.5em;
+}
