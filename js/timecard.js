@@ -144,8 +144,6 @@ function TaskGraph(element){
 				dayPart = getDayPart(dayPart);
 				timePart = getTimePart(timePart);
 
-				console.log(dayPart, timePart);
-
 				return new Date(dayPart.y, dayPart.m, dayPart.d, timePart.h, timePart.mi, timePart.s);
 
 				/**
@@ -193,7 +191,7 @@ function TaskGraph(element){
 						now = new Date();
 
 					//	set defaults
-					h = now.getHours();
+					h = 0;
 					mi = 0;
 					s = 0;
 
@@ -746,6 +744,19 @@ function HistoryProxy(location){
 	};
 
 	function setTasksLocal(t){
+
+		//	sort by start
+		t.sort(function(a, b){
+			return a.start - b.start;
+		});
+
+		//	dedupe tasks
+		for(var i = 0; i < t.length - 1; i++){
+			if(t[i].start === t[i + 1].start){
+				t.splice(i, 1);
+			};
+		};
+
 		localStorage.tasks = JSON.stringify(t);
 	};
 
