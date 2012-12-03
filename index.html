@@ -1,14 +1,33 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/underscore.js"></script>
 	<script type="text/javascript" src="js/backbone.js"></script>
 	<script type="text/javascript" src="js/timecard.js"></script>
+
+	<!-- templates -->
+	<script type="text/template" id="test_template">
+		<label>search</label>
+		<input type="text" id="search_input" />
+	</script>
+
+	<script type="text/template" id="taskModifier_template">
+		<div class="taskModifier" id="testForm">
+			<form class="timeAdjuster">
+				<label>start</label>
+				<input id="start" />
+				<label>end</label>
+				<input id="end" />
+				<input type="submit" value="ok" />
+			</form>
+			<a href="#">delete task</a>
+		</div>
+	</script>
 </head>
 <body>
 	<div id="refresh"></div>
-	<div id="test"></div>
+	<div id="graph"></div>
 	<form id="summary_form">
 		<div>get summary</div>
 		from <input type="text" id="start" />
@@ -16,5 +35,7 @@
 		<input type="submit" />
 	</form>
 	<div id="summary"></div>
+
+	<div id="test"></div>
 </body>
 </html>

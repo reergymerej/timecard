@@ -173,7 +173,7 @@ function convertUserInputToDate(x){
 };
 
 $(function(){
-	var taskGraph = new TaskGraph($('#test'));
+	var taskGraph = new TaskGraph($('#graph'));
 });
 
 /**********************/
@@ -442,6 +442,7 @@ function TaskGroup(){
 
 	function TaskModifier(task){
 
+		/*
 		var form = $('<form>')
 			.addClass('timeAdjuster')
 			.append( newInput('start'), newInput('end'), $('<input>', {type: 'submit'}) )
@@ -494,6 +495,11 @@ function TaskGroup(){
 
 			return input;
 		};
+		*/
+
+		var view = new TaskModifierView({
+			el: task.getElement()
+		});
 	};
 
 	function Label(){
@@ -883,3 +889,31 @@ function HistoryProxy(location){
 		getTasks: getTasksFromHistory
 	};
 };
+
+
+//=================================================================
+TaskModifierView = Backbone.View.extend({
+
+	initialize: function(){
+		this.render();
+	},
+
+	render: function(){
+
+		//	compile template
+		var template = _.template( $('#taskModifier_template').html() );
+
+		//	load compiled template
+		this.$el.html( template );
+	},
+
+	events: {
+		'submit form#testForm': 'submitForm'
+	},
+
+	submitForm: function(){
+		console.log(arguments);
+		console.log(this);
+		return false;
+	}
+});
