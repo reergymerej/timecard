@@ -113,10 +113,8 @@ function TaskGraph(element){
 			start = convertToDate(start);
 			end = convertToDate(end);
 
-			console.log(start);
-			console.log(end);
+			showSummary(start, end);
 			
-			showSummary();
 			return false;
 
 			/**
@@ -665,9 +663,13 @@ function HistoryProxy(location){
 		};
 	}
 
-	function getTasks(){
+	/**
+	* @param {Date} [start]
+	* @param {Date} [end]
+	**/
+	function getTasks(start, end){
 		if(location === 'localStorage'){
-			return getTasksLocal();
+			return getTasksLocal(start, end);
 		};
 	};
 
@@ -695,7 +697,13 @@ function HistoryProxy(location){
 		localStorage.categories = JSON.stringify(c);
 	};
 
-	function getTasksLocal(){
+	/**
+	* @param {Date} [start]
+	* @param {Date} [end]
+	* @return {array}
+	**/
+	function getTasksLocal(start, end){
+		
 		var tasks = localStorage.tasks;
 
 		//	convert from JSON or create a new array
@@ -705,6 +713,35 @@ function HistoryProxy(location){
 			tasks = [];
 		};
 
+		//	remove any tasks that start before specified start
+		if(start){
+			
+			//	convert to ms for faster comparison
+			start = start.getTime();
+
+			//	tasks are stored in order, so we just need to find the first one that qualifies
+			for(var i = 0; i < tasks.length; i++){
+				if(tasks[i].start >= start){
+					tasks = tasks.splice(i);
+					break;
+				};
+			};
+		};
+
+		//	remove any that start after end
+		if(end){
+
+			//	convert for faster comparison
+			end = end.getTime();
+
+			//	splice off those out of bounds
+			for(var i = 0; i < tasks.length; i++){
+				if(tasks[i].start >= end){
+					tasks.splice(i);
+				};
+			};
+		};
+		
 		return tasks;
 	};
 
@@ -742,10 +779,15 @@ function HistoryProxy(location){
 		setTasks(tasks);
 	};
 
+	/**
+	* @param {Date} [start]
+	* @param {Date} [end]
+	**/
 	function getTasksFromHistory(start, end){
-		console.warn('ignoring start & end');
 
-		return getTasks();
+		console.log(start, end);
+
+		return getTasks(start, end);
 	};
 
 	return {
