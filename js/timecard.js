@@ -24,16 +24,37 @@ export as JSON
 * @param {Date} time
 * @return {string}
 **/
-function getFriendlyTime(time){
-	var h = pad(time.getHours()),
-		mi = pad(time.getMinutes()),
-		s = pad(time.getSeconds()),
-		m = time.getMonth() + 1,
+function getFriendlyDateTimeStamp(time){
+	var m = time.getMonth() + 1,
 		d = time.getDate(),
-		y = time.getFullYear();
+		y = time.getFullYear(),
+		timeStamp = getFriendlyTimeStamp(time);
 
-	return m + '/' + d + '/' + y + ' ' + h + ':' + mi + ':' + s;
+	return m + '/' + d + '/' + y + ' ' + timeStamp;
+};
 
+/**
+* @param {Date, number} time accepts Date or miliseconds
+* @return string in format hh:mi:ss
+**/
+function getFriendlyTimeStamp(time){
+	var time,
+		h,
+		mi,
+		s;
+
+	//	convert time to Date if needed
+	if(typeof time === 'number'){
+		time = new Date(time);
+	};
+
+	h = pad(time.getHours());
+	mi = pad(time.getMinutes());
+	s = pad(time.getSeconds());
+
+	return h + ':' + mi + ':' + s;
+
+	//	pad with leading zero if needed
 	function pad(x){
 
 		//	allow type conversion
@@ -315,14 +336,14 @@ function TaskManager(){
 		for(var i = 0; i < tasks.length; i++){
 			
 			if(tasks[i].duration){
-				tasks[i].end = getFriendlyTime(new Date(tasks[i].start + tasks[i].duration * 1000));
+				tasks[i].end = getFriendlyDateTimeStamp(new Date(tasks[i].start + tasks[i].duration * 1000));
 				tasks[i].duration = convertSecondsToTime(tasks[i].duration);
 			} else {
 				tasks[i].end = 'now';
 				tasks[i].duration = convertSecondsToTime( Math.round( (Date.now() - tasks[i].start) / 1000) );
 			};
 
-			tasks[i].start = getFriendlyTime(new Date(tasks[i].start));
+			tasks[i].start = getFriendlyDateTimeStamp(new Date(tasks[i].start));
 
 			tasks[i] = tasks[i].start + ' - ' + tasks[i].end + ' (' + tasks[i].duration + ') : ' + tasks[i].category;
 		};
@@ -349,8 +370,7 @@ function TaskGroup(){
 		category,
 		tasks = [];
 
-	taskLineElement = $('<div>')
-		.addClass('taskLine');
+	taskLineElement = $('<div>').addClass('taskLine');
 
 	timeline = $('<div>').addClass('timeline');
 	controls = $('<div>').addClass('controls');
@@ -498,7 +518,8 @@ function TaskGroup(){
 		*/
 
 		var view = new TaskModifierView({
-			el: task.getElement()
+			el: task.getElement().append( $('<div>') ),
+			task: task
 		});
 	};
 
@@ -639,32 +660,43 @@ function Task(data){
 		.addClass('task');
 
 	/**
-	* @param {Date} time
+	* @param {number, Date} time
 	* @return {boolean} success
 	**/
 	function setStart(time){
-		
-		if(end === undefined || time < end){
-			start = time.getTime();
-			return true;
+
+		var time = time;
+
+		if(typeof time === 'object'){
+			time = time.getTime();
 		};
 
-		return false;
+		if(time ===  undefined){
+			start = Date.now();
+
+		} else  {
+			start = time;
+		};
 	};
 
 	/**
-	* @param {Date} time
+	* @param {number, Date} time
 	* @return {boolean} success
 	**/
 	function setEnd(time){
 
 		var time = time || new Date();
+
+		//	convert time if needed
+		if(typeof time === 'object'){
+			time = time.getTime();
+		};
 		
 		if(time > start){
 			end = time;
 			
 			//	record duration
-			duration = Math.round((end.getTime() - start) / 1000);
+			duration = Math.round((end - start) / 1000);
 
 			return true;
 		};
@@ -905,15 +937,60 @@ TaskModifierView = Backbone.View.extend({
 
 		//	load compiled template
 		this.$el.html( template );
+
+		//	prepopulate with current values
+		prepopulate(this.options.task);
+
+		
+		function prepopulate(task){
+			var taskSummary = task.getSummary(),
+				start = taskSummary.start,
+				end;
+
+			if(taskSummary.duration){
+				end = start + taskSummary.duration * 1000;
+				end = getFriendlyTimeStamp(end);
+			};
+
+			start = getFriendlyTimeStamp(start);
+
+			$('#start', this.$el).val(start);
+			$('#end', this.$el).val(end);
+		};
 	},
 
 	events: {
-		'submit form#testForm': 'submitForm'
+		'click form#timeAdjuster': 'clickForm',
+		'submit form#timeAdjuster': 'submitForm'
 	},
 
+	//	prevent bubbling so additional forms are not added
+	clickForm: function(e){
+		e.stopPropagation();
+	},
+
+	//	
 	submitForm: function(){
-		console.log(arguments);
-		console.log(this);
+		
+		var start = $('#start', this.$el).val(),
+			end = $('#end', this.$el).val(),
+			task = this.options.task;
+
+		if(start) {
+			start = convertUserInputToDate(start);
+			task.setStart(start);
+		};
+
+		if(end){
+			end = convertUserInputToDate(end);
+			task.setEnd(end);
+		};
+
+		console.log(task.getSummary());
+
+		//	remove TaskModifierView
+		this.remove();
+		
 		return false;
 	}
 });
