@@ -207,7 +207,7 @@ function TaskGraph(element){
 		taskLines = [],
 		startTime = Date.now(),
 		refreshInterval = 250,
-		maxRefreshInterval = 1000,
+		DEFAULT_MAX_REFRESH = 5000,
 		taskManager = new TaskManager();
 
 	//	set css
@@ -258,9 +258,20 @@ function TaskGraph(element){
 		};
 
 		//	set up next refresh
+		maxRefreshInterval = getRefresh();
+		console.log(maxRefreshInterval);
 		refreshInterval = Math.min(refreshInterval * 1.3, maxRefreshInterval);
-		$('#refresh').text(refreshInterval);
 		setTimeout(adjustGraph, refreshInterval);
+
+		function getRefresh(){
+			var x = $('#refresh').val() || DEFAULT_MAX_REFRESH;
+
+			if(x === DEFAULT_MAX_REFRESH){
+				return x;
+			} else {
+				return x * 100;
+			};
+		};
 	};
 
 	function addTaskGroup(){
