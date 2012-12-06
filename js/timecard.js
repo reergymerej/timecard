@@ -264,7 +264,7 @@ function TaskGraph(element){
 	};
 
 	function addTaskGroup(){
-		var taskGroup = new TaskGroup()
+		var taskGroup = new TaskGroup();
 
 		taskLines.push(taskGroup);
 		taskManager.addTaskGroup(taskGroup);
@@ -361,7 +361,8 @@ function TaskManager(){
 
 
 function TaskGroup(){
-	var taskLineElement,
+	var publicInterface = {},
+		taskLineElement,
 		timeline,
 		timelineWidth,	// update this on window resize
 		controls,
@@ -369,6 +370,20 @@ function TaskGroup(){
 		label,
 		category,
 		tasks = [];
+
+	/*********************************
+			public interface
+	*********************************/
+
+	publicInterface = {
+		getElement: getElement,
+		getCategory: getCategory,
+		getTasks: getTasks,
+		scale: scale,
+		save: save,
+		deleteTask: deleteTask,
+		addTask: addTask
+	};
 
 	taskLineElement = $('<div>').addClass('taskLine');
 
@@ -389,7 +404,7 @@ function TaskGroup(){
 	taskLineElement.append(timeline, controls);
 
 	function addTask(){
-		var task = new Task(),
+		var task = new Task(publicInterface),
 			taskElement = task.getElement();
 
 		tasks.push(task);
@@ -400,16 +415,15 @@ function TaskGroup(){
 			e.stopPropagation();
 
 			console.log('pause graph adjustment until this is over');
-			//	showTimeAdjuster
-			$(this).append( new TaskModifier(task) );
-
-			//	focus on first input
-			$(this).find('input').first().focus();
+			
+			//	create a new view to modify task
+			new TaskModifierView({ task: task });
 		});
 	};
 
 	function deleteTask(t){
-		
+		console.log('deleteing task', t);
+
 		for(var i = 0; i < tasks.length; i++){
 			if(tasks[i] === t){
 				tasks[i].getElement().remove();
@@ -461,64 +475,7 @@ function TaskGroup(){
 	*********************************/
 
 	function TaskModifier(task){
-
-		/*
-		var form = $('<form>')
-			.addClass('timeAdjuster')
-			.append( newInput('start'), newInput('end'), $('<input>', {type: 'submit'}) )
-			.submit(function(e){
-				var start = $('#start', this).val(),
-					end = $('#end', this).val();
-
-				if(start) {
-					start = convertUserInputToDate(start);
-					task.setStart(start);
-				};
-
-				if(end){
-					end = convertUserInputToDate(end);
-					task.setEnd(end);
-				};
-
-				$(this).parent().remove();
-				return false;
-			})
-			.click(function(e){
-				//	form submission triggers a click
-				e.stopPropagation();
-			})
-			.blur(function(){
-				console.log('blur');
-			});
-
-		var del =  $('<a>', {href: '#'})
-			.text('delete task')
-			.click(function(){
-				console.log('delete', task);
-				deleteTask(task);
-				return false;
-			});
-
-		return $('<div>')
-			.addClass('taskModifier')
-			.css({
-				top: 10,
-				left: 10
-			})
-			.append(form, del);
-
-		function newInput(id, blur){
-			var input = $('<input>', {id: id})
-				.click(function(e){
-					e.stopPropagation();
-				});
-
-			return input;
-		};
-		*/
-
 		var view = new TaskModifierView({
-			el: task.getElement().append( $('<div>') ),
 			task: task
 		});
 	};
@@ -633,28 +590,18 @@ function TaskGroup(){
 			public interface
 	*********************************/
 
-	return {
-		getElement: getElement,
-		getCategory: getCategory,
-		getTasks: getTasks,
-		scale: scale,
-		save: save
-	};
+	return publicInterface;
 };
 
 
-function Task(data){
-	var start = new Date().getTime(),
+function Task(taskGroup){
+	var taskGroup = taskGroup,
+		start = new Date().getTime(),
 		end,
 		duration,
 		taskElement,
 		category,
 		instance = this;
-
-	if(data){
-		start = new Date(data.start);
-		end = data.end ? new Data(data.end) : undefined;
-	};
 
 	taskElement = $('<div>')
 		.addClass('task');
@@ -741,6 +688,11 @@ function Task(data){
 		category = c;
 	};
 
+	function destroy(){
+		console.log('destroying task', this);
+		taskGroup.deleteTask(this);
+	};
+
 	/*********************************
 			public interface
 	*********************************/
@@ -751,7 +703,8 @@ function Task(data){
 		getEnd: getEnd,
 		setEnd: setEnd,
 		scale: scale,
-		setCategory: setCategory
+		setCategory: setCategory,
+		destroy: destroy
 	};
 };
 
@@ -938,9 +891,14 @@ TaskModifierView = Backbone.View.extend({
 		//	load compiled template
 		this.$el.html( template );
 
-		//	prepopulate with current values
+		//	attach to DOM
+		this.options.task.getElement().append(this.$el);
+
+		//	prepopulate with current values from Task
 		prepopulate(this.options.task);
 
+		//	focus on first field
+		this.$el.find('input').first().focus();
 		
 		function prepopulate(task){
 			var taskSummary = task.getSummary(),
@@ -956,12 +914,18 @@ TaskModifierView = Backbone.View.extend({
 
 			$('#start', this.$el).val(start);
 			$('#end', this.$el).val(end);
+
+			//	disable end for now if not already stopped to prevent TaskGroup toggle issue
+			if(end === undefined){
+				$('#end', this.$el).attr('disabled', 'disabled');
+			};
 		};
 	},
 
 	events: {
 		'click form#timeAdjuster': 'clickForm',
-		'submit form#timeAdjuster': 'submitForm'
+		'submit form#timeAdjuster': 'submitForm',
+		'click a.delete': 'deleteTask'
 	},
 
 	//	prevent bubbling so additional forms are not added
@@ -969,28 +933,51 @@ TaskModifierView = Backbone.View.extend({
 		e.stopPropagation();
 	},
 
-	//	
+	//	submit new times to change Task
 	submitForm: function(){
 		
 		var start = $('#start', this.$el).val(),
 			end = $('#end', this.$el).val(),
 			task = this.options.task;
 
-		if(start) {
-			start = convertUserInputToDate(start);
-			task.setStart(start);
+		if(validateForm()){
+			if(start) {
+				task.setStart(start);
+			};
+
+			if(end){
+				task.setEnd(end);
+			};
+
+			//	remove view from DOM
+			this.remove();
 		};
-
-		if(end){
-			end = convertUserInputToDate(end);
-			task.setEnd(end);
-		};
-
-		console.log(task.getSummary());
-
-		//	remove TaskModifierView
-		this.remove();
 		
 		return false;
+
+		function validateForm(){
+
+			//	TODO don't change the values during validation
+			if(start) {
+				start = convertUserInputToDate(start);
+			};
+
+			if(end){
+				end = convertUserInputToDate(end);
+			};
+
+			if(end){
+				return start < end;
+			} else {
+				//	TODO handle overlapping Tasks
+				return true;
+			};
+		};
+	},
+
+	//	delete this task
+	deleteTask: function(){
+		console.log('delete task', this.options.task);
+		this.options.task.destroy();
 	}
 });
