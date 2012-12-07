@@ -1,5 +1,17 @@
+@import url(http://fonts.googleapis.com/css?family=Monda);
+
 body {
 	font-size: 13px;
+	font-family: 'Monda', sans-serif;
+}
+
+div.recorder-controls {
+	width:400px;
+	padding: 1em;
+
+	.ui-slider {
+		margin: .3em 0 1em;
+	}
 }
 
 .taskGraph {
@@ -39,22 +51,15 @@ body {
 .toggle {
 	float:left;
 	padding:.3em;
-	border:1px solid #666;
-	font-size:.8em;
 	margin-right:.3em;
-	color:#fff;
-}
-
-.toggle.play {
-	background-color:#198B04;
-}
-
-.toggle.pause {
-	background-color:#AC2200;
+	cursor:pointer;
+//	border:1px solid #666;
+//	font-size:.8em;
+//	color:#fff;
 }
 
 .toggle:hover {
-	cursor:pointer;
+//	cursor:pointer;
 }
 
 .label {
