@@ -15,6 +15,21 @@ $(function(){
 			step: 5
 		});
 
+		$( '#control-toggle' )
+			.click(function(){
+				$(this).siblings('.content').slideToggle();
+				$('span', this).toggleClass('ui-icon-carat-1-n ui-icon-carat-1-s');
+
+			})
+			.hover(
+				function() {
+					$( this ).addClass( "ui-state-hover" );
+				},
+				function() {
+					$( this ).removeClass( "ui-state-hover" );
+				}
+			);
+
 		recorder.start();
 	});
 });

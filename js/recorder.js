@@ -107,7 +107,7 @@ define(['util'], function(util){
 		};
 
 		function save(){
-			console.log('saving');
+			console.log('saving @ ' + new Date());
 
 			//	clear out pending saves
 			clearTimeout(saveTimeoutHandle);

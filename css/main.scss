@@ -13,6 +13,13 @@ div.recorder-controls {
 		margin: .3em 0 1em;
 	}
 }
+#control-toggle {
+	padding: 5px 1em;
+	cursor: pointer;
+	float:left;
+}
+
+
 
 .taskGraph {
 	border:1px solid #555;
@@ -53,13 +60,6 @@ div.recorder-controls {
 	padding:.3em;
 	margin-right:.3em;
 	cursor:pointer;
-//	border:1px solid #666;
-//	font-size:.8em;
-//	color:#fff;
-}
-
-.toggle:hover {
-//	cursor:pointer;
 }
 
 .label {
@@ -91,4 +91,8 @@ div.recorder-controls {
 	border-radius:.5em;
 	box-shadow: 5px 5px 5px #666;
 	padding:.5em;
+}
+
+.clear {
+	clear:both;
 }

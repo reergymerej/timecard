@@ -9,6 +9,11 @@ div.recorder-controls {
   div.recorder-controls .ui-slider {
     margin: .3em 0 1em; }
 
+#control-toggle {
+  padding: 5px 1em;
+  cursor: pointer;
+  float: left; }
+
 .taskGraph {
   border: 1px solid #555;
   padding: 1em;
@@ -64,3 +69,6 @@ div.recorder-controls {
   border-radius: .5em;
   box-shadow: 5px 5px 5px #666;
   padding: .5em; }
+
+.clear {
+  clear: both; }
