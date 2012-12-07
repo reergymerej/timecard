@@ -17,9 +17,10 @@ $(function(){
 
 		$( '#control-toggle' )
 			.click(function(){
-				$(this).siblings('.content').slideToggle();
-				$('span', this).toggleClass('ui-icon-carat-1-n ui-icon-carat-1-s');
-
+				var toggleButton = $(this);
+				$(this).siblings('.content').slideToggle(function(){
+					$('span', toggleButton).toggleClass('ui-icon-carat-1-n ui-icon-carat-1-s');
+				});
 			})
 			.hover(
 				function() {
