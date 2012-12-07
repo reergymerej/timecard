@@ -3,13 +3,28 @@ define(['util'], function(util){
 	function TaskGraph(element){
 		var taskGraphElement = element,
 			newTaskButton,
-			saveButton,
 			controls,
 			taskLines = [],
 			startTime = Date.now(),
-			refreshInterval = 250,
-			DEFAULT_MAX_REFRESH = 5000,
+			refreshSlider = $('#refresh-interval'),
+			saveSlider = $('#save-interval'),
+			refreshInterval = 100,
+			saveInterval = 30000,
+			refreshTimeoutHandle,
+			saveTimeoutHandle,
 			taskManager = new TaskManager();
+
+
+		//	add listeners to sliders
+		refreshSlider.on('slidechange', function(event, ui){
+			console.log('refresh interval', ui.value);
+			adjustGraph();
+		});
+
+		saveSlider.on('slidechange', function(event, ui){
+			console.log('save interval', ui.value);
+			save();
+		});
 
 		//	set css
 		taskGraphElement.css({
@@ -38,40 +53,36 @@ define(['util'], function(util){
 				return false;
 			});
 
-		saveButton = $('<button>')
-			.text('save')
-			.click(save);
-
 		//	wrapper for controls
-		controls = $('<div>').append(newTaskButton, saveButton);
+		controls = $('<div>').append(newTaskButton);
 		taskGraphElement.before(controls);
 
 		//	start clock
-		setTimeout(adjustGraph, refreshInterval);
+		refreshTimeoutHandle = setTimeout(adjustGraph, refreshInterval);
+
+		//	start auto-saving
+		saveTimeoutHandle = setTimeout(save, saveInterval);
 
 		//	rescale graph
 		function adjustGraph(){
 			var currentTime = Date.now(),
 				timeSpan = currentTime - startTime;
 
+			//	clear old timeout
+			clearTimeout(refreshTimeoutHandle);
+
+			//	adjust the TaskLines
 			for(var i = 0; i < taskLines.length; i++){
 				taskLines[i].scale(startTime, timeSpan);
 			};
 
 			//	set up next refresh
 			maxRefreshInterval = getRefresh();
-			console.log(maxRefreshInterval);
 			refreshInterval = Math.min(refreshInterval * 1.3, maxRefreshInterval);
-			setTimeout(adjustGraph, refreshInterval);
+			refreshTimeoutHandle = setTimeout(adjustGraph, refreshInterval);
 
 			function getRefresh(){
-				var x = $('#refresh').val() || DEFAULT_MAX_REFRESH;
-
-				if(x === DEFAULT_MAX_REFRESH){
-					return x;
-				} else {
-					return x * 100;
-				};
+				return Math.pow(refreshSlider.slider('option', 'value'), 3);
 			};
 		};
 
@@ -96,7 +107,16 @@ define(['util'], function(util){
 		};
 
 		function save(){
+			console.log('saving @ ' + new Date());
+
+			//	clear out pending saves
+			clearTimeout(saveTimeoutHandle);
+
+			//	save
 			taskManager.save();
+
+			//	set up next save
+			saveTimeoutHandle = setTimeout(save, $('#save-interval').slider('option', 'value') * 1000);
 		};
 	};
 
@@ -358,24 +378,36 @@ define(['util'], function(util){
 			var toggleElement,
 				playing = true;
 
+			/*
 			toggleElement = $('<div>')
 				.addClass('toggle pause')
 				.text('pause')
 				.click(toggle);
+			*/
+			toggleElement = $('<div>')
+				.addClass('ui-state-default ui-corner-all toggle')
+				.append(
+					$('<span>')
+						.addClass('ui-icon ui-icon-pause')
+				)
+				.hover(
+					function() {
+						$( this ).addClass( "ui-state-hover" );
+					},
+					function() {
+						$( this ).removeClass( "ui-state-hover" );
+					}
+				)
+				.click(toggle);
+
+			//<li class="ui-state-default ui-corner-all" title=".ui-icon-play"><span class="ui-icon ui-icon-play"></span></li>
+
 
 			function toggle(){
 
 				var newestTask = tasks[tasks.length - 1];
 
-				if(playing){
-					toggleElement
-						.text('resume')
-						.toggleClass('play pause');
-				} else {
-					toggleElement
-						.text('pause')
-						.toggleClass('play pause');
-				};
+				$('span', toggleElement).toggleClass('ui-icon-pause ui-icon-play');
 
 				if(newestTask && newestTask.getEnd() === undefined){
 					newestTask.setEnd();

@@ -1,10 +1,12 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/underscore.js"></script>
-	<script type="text/javascript" src="js/backbone.js"></script>
-	<script type="text/javascript" src="js/require.js" data-main="js/timecard"></script>
+	<link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.9.2.custom.min.css" />
+	<script type="text/javascript" src="lib/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript" src="lib/underscore.js"></script>
+	<script type="text/javascript" src="lib/backbone.js"></script>
+	<script type="text/javascript" src="lib/require.js" data-main="js/timecard"></script>
 	
 	<!-- templates -->
 	<script type="text/template" id="test_template">
@@ -26,10 +28,24 @@
 	</script>
 </head>
 <body>
-	<label>refresh</label>
-	<!--<input type="text" id="refresh" />-->
-	<input id="refresh" type="range" min="1" max="20" step="1" />
+	
+	<div class="recorder-controls">
+		<div class="content">
+			<label>refresh</label>
+			<div id="refresh-interval"></div>
+			
+			<label>auto-save interval</label>
+			<div id="save-interval"></div>
+		</div>
+		<div id="control-toggle" class="ui-state-default ui-corner-all">
+			<span class="ui-icon ui-icon-carat-1-n"></span>
+		</div>
+	</div>
+	<div class="clear"></div>
+
+
 	<div id="graph"></div>
+	
 	<form id="summary_form">
 		<div>get summary</div>
 		from <input type="text" id="start" />

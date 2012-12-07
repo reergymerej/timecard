@@ -1,5 +1,18 @@
+@import url(http://fonts.googleapis.com/css?family=Monda);
 body {
-  font-size: 13px; }
+  font-size: 13px;
+  font-family: 'Monda', sans-serif; }
+
+div.recorder-controls {
+  width: 400px;
+  padding: 1em; }
+  div.recorder-controls .ui-slider {
+    margin: .3em 0 1em; }
+
+#control-toggle {
+  padding: 5px 1em;
+  cursor: pointer;
+  float: left; }
 
 .taskGraph {
   border: 1px solid #555;
@@ -28,18 +41,7 @@ body {
 .toggle {
   float: left;
   padding: .3em;
-  border: 1px solid #666;
-  font-size: .8em;
   margin-right: .3em;
-  color: #fff; }
-
-.toggle.play {
-  background-color: #198B04; }
-
-.toggle.pause {
-  background-color: #AC2200; }
-
-.toggle:hover {
   cursor: pointer; }
 
 .label {
@@ -67,3 +69,6 @@ body {
   border-radius: .5em;
   box-shadow: 5px 5px 5px #666;
   padding: .5em; }
+
+.clear {
+  clear: both; }
