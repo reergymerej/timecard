@@ -1,11 +1,12 @@
 define(['util'], function(util){
 
-	function TaskGraph(element){
+	function Graph(element){
 		var taskGraphElement = element,
 			newTaskButton,
 			controls,
 			taskLines = [],
 			startTime = Date.now(),
+			endTime,
 			refreshSlider = $('#refresh-interval'),
 			saveSlider = $('#save-interval'),
 			refreshInterval = 100,
@@ -26,7 +27,9 @@ define(['util'], function(util){
 		//	new task button
 		newTaskButton = $('<button>')
 			.text('new task')
-			.click(addTaskGroup);
+			.click(function(){
+				addTaskGroup();
+			});
 
 		//	summary button
 		$('#summary_form')
@@ -47,31 +50,50 @@ define(['util'], function(util){
 		controls = $('<div>').append(newTaskButton);
 		taskGraphElement.before(controls);
 
-		//	rescale graph
-		function adjustGraph(){
-			var currentTime = Date.now(),
-				timeSpan = currentTime - startTime;
+		
+		/**
+		* Rescale the graph.
+		* @param {booelan} [recurring=true] If set, will schedule another adjustGraph automatically.
+		**/
+		function adjustGraph(recurring){
+			var timeSpan,
+				recurring = recurring === undefined ? true : false;
 
-			//	clear old timeout
-			clearTimeout(refreshTimeoutHandle);
+			//	set timeframe
+			if(recurring){
+				timeSpan = Date.now() - startTime;
+			} else {
+				timeSpan = endTime - startTime;
+			};
 
 			//	adjust the TaskLines
 			for(var i = 0; i < taskLines.length; i++){
 				taskLines[i].scale(startTime, timeSpan);
 			};
 
-			//	set up next refresh
-			maxRefreshInterval = getRefresh();
-			refreshInterval = Math.min(refreshInterval * 1.3, maxRefreshInterval);
-			refreshTimeoutHandle = setTimeout(adjustGraph, refreshInterval);
+			if(recurring){
+				//	clear old timeout
+				clearTimeout(refreshTimeoutHandle);
+
+				//	set up next refresh	
+				maxRefreshInterval = getRefresh();
+				refreshInterval = Math.min(refreshInterval * 1.3, maxRefreshInterval);
+				refreshTimeoutHandle = setTimeout(adjustGraph, refreshInterval);
+			};
 
 			function getRefresh(){
 				return Math.pow(refreshSlider.slider('option', 'value'), 3);
 			};
 		};
 
-		function addTaskGroup(){
-			var taskGroup = new TaskGroup();
+
+		/**
+		* @param {object} [tasks] if provided, loads these tasks into the group
+		* @param {string} [tasks.category]
+		* @param {array} [tasks.tasks]
+		**/
+		function addTaskGroup(tasks){
+			var taskGroup = new TaskGroup(tasks);
 
 			taskLines.push(taskGroup);
 			taskManager.addTaskGroup(taskGroup);
@@ -111,6 +133,7 @@ define(['util'], function(util){
 		* Start using this graph to record new events.
 		**/
 		function record(){
+			console.log('start recording');
 
 			//	add listeners to sliders
 			refreshSlider.on('slidechange', function(event, ui){
@@ -137,7 +160,54 @@ define(['util'], function(util){
 		* @param {number} end
 		**/
 		function load(start, end){
-			
+
+			startTime = start;
+			endTime = end;
+
+			taskManager.load(start, end, function(tasks){
+				console.log('tasks', tasks);
+
+
+				var categories = [];
+
+				//	replace old info with info from loaded tasks
+				taskManager = new TaskManager(userID)
+
+				//	identify unique categories
+				for(var i = 0; i < tasks.length; i++){
+					if( categories.indexOf( tasks[i].category ) === -1 ){
+						categories.push( tasks[i].category );
+					};
+				};
+
+				//	create new categories, pass all tasks that belong to this category
+				for(var i = 0; i < categories.length; i++){
+					addTaskGroup({
+						tasks: getTasksOfCategory( categories[i], tasks ),
+						category: categories[i]
+					});
+				};
+
+				adjustGraph(false);
+
+				/**
+				* Returns an array of tasks that match this category.
+				* @param {string} c category
+				* @param {array} tasks searched for matches
+				* @return {array}
+				**/
+				function getTasksOfCategory(c, tasks){
+					var matches = [];
+
+					for(var i = 0; i < tasks.length; i++){
+						if(tasks[i].category === c){
+							matches.push( tasks[i] );
+						};
+					};
+
+					return matches;
+				};
+			});
 		};
 
 		return {
@@ -188,6 +258,20 @@ define(['util'], function(util){
 			history.saveTasks(tasksUsed, userID, start);
 		};
 
+
+		/**
+		* Load saved tasks for this manager to use.
+		* @param {number} start
+		* @param {number} end
+		* @param {function} callback passed array of tasks
+		**/
+		function load(start, end, callback){
+
+			history.load(start, end, function(tasks){
+				callback(tasks);
+			});
+		};
+
 		function getSummary(start, end){
 			
 			var tasks = history.getTasks(start, end);
@@ -220,12 +304,18 @@ define(['util'], function(util){
 		return {
 			addTaskGroup: addTaskGroup,
 			save: save,
+			load: load,
 			getSummary: getSummary
 		}
 	};
 
 
-	function TaskGroup(){
+	/**
+	* @param {object} [tasks] if provided, loads these tasks into the group
+	* @param {string} [tasks.category]
+	* @param {array} [tasks.tasks]
+	**/
+	function TaskGroup(preload){
 		var publicInterface = {},
 			taskLineElement,
 			timeline,
@@ -233,7 +323,7 @@ define(['util'], function(util){
 			controls,
 			toggle,
 			label,
-			category,
+			category = ( preload !== undefined ) ? preload.category : undefined,
 			tasks = [];
 
 		/*********************************
@@ -256,9 +346,17 @@ define(['util'], function(util){
 		controls = $('<div>').addClass('controls');
 
 		//	initialize
-		addTask();
+		if(preload === undefined){
+			addTask();
+		} else {
+			console.log('preload these tasks', preload);
+			for(var i = 0; i < preload.tasks.length; i++){
+				addTask(preload.tasks[i])
+			};
+		};
+
 		toggle = new Toggle();
-		label = new Label();
+		label = new Label(category);
 
 		controls.append(
 			toggle.getElement(),
@@ -268,8 +366,12 @@ define(['util'], function(util){
 		//	add components
 		taskLineElement.append(timeline, controls);
 
-		function addTask(){
-			var task = new Task(publicInterface),
+
+		/**
+		* @param {object} [preload]
+		**/
+		function addTask(preload){
+			var task = new Task(publicInterface, preload),
 				taskElement = task.getElement();
 
 			tasks.push(task);
@@ -343,10 +445,13 @@ define(['util'], function(util){
 			});
 		};
 
-		function Label(){
+		/**
+		* @param {string} [category='label']
+		**/
+		function Label(category){
 
 			var labelElement,
-				label = 'label';
+				label = category || 'label';
 
 			labelElement = $('<div>')
 				.addClass('label')
@@ -469,14 +574,27 @@ define(['util'], function(util){
 	};
 
 
-	function Task(taskGroup){
+	/**
+	* @param {object} preload
+	**/
+	function Task(taskGroup, preload){
 		var taskGroup = taskGroup,
-			start = new Date().getTime(),
+			start,
 			end,
 			duration,
 			taskElement,
 			category,
 			instance = this;
+
+		//	initialize
+		if(preload){
+			start = preload.start;
+			end = preload.end;
+			duration = preload.duration;
+			category = preload.category;
+		} else {
+			start = new Date().getTime();
+		};
 
 		taskElement = $('<div>')
 			.addClass('task');
@@ -725,7 +843,7 @@ define(['util'], function(util){
 		/**
 		* @param {array} newTasks
 		* @param {number} userID
-		* @param {number} start beginning of timeframe for this TaskGraph
+		* @param {number} start beginning of timeframe for this Graph
 		**/
 		function saveTasks(newTasks, userID, start){
 
@@ -740,8 +858,6 @@ define(['util'], function(util){
 					userID: userID
 				}
 			}, function(resp){
-				console.log(resp);
-
 
 				var response = JSON.parse(resp);
 				console.log(response);
@@ -752,6 +868,39 @@ define(['util'], function(util){
 					console.error('error saving');
 					console.log(response.message);
 				}
+			});
+		};
+
+
+		/**
+		* Load saved tasks.
+		* @param {number} start
+		* @param {number} end
+		* @param {function} callback passed array of tasks loaded
+		**/
+		function load(start, end, callback){
+
+			var loadUrl = 'php/load.php';
+
+			$.post(loadUrl, {
+				timeframe: {
+					start: start,
+					end: Date.now(),
+					userID: userID
+				}
+			}, function(resp){
+				
+				var response = JSON.parse(resp);
+				if(response.status){
+					console.log('loaded successfully');
+					console.log(response.message);
+					console.log(response.data);
+				} else {
+					console.log('error loading');
+					console.log(response.message);
+				};
+
+				callback(response.data);
 			});
 		};
 
@@ -766,6 +915,7 @@ define(['util'], function(util){
 		return {
 			saveCategories: saveCategories,
 			saveTasks: saveTasks,
+			load: load,
 			getTasks: getTasksFromHistory
 		};
 	};
@@ -878,8 +1028,6 @@ define(['util'], function(util){
 	});
 
 	return {
-		start: function(){
-			var taskGraph = new TaskGraph($('#graph'));
-		}
+		Graph: Graph
 	};
 });
