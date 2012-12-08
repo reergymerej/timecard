@@ -31,21 +31,6 @@ define(['util'], function(util){
 				addTaskGroup();
 			});
 
-		//	summary button
-		$('#summary_form')
-			.submit(function(){
-				var start = $('#start').val(),
-					end = $('#end').val() || '24';
-
-				//	convert these values into dates
-				start = util.convertUserInputToDate(start);
-				end = util.convertUserInputToDate(end);
-
-				showSummary(start, end);
-				
-				return false;
-			});
-
 		//	wrapper for controls
 		controls = $('<div>').append(newTaskButton);
 		taskGraphElement.before(controls);
@@ -165,8 +150,6 @@ define(['util'], function(util){
 			endTime = end;
 
 			taskManager.load(start, end, function(tasks){
-				console.log('tasks', tasks);
-
 
 				var categories = [];
 
@@ -349,7 +332,6 @@ define(['util'], function(util){
 		if(preload === undefined){
 			addTask();
 		} else {
-			console.log('preload these tasks', preload);
 			for(var i = 0; i < preload.tasks.length; i++){
 				addTask(preload.tasks[i])
 			};
@@ -588,9 +570,9 @@ define(['util'], function(util){
 
 		//	initialize
 		if(preload){
-			start = preload.start;
-			end = preload.end;
-			duration = preload.duration;
+			start = Number(preload.start);
+			end = preload.end === 0 ? undefined : Number(preload.end);
+			duration = preload.duration === 0 ? undefined : Number(preload.duration);
 			category = preload.category;
 		} else {
 			start = new Date().getTime();

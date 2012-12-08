@@ -1,6 +1,10 @@
 
 $(function(){
-	require(['graph'], function(graph){
+
+	$('.recorder-controls').hide();
+	$('#summary_form').hide();
+
+	require(['graph', 'util'], function(graph, util){
 
 		var g;
 
@@ -35,8 +39,36 @@ $(function(){
 			);
 
 
-		g = new graph.Graph( $('#graph') );
-		g.record();
-		//g.load( Date.now() - (1000 * 60 * 30 ), Date.now() - (1000 * 60 * 15) );
+		//	load or start recording?
+		$('#record').click(function(){
+
+			g = new graph.Graph( $('#graph') );
+			g.record();
+			$(this).parent().remove();
+			$('.recorder-controls').show();
+		});
+
+		$('#load').click(function(){
+			
+			$('#summary_form')
+				.show()
+				.submit(function(){
+					var start = $('#start').val(),
+						end = $('#end').val() || String(new Date().getHours() + 1);
+
+					g = new graph.Graph( $('#graph') );
+
+					//	convert these values into dates
+					start = util.convertUserInputToDate(start).getTime();
+					end = util.convertUserInputToDate(end).getTime();
+
+					g.load( start, end );
+
+					$(this).hide();
+					return false;
+				});
+			$(this).parent().remove();
+			$('.recorder-controls').remove();			
+		});
 	});
 });
