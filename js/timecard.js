@@ -12,7 +12,7 @@ $(function(){
 		$( '#save-interval' ).slider({
 			min: 5,
 			max: 120,
-			value: 5,
+			value: 120,
 			step: 5
 		});
 

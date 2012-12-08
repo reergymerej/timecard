@@ -12,7 +12,8 @@ define(['util'], function(util){
 			saveInterval = 30000,
 			refreshTimeoutHandle,
 			saveTimeoutHandle,
-			taskManager = new TaskManager();
+			userID = 0,
+			taskManager = new TaskManager(userID);
 
 
 		//	add listeners to sliders
@@ -113,7 +114,7 @@ define(['util'], function(util){
 			clearTimeout(saveTimeoutHandle);
 
 			//	save
-			taskManager.save();
+			taskManager.save(startTime);
 
 			//	set up next save
 			saveTimeoutHandle = setTimeout(save, $('#save-interval').slider('option', 'value') * 1000);
@@ -121,19 +122,26 @@ define(['util'], function(util){
 	};
 
 
-	function TaskManager(){
+	/**
+	* @param {number} userID
+	**/
+	function TaskManager(userID){
 		var taskGroups = []
-			history = new HistoryProxy('localStorage');
+			history = new HistoryProxy('localStorage', userID);
 
 		function addTaskGroup(tg){
 			taskGroups.push(tg);
 		};
 
-		function save(){
+		/**
+		* @param {number} start beginning of this TimeGraph
+		**/
+		function save(start){
 
 			var categoriesUsed = [],
 				category,
-				tasksUsed = [];
+				tasksUsed = [],
+				start = start;
 			
 			//	capture current organization of Tasks and TaskGroups
 			for(var i = 0; i < taskGroups.length; i++){
@@ -151,8 +159,8 @@ define(['util'], function(util){
 			};
 
 			//	save to localStorage for now
-			history.saveCategories(categoriesUsed);
-			history.saveTasks(tasksUsed);
+			//history.saveCategories(categoriesUsed, userID);
+			history.saveTasks(tasksUsed, userID, start);
 		};
 
 		function getSummary(start, end){
@@ -501,6 +509,7 @@ define(['util'], function(util){
 
 			return {
 				start: start,
+				end: end,
 				duration: duration,
 				category: category
 			};
@@ -553,10 +562,12 @@ define(['util'], function(util){
 	/**
 	* Used to abstract saving from where data is actually saved.  Provides a single interface for saving to localStorage or db.
 	* @param {string} location 'localStorage' is the only supported value so far
+	* @param {number} userID
 	**/
-	function HistoryProxy(location){
+	function HistoryProxy(location, userID){
 
-		var location = location;
+		var location = location,
+			userID = userID;
 
 		/**
 		* returns an array of categories from history
@@ -580,12 +591,6 @@ define(['util'], function(util){
 		function getTasks(start, end){
 			if(location === 'localStorage'){
 				return getTasksLocal(start, end);
-			};
-		};
-
-		function setTasks(t){
-			if(location === 'localStorage'){
-				setTasksLocal(t);
 			};
 		};
 
@@ -691,15 +696,38 @@ define(['util'], function(util){
 			setCategories(categories);
 		};
 
-		function saveTasks(newTasks){
 
-			var oldTasks = getTasks(),
-				tasks = [];
+		/**
+		* @param {array} newTasks
+		* @param {number} userID
+		* @param {number} start beginning of timeframe for this TaskGraph
+		**/
+		function saveTasks(newTasks, userID, start){
 
-			//	TODO dedupe
-			tasks = tasks.concat(oldTasks, newTasks);
+			var saveUrl = 'php/save.php',
+				tasksJSON = JSON.stringify(newTasks);
 
-			setTasks(tasks);
+			$.post(saveUrl, {
+				tasks: newTasks,
+				timeframe: {
+					start: start,
+					end: Date.now(),
+					userID: userID
+				}
+			}, function(resp){
+				console.log(resp);
+
+
+				var response = JSON.parse(resp);
+				console.log(response);
+				if(response.status){
+					console.log('saved successfully');
+					console.log(response.message);
+				} else {
+					console.error('error saving');
+					console.log(response.message);
+				}
+			});
 		};
 
 		/**
