@@ -173,10 +173,15 @@ define(function(){
 		};
 	};
 
+	function rand(min, max){
+		return min + Math.floor(Math.random() * (max - min + 1));
+	};
+
 	return {
 		getFriendlyTimeStamp: getFriendlyTimeStamp,
 		getFriendlyDateTimeStamp: getFriendlyDateTimeStamp,
 		convertSecondsToTime: convertSecondsToTime,
-		convertUserInputToDate: convertUserInputToDate
+		convertUserInputToDate: convertUserInputToDate,
+		rand: rand
 	};
 });

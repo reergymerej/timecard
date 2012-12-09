@@ -21,7 +21,8 @@ div.recorder-controls {
 .taskLine {
   position: relative;
   padding: .3em .5em;
-  border: 1px solid #555; }
+  border: 1px solid #555;
+  margin-bottom: .3em; }
   .taskLine .timeline {
     width: 80%;
     display: inline-block;
@@ -71,3 +72,7 @@ div.recorder-controls {
 
 .clear {
   clear: both; }
+
+input:not([submit]) {
+  padding: .2em .5em;
+  font-family: inherit; }

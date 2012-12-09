@@ -4,6 +4,8 @@ $(function(){
 	$('.recorder-controls').hide();
 	$('#summary_form').hide();
 
+	$('button, input[type="submit"]').button();
+
 	require(['graph', 'util'], function(graph, util){
 
 		var g;
@@ -40,35 +42,37 @@ $(function(){
 
 
 		//	load or start recording?
-		$('#record').click(function(){
+		$('#record')
+			.click(function(){
 
-			g = new graph.Graph( $('#graph') );
-			g.record();
-			$(this).parent().remove();
-			$('.recorder-controls').show();
-		});
+				g = new graph.Graph( $('#graph') );
+				g.record();
+				$(this).parent().remove();
+				$('.recorder-controls').show();
+			});
 
-		$('#load').click(function(){
-			
-			$('#summary_form')
-				.show()
-				.submit(function(){
-					var start = $('#start').val(),
-						end = $('#end').val() || String(new Date().getHours() + 1);
+		$('#load')
+			.click(function(){
+				
+				$('#summary_form')
+					.show()
+					.submit(function(){
+						var start = $('#start').val(),
+							end = $('#end').val() || String(new Date().getHours() + 1);
 
-					g = new graph.Graph( $('#graph') );
+						g = new graph.Graph( $('#graph') );
 
-					//	convert these values into dates
-					start = util.convertUserInputToDate(start).getTime();
-					end = util.convertUserInputToDate(end).getTime();
+						//	convert these values into dates
+						start = util.convertUserInputToDate(start).getTime();
+						end = util.convertUserInputToDate(end).getTime();
 
-					g.load( start, end );
+						g.load( start, end );
 
-					$(this).hide();
-					return false;
-				});
-			$(this).parent().remove();
-			$('.recorder-controls').remove();			
-		});
+						$(this).hide();
+						return false;
+					});
+				$(this).parent().remove();
+				$('.recorder-controls').remove();			
+			});
 	});
 });

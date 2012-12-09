@@ -31,6 +31,7 @@ div.recorder-controls {
 	position: relative;
 	padding:.3em .5em;
 	border: 1px solid #555;
+	margin-bottom: .3em;
 
 	.timeline {
 		width:80%;
@@ -94,4 +95,9 @@ div.recorder-controls {
 
 .clear {
 	clear:both;
+}
+
+input:not([submit]){
+	padding:.2em .5em;
+	font-family:inherit;
 }

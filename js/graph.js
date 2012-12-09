@@ -35,6 +35,7 @@ define(['util'], function(util){
 		controls = $('<div>').append(newTaskButton);
 		taskGraphElement.before(controls);
 
+		newTaskButton.button();
 		
 		/**
 		* Rescale the graph.
@@ -323,7 +324,7 @@ define(['util'], function(util){
 			addTask: addTask
 		};
 
-		taskLineElement = $('<div>').addClass('taskLine');
+		taskLineElement = $('<div>').addClass('taskLine ui-corner-all ui-widget-content');
 
 		timeline = $('<div>').addClass('timeline');
 		controls = $('<div>').addClass('controls');
@@ -579,7 +580,12 @@ define(['util'], function(util){
 		};
 
 		taskElement = $('<div>')
-			.addClass('task');
+			.addClass('task')
+			.css('background-color', getColor());
+
+		function getColor(){
+			return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
+		};
 
 		/**
 		* @param {number, Date} time
@@ -919,6 +925,9 @@ define(['util'], function(util){
 
 			//	attach to DOM
 			this.options.task.getElement().append(this.$el);
+
+			//	make button pretty
+			this.$el.find('input[type="submit"]').button();
 
 			//	prepopulate with current values from Task
 			prepopulate(this.options.task);
