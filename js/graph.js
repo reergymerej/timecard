@@ -877,12 +877,11 @@ define(['util'], function(util){
 					console.log('loaded successfully');
 					console.log(response.message);
 					console.log(response.data);
+					callback(response.data);
 				} else {
 					console.log('error loading');
 					console.log(response.message);
 				};
-
-				callback(response.data);
 			});
 		};
 

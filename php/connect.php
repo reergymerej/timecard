@@ -1,10 +1,10 @@
 <?php
 	
 	function connect(){
-		$user = 'visitor';
-		$server = 'localhost';
+		$user = 'wordtoth_visitor';
+		$server = 'wordtotheblurd.com';
 		$password = 'visitor';
-		$db = 'reergymerej_timecard';
+		$db = 'wordtoth_timecard';
 		
 		if($connection = @mysql_connect($server, $user, $password)){
 			if(mysql_select_db($db)){
