@@ -101,3 +101,11 @@ input:not([submit]){
 	padding:.2em .5em;
 	font-family:inherit;
 }
+
+.ticks {
+	position: relative;
+}
+.tick {
+	border-left:1px solid #000;
+	position: absolute;
+}

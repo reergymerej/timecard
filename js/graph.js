@@ -57,6 +57,8 @@ define(['util'], function(util){
 				taskLines[i].scale(startTime, timeSpan);
 			};
 
+			showTicks(timeSpan, startTime);
+
 			if(recurring){
 				//	clear old timeout
 				clearTimeout(refreshTimeoutHandle);
@@ -69,6 +71,37 @@ define(['util'], function(util){
 
 			function getRefresh(){
 				return Math.pow(refreshSlider.slider('option', 'value'), 3);
+			};
+
+
+			/**
+			* Show ticks on graph relative to current timespan.
+			* @param {number} timeSpan
+			* @param {number} startTime
+			**/
+			function showTicks(timeSpan, startTime){
+
+				var MAX_TICKS = 4,
+					interval = Math.floor( (timeSpan / MAX_TICKS) ),
+					ticksWidth = $('.ticks').innerWidth(),
+					width = ticksWidth / MAX_TICKS - 1;	// 1 for left border
+
+				//	clear out old ticks
+				$('.ticks').empty();
+
+				//	hack
+				$('.ticks')
+					.css('width', $('.timeline').width() + 'px')
+					.insertAfter( $('.taskLine').last() );
+
+				for(var i = 0; i < MAX_TICKS; i++){
+					$('.ticks').append(
+							$('<span>')
+								.addClass('tick')
+								.text( util.getFriendlyTimeStamp(startTime + i * interval) )
+								.css('left', i*width + 'px')
+						);
+				};
 			};
 		};
 
@@ -99,8 +132,6 @@ define(['util'], function(util){
 		};
 
 		function save(){
-			console.log('saving @ ' + new Date());
-
 			//	clear out pending saves
 			clearTimeout(saveTimeoutHandle);
 
@@ -237,9 +268,9 @@ define(['util'], function(util){
 				};
 			};
 
-			//	save to localStorage for now
-			//history.saveCategories(categoriesUsed, userID);
-			history.saveTasks(tasksUsed, userID, start);
+			if(tasksUsed.length > 0){
+				history.saveTasks(tasksUsed, userID, start);
+			};
 		};
 
 
@@ -834,6 +865,8 @@ define(['util'], function(util){
 		* @param {number} start beginning of timeframe for this Graph
 		**/
 		function saveTasks(newTasks, userID, start){
+
+			console.log('saving @ ' + new Date());
 
 			var saveUrl = 'php/save.php',
 				tasksJSON = JSON.stringify(newTasks);

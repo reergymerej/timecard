@@ -24,8 +24,8 @@
 	$sql .= "WHERE start >= $start AND end <= $end AND user_id = $user_id ORDER BY start";
 
 	//	execute query
-	$result = mysql_query($sql);
-	$data = [];
+	$result = mysql_query( mysql_real_escape_string($sql) );
+	$data = array();
 
 	if(mysql_error()){
 		$responseMessage .= $sql . "\n";
