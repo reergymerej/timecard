@@ -392,6 +392,9 @@ define(['util'], function(util){
 
 			timeline.append(taskElement);
 
+			//	make task draggable
+			taskElement.draggable();
+
 			taskElement.click(function(e){
 				e.stopPropagation();
 				

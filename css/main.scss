@@ -36,7 +36,6 @@ div.recorder-controls {
 	.timeline {
 		width:80%;
 		display:inline-block;
-		background-color: #999;
 		height:inherit;
 	}
 
@@ -75,7 +74,7 @@ div.recorder-controls {
 	background-color: #CCC;
 	position:absolute;
 	top:0;
-	height:100%;
+	height:20px;
 }
 
 .task.finished {
