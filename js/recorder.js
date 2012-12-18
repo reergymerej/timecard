@@ -282,6 +282,8 @@ define(['util'], function(util){
 				//	create a new view to modify task
 				new TaskModifierView({ task: task });
 			});
+
+			console.log('move to top!', this);
 		};
 
 		function deleteTask(t){

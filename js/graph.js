@@ -401,6 +401,16 @@ define(['util'], function(util){
 				//	create a new view to modify task
 				new TaskModifierView({ task: task });
 			});
+
+			//	move this task line to the top of the graph
+			shiftTaskLineToTop();
+		};
+
+		function shiftTaskLineToTop(){
+			taskLineElement.fadeOut(function(){
+				taskLineElement.parent().prepend(taskLineElement);
+				taskLineElement.fadeIn();
+			});
 		};
 
 		function deleteTask(t){
