@@ -272,6 +272,9 @@ define(['util'], function(util){
 			var task = new Task(publicInterface),
 				taskElement = task.getElement();
 
+			//	make new Task with backbone
+			new TaskView({taskGroup: publicInterface});
+
 			tasks.push(task);
 
 			timeline.append(taskElement);
@@ -774,7 +777,7 @@ define(['util'], function(util){
 
 
 	//=================================================================
-	TaskModifierView = Backbone.View.extend({
+	var TaskModifierView = Backbone.View.extend({
 
 		initialize: function(){
 			this.render();
@@ -876,6 +879,25 @@ define(['util'], function(util){
 		deleteTask: function(){
 			console.log('delete task', this.options.task);
 			this.options.task.destroy();
+		}
+	});
+
+	var TaskView = Backbone.View.extend({
+
+		initialize: function(){
+			this.render();
+		},
+
+		render: function(){
+
+			//	compile template
+			var template = _.template( $('#task_template').html() );
+
+			//	load compiled template
+			this.$el.html( template );
+
+			//	attach to DOM
+			console.log(this.options.taskGroup);
 		}
 	});
 

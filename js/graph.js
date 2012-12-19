@@ -388,6 +388,11 @@ define(['util'], function(util){
 			var task = new Task(publicInterface, preload),
 				taskElement = task.getElement();
 
+			//	make new Task with backbone
+			console.log('resume here, move the Task function into the TaskM model');
+			new TaskM({taskGroup: publicInterface});
+
+
 			tasks.push(task);
 
 			timeline.append(taskElement);
@@ -953,9 +958,28 @@ define(['util'], function(util){
 		};
 	};
 
+	//=================================================================
+	//	models
+
+	var TaskM = Backbone.Model.extend({
+
+		defaults: {
+
+		},
+		
+		initialize: function(){
+			new TaskView({taskGroup: this.attributes.taskGroup});
+
+		},
+
+		scale: function(graphStart, timeSpan, timelinePixels){
+
+		}
+	});
 
 	//=================================================================
-	TaskModifierView = Backbone.View.extend({
+	//	views
+	var TaskModifierView = Backbone.View.extend({
 
 		initialize: function(){
 			this.render();
@@ -1060,6 +1084,33 @@ define(['util'], function(util){
 		deleteTask: function(){
 			console.log('delete task', this.options.task);
 			this.options.task.destroy();
+		}
+	});
+
+	var TaskView = Backbone.View.extend({
+
+		initialize: function(){
+			this.render();
+		},
+
+		render: function(){
+
+			//	compile template
+			var template = _.template( $('#task_template').html() );
+
+			//	load compiled template
+			this.$el.html( template );
+
+			this.$el
+				.css('background-color', getColor())
+				.addClass('task');
+
+			//	attach to DOM
+			this.$el.appendTo( this.options.taskGroup.getElement() );
+
+			function getColor(){
+				return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
+			};
 		}
 	});
 
