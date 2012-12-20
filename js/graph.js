@@ -385,27 +385,27 @@ define(['util'], function(util){
 		* @param {object} [preload]
 		**/
 		function addTask(preload){
-			var task = new Task(publicInterface, preload),
-				taskElement = task.getElement();
+			var task;
 
 			//	make new Task with backbone
-			console.log('resume here, move the Task function into the TaskM model');
-			new TaskM({taskGroup: publicInterface});
+			task = new TaskM({
+				taskGroup: publicInterface
+			});
 
 
 			tasks.push(task);
 
-			timeline.append(taskElement);
 
+			//	TODO
 			//	make task draggable
-			taskElement.draggable();
+			//taskElement.draggable();
 
-			taskElement.click(function(e){
+			/*taskElement.click(function(e){
 				e.stopPropagation();
 				
 				//	create a new view to modify task
 				new TaskModifierView({ task: task });
-			});
+			});*/
 
 			//	move this task line to the top of the graph
 			shiftTaskLineToTop();
@@ -441,7 +441,7 @@ define(['util'], function(util){
 
 			//	assign category to each task
 			for(var i = 0; i < tasks.length; i++){
-				tasks[i].setCategory(category);
+				tasks[i].set({ category: category });
 			};
 		};
 
@@ -579,7 +579,7 @@ define(['util'], function(util){
 
 				$('span', toggleElement).toggleClass('ui-icon-pause ui-icon-play');
 
-				if(newestTask && newestTask.getEnd() === undefined){
+				if(newestTask && newestTask.get('end') === undefined){
 					newestTask.setEnd();
 				} else {
 					//	create a new task (to the user, this looks like resuming)
@@ -885,6 +885,7 @@ define(['util'], function(util){
 		function saveTasks(newTasks, userID, start){
 
 			console.log('saving @ ' + new Date());
+			console.log(newTasks);
 
 			var saveUrl = 'php/save.php',
 				tasksJSON = JSON.stringify(newTasks);
@@ -967,13 +968,87 @@ define(['util'], function(util){
 
 		},
 		
-		initialize: function(){
-			new TaskView({taskGroup: this.attributes.taskGroup});
+		/**
+		* @param {object} [preload] data for this Task to use
+		**/
+		//	TODO should we pass this variable here or is it used with this.get()?
+		initialize: function(preload){
 
+			var preload;
+			
+			//	initialize
+			if(this.get('preload')){
+				preload = this.get('preload');
+
+				this.set({
+					start: Number( preload.start ),
+					end: preload.end === 0 ? undefined : Number(preload.end),
+					duration: preload.duration === 0 ? undefined : Number(preload.duration),
+					category: preload.category
+				});
+			} else {
+				this.set({
+					start: new Date().getTime()
+				});
+			};
+
+			//	create an associated view instance
+			this.set({
+				view: new TaskView({taskGroup: this.attributes.taskGroup})
+			});
 		},
 
-		scale: function(graphStart, timeSpan, timelinePixels){
 
+		scale: function(start, timeSpan, timelineWidth){
+
+			//	TODO this seems like too much to pass to the function
+			//	Can we eliminate any of this?
+			this.get('view').scale(start, timeSpan, timelineWidth, this.get('start'), this.get('end'));
+		},
+
+		/**
+		* @return {object}
+		**/
+		getSummary: function(){
+
+			//	TODO There is probably a better way to do this rather than calling get() over and over.
+			//	Why do we use get()?
+			return {
+				start: this.get('start'),
+				end: this.get('end'),
+				duration: this.get('duration'),
+				category: this.get('category')
+			};
+		},
+
+		/**
+		* @param {Date} [time] defaults to current time
+		* @return {boolean}
+		**/
+		setEnd: function(time){
+
+			var time = time || new Date(),
+				start = this.get('start'),
+				end;
+
+			//	convert time if needed
+			if(typeof time === 'object'){
+				time = time.getTime();
+			};
+
+			//	update attributes			
+			if(time > start){
+				end = time;
+				
+				this.set({
+					duration: Math.round((end - start) / 1000),
+					end: time
+				});
+
+				return true;
+			};
+
+			return false;
 		}
 	});
 
@@ -1111,6 +1186,17 @@ define(['util'], function(util){
 			function getColor(){
 				return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
 			};
+		},
+
+		scale: function(graphStart, timeSpan, timelinePixels, start, end){
+
+			var left = (start - graphStart) / timeSpan * timelinePixels,
+				width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+			
+			this.$el.css({
+				left: left + 'px',
+				width: width + 'px'
+			});
 		}
 	});
 
