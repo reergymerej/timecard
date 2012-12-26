@@ -388,7 +388,7 @@ define(['util'], function(util){
 			var task;
 
 			//	make new Task with backbone
-			task = new TaskM({
+			task = new Task({
 				taskGroup: publicInterface
 			});
 
@@ -609,135 +609,135 @@ define(['util'], function(util){
 	/**
 	* @param {object} preload
 	**/
-	function Task(taskGroup, preload){
-		var taskGroup = taskGroup,
-			start,
-			end,
-			duration,
-			taskElement,
-			category,
-			instance = this;
+	// function Task(taskGroup, preload){
+	// 	var taskGroup = taskGroup,
+	// 		start,
+	// 		end,
+	// 		duration,
+	// 		taskElement,
+	// 		category,
+	// 		instance = this;
 
-		//	initialize
-		if(preload){
-			start = Number(preload.start);
-			end = preload.end === 0 ? undefined : Number(preload.end);
-			duration = preload.duration === 0 ? undefined : Number(preload.duration);
-			category = preload.category;
-		} else {
-			start = new Date().getTime();
-		};
+	// 	//	initialize
+	// 	if(preload){
+	// 		start = Number(preload.start);
+	// 		end = preload.end === 0 ? undefined : Number(preload.end);
+	// 		duration = preload.duration === 0 ? undefined : Number(preload.duration);
+	// 		category = preload.category;
+	// 	} else {
+	// 		start = new Date().getTime();
+	// 	};
 
-		taskElement = $('<div>')
-			.addClass('task')
-			.css('background-color', getColor());
+	// 	taskElement = $('<div>')
+	// 		.addClass('task')
+	// 		.css('background-color', getColor());
 
-		function getColor(){
-			return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
-		};
+	// 	function getColor(){
+	// 		return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
+	// 	};
 
-		/**
-		* @param {number, Date} time
-		* @return {boolean} success
-		**/
-		function setStart(time){
+	// 	/**
+	// 	* @param {number, Date} time
+	// 	* @return {boolean} success
+	// 	**/
+	// 	function setStart(time){
 
-			var time = time;
+	// 		var time = time;
 
-			if(typeof time === 'object'){
-				time = time.getTime();
-			};
+	// 		if(typeof time === 'object'){
+	// 			time = time.getTime();
+	// 		};
 
-			if(time ===  undefined){
-				start = Date.now();
+	// 		if(time ===  undefined){
+	// 			start = Date.now();
 
-			} else  {
-				start = time;
-			};
-		};
+	// 		} else  {
+	// 			start = time;
+	// 		};
+	// 	};
 
-		/**
-		* @param {number, Date} time
-		* @return {boolean} success
-		**/
-		function setEnd(time){
+	// 	/**
+	// 	* @param {number, Date} time
+	// 	* @return {boolean} success
+	// 	**/
+	// 	function setEnd(time){
 
-			var time = time || new Date();
+	// 		var time = time || new Date();
 
-			//	convert time if needed
-			if(typeof time === 'object'){
-				time = time.getTime();
-			};
+	// 		//	convert time if needed
+	// 		if(typeof time === 'object'){
+	// 			time = time.getTime();
+	// 		};
 			
-			if(time > start){
-				end = time;
+	// 		if(time > start){
+	// 			end = time;
 				
-				//	record duration
-				duration = Math.round((end - start) / 1000);
+	// 			//	record duration
+	// 			duration = Math.round((end - start) / 1000);
 
-				return true;
-			};
+	// 			return true;
+	// 		};
 
-			return false;
-		};
+	// 		return false;
+	// 	};
 
-		function getEnd(){
-			return end;
-		};
+	// 	function getEnd(){
+	// 		return end;
+	// 	};
 
-		function getSummary(){
+	// 	function getSummary(){
 
-			return {
-				start: start,
-				end: end,
-				duration: duration,
-				category: category
-			};
-		};
+	// 		return {
+	// 			start: start,
+	// 			end: end,
+	// 			duration: duration,
+	// 			category: category
+	// 		};
+	// 	};
 
-		function getElement(){
-			return taskElement;
-		};
+	// 	function getElement(){
+	// 		return taskElement;
+	// 	};
 
-		function scale(graphStart, timeSpan, timelinePixels){
+	// 	function scale(graphStart, timeSpan, timelinePixels){
 			
-			var left = (start - graphStart) / timeSpan * timelinePixels,
-				width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+	// 		var left = (start - graphStart) / timeSpan * timelinePixels,
+	// 			width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
 			
-			taskElement.css({
-				left: left + 'px',
-				width: width + 'px'
-			});
+	// 		taskElement.css({
+	// 			left: left + 'px',
+	// 			width: width + 'px'
+	// 		});
 
 
-				//	identify left border & width
+	// 			//	identify left border & width
 
-			//	position
-		};
+	// 		//	position
+	// 	};
 
-		function setCategory(c){
-			category = c;
-		};
+	// 	function setCategory(c){
+	// 		category = c;
+	// 	};
 
-		function destroy(){
-			console.log('destroying task', this);
-			taskGroup.deleteTask(this);
-		};
+	// 	function destroy(){
+	// 		console.log('destroying task', this);
+	// 		taskGroup.deleteTask(this);
+	// 	};
 
-		/*********************************
-				public interface
-		*********************************/
-		return {
-			getElement: getElement,
-			getSummary: getSummary,
-			setStart: setStart,
-			getEnd: getEnd,
-			setEnd: setEnd,
-			scale: scale,
-			setCategory: setCategory,
-			destroy: destroy
-		};
-	};
+	// 	/*********************************
+	// 			public interface
+	// 	*********************************/
+	// 	return {
+	// 		getElement: getElement,
+	// 		getSummary: getSummary,
+	// 		setStart: setStart,
+	// 		getEnd: getEnd,
+	// 		setEnd: setEnd,
+	// 		scale: scale,
+	// 		setCategory: setCategory,
+	// 		destroy: destroy
+	// 	};
+	// };
 
 	/**
 	* Used to abstract saving from where data is actually saved.  Provides a single interface for saving to localStorage or db.
@@ -962,7 +962,7 @@ define(['util'], function(util){
 	//=================================================================
 	//	models
 
-	var TaskM = Backbone.Model.extend({
+	var Task = Backbone.Model.extend({
 
 		defaults: {
 
@@ -994,7 +994,10 @@ define(['util'], function(util){
 
 			//	create an associated view instance
 			this.set({
-				view: new TaskView({taskGroup: this.attributes.taskGroup})
+				view: new TaskView({
+					taskGroup: this.attributes.taskGroup,
+					taskModel: this
+				})
 			});
 		},
 
@@ -1049,6 +1052,26 @@ define(['util'], function(util){
 			};
 
 			return false;
+		},
+
+		/**
+		* @param {number, Date} time
+		* @return {boolean} success
+		**/
+		setStart: function(time){
+
+			var time = time;
+
+			if(typeof time === 'object'){
+				time = time.getTime();
+			};
+
+			if(time ===  undefined){
+				this.set('start', Date.now());
+
+			} else  {
+				this.set('start', time);
+			};
 		}
 	});
 
@@ -1069,7 +1092,7 @@ define(['util'], function(util){
 			this.$el.html( template );
 
 			//	attach to DOM
-			this.options.task.getElement().append(this.$el);
+			this.options.task.$el.append(this.$el);
 
 			//	make button pretty
 			this.$el.find('input[type="submit"]').button();
@@ -1081,7 +1104,7 @@ define(['util'], function(util){
 			this.$el.find('input').first().focus();
 			
 			function prepopulate(task){
-				var taskSummary = task.getSummary(),
+				var taskSummary = task.options.taskModel.getSummary(),
 					start = taskSummary.start,
 					end;
 
@@ -1118,7 +1141,7 @@ define(['util'], function(util){
 			
 			var start = $('#start', this.$el).val(),
 				end = $('#end', this.$el).val(),
-				task = this.options.task;
+				task = this.options.task.options.taskModel;
 
 			if(validateForm()){
 				if(start) {
@@ -1197,6 +1220,17 @@ define(['util'], function(util){
 				left: left + 'px',
 				width: width + 'px'
 			});
+		},
+
+		events: {
+			'click': 'clickTask'
+		},
+
+		clickTask: function(){
+			console.log('yo', this);
+
+			//	create a new view to modify task
+			new TaskModifierView({ task: this });
 		}
 	});
 
