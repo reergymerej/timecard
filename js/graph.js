@@ -922,7 +922,22 @@ define(['util'], function(util){
 
 			var loadUrl = 'php/load.php';
 
-			$.post(loadUrl, {
+			var resp = '{"status":true,"message":"tasks loaded: 3","data":[{"start":"1356530644285","end":"1356530652084","duration":"8","category":"label a"},{"start":"1356530645363","end":"1356530652795","duration":"7","category":"label b"},{"start":"1356530645963","end":"1356530653524","duration":"8","category":"label c"}]}';
+
+			console.warn('this is fake response data');
+
+			var response = JSON.parse(resp);
+			if(response.status){
+				console.log('loaded successfully');
+				console.log(response.message);
+				console.log(response.data);
+				callback(response.data);
+			} else {
+				console.log('error loading');
+				console.log(response.message);
+			};
+
+			/*$.post(loadUrl, {
 				timeframe: {
 					start: start,
 					end: Date.now(),
@@ -940,7 +955,7 @@ define(['util'], function(util){
 					console.log('error loading');
 					console.log(response.message);
 				};
-			});
+			});*/
 		};
 
 		/**
@@ -974,11 +989,11 @@ define(['util'], function(util){
 		//	TODO should we pass this variable here or is it used with this.get()?
 		initialize: function(preload){
 
-			var preload;
+			var preload = preload;
 			
 			//	initialize
-			if(this.get('preload')){
-				preload = this.get('preload');
+			console.log('resume here - preload needs to have the model data');
+			if(preload){
 
 				this.set({
 					start: Number( preload.start ),
