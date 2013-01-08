@@ -86,6 +86,10 @@ define(function(){
 			dayPart,
 			timePart;
 
+		if(x == undefined || x === ''){
+			return undefined;
+		};
+
 		//	What did they provide?
 		if(x.indexOf(' ') !== -1){
 			parts = x.split(' ');

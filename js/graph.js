@@ -389,7 +389,8 @@ define(['util'], function(util){
 
 			//	make new Task with backbone
 			task = new Task({
-				taskGroup: publicInterface
+				taskGroup: publicInterface,
+				preload: preload
 			});
 
 
@@ -607,139 +608,6 @@ define(['util'], function(util){
 
 
 	/**
-	* @param {object} preload
-	**/
-	// function Task(taskGroup, preload){
-	// 	var taskGroup = taskGroup,
-	// 		start,
-	// 		end,
-	// 		duration,
-	// 		taskElement,
-	// 		category,
-	// 		instance = this;
-
-	// 	//	initialize
-	// 	if(preload){
-	// 		start = Number(preload.start);
-	// 		end = preload.end === 0 ? undefined : Number(preload.end);
-	// 		duration = preload.duration === 0 ? undefined : Number(preload.duration);
-	// 		category = preload.category;
-	// 	} else {
-	// 		start = new Date().getTime();
-	// 	};
-
-	// 	taskElement = $('<div>')
-	// 		.addClass('task')
-	// 		.css('background-color', getColor());
-
-	// 	function getColor(){
-	// 		return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
-	// 	};
-
-	// 	/**
-	// 	* @param {number, Date} time
-	// 	* @return {boolean} success
-	// 	**/
-	// 	function setStart(time){
-
-	// 		var time = time;
-
-	// 		if(typeof time === 'object'){
-	// 			time = time.getTime();
-	// 		};
-
-	// 		if(time ===  undefined){
-	// 			start = Date.now();
-
-	// 		} else  {
-	// 			start = time;
-	// 		};
-	// 	};
-
-	// 	/**
-	// 	* @param {number, Date} time
-	// 	* @return {boolean} success
-	// 	**/
-	// 	function setEnd(time){
-
-	// 		var time = time || new Date();
-
-	// 		//	convert time if needed
-	// 		if(typeof time === 'object'){
-	// 			time = time.getTime();
-	// 		};
-			
-	// 		if(time > start){
-	// 			end = time;
-				
-	// 			//	record duration
-	// 			duration = Math.round((end - start) / 1000);
-
-	// 			return true;
-	// 		};
-
-	// 		return false;
-	// 	};
-
-	// 	function getEnd(){
-	// 		return end;
-	// 	};
-
-	// 	function getSummary(){
-
-	// 		return {
-	// 			start: start,
-	// 			end: end,
-	// 			duration: duration,
-	// 			category: category
-	// 		};
-	// 	};
-
-	// 	function getElement(){
-	// 		return taskElement;
-	// 	};
-
-	// 	function scale(graphStart, timeSpan, timelinePixels){
-			
-	// 		var left = (start - graphStart) / timeSpan * timelinePixels,
-	// 			width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
-			
-	// 		taskElement.css({
-	// 			left: left + 'px',
-	// 			width: width + 'px'
-	// 		});
-
-
-	// 			//	identify left border & width
-
-	// 		//	position
-	// 	};
-
-	// 	function setCategory(c){
-	// 		category = c;
-	// 	};
-
-	// 	function destroy(){
-	// 		console.log('destroying task', this);
-	// 		taskGroup.deleteTask(this);
-	// 	};
-
-	// 	/*********************************
-	// 			public interface
-	// 	*********************************/
-	// 	return {
-	// 		getElement: getElement,
-	// 		getSummary: getSummary,
-	// 		setStart: setStart,
-	// 		getEnd: getEnd,
-	// 		setEnd: setEnd,
-	// 		scale: scale,
-	// 		setCategory: setCategory,
-	// 		destroy: destroy
-	// 	};
-	// };
-
-	/**
 	* Used to abstract saving from where data is actually saved.  Provides a single interface for saving to localStorage or db.
 	* @param {string} location 'localStorage' is the only supported value so far
 	* @param {number} userID
@@ -922,7 +790,7 @@ define(['util'], function(util){
 
 			var loadUrl = 'php/load.php';
 
-			var resp = '{"status":true,"message":"tasks loaded: 3","data":[{"start":"1356530644285","end":"1356530652084","duration":"8","category":"label a"},{"start":"1356530645363","end":"1356530652795","duration":"7","category":"label b"},{"start":"1356530645963","end":"1356530653524","duration":"8","category":"label c"}]}';
+			var resp = '{"status":true,"message":"tasks loaded: 57","data":[{"start":"1357569093020","end":"1357569169308","duration":"76","category":"email"},{"start":"1357569170000","end":"1357569892000","duration":"722","category":"update server"},{"start":"1357569662612","end":"1357570553557","duration":"891","category":"email"},{"start":"1357569911000","end":"1357570187000","duration":"276","category":"update server"},{"start":"1357570608992","end":"1357571230247","duration":"621","category":"organize issues"},{"start":"1357571231024","end":"1357571649459","duration":"418","category":"Sunill"},{"start":"1357571650203","end":"1357571783525","duration":"133","category":"email"},{"start":"1357571784766","end":"1357572134985","duration":"350","category":"lookups"},{"start":"1357572135000","end":"1357572720000","duration":"585","category":"update server"},{"start":"1357572135049","end":"1357572138665","duration":"4","category":"lookups"},{"start":"1357572141680","end":"1357573335668","duration":"1194","category":"lookups"},{"start":"1357573288594","end":"1357573334836","duration":"46","category":"email"},{"start":"1357573326000","end":"1357573620000","duration":"294","category":"Claudio"},{"start":"1357573620000","end":"1357574248764","duration":"629","category":"email"},{"start":"1357574250000","end":"1357574340000","duration":"90","category":"bathroom"},{"start":"1357574256340","end":"1357574650123","duration":"394","category":"smoke"},{"start":"1357574670396","end":"1357574982829","duration":"312","category":"pos"},{"start":"1357574983000","end":"1357575864974","duration":"882","category":"Sunill"},{"start":"1357574983000","end":"1357574984000","duration":"1","category":"Claudio"},{"start":"1357575870895","end":"1357575882270","duration":"11","category":"label"},{"start":"1357575882974","end":"1357576598255","duration":"715","category":"Claudio"},{"start":"1357576068000","end":"1357576260000","duration":"192","category":"update server"},{"start":"1357576611855","end":"1357578118806","duration":"1507","category":"lookups"},{"start":"1357578117358","end":"1357579355748","duration":"1238","category":"pos"},{"start":"1357579270714","end":"1357579740105","duration":"469","category":"update server"},{"start":"1357579740688","end":"1357580452923","duration":"712","category":"pos"},{"start":"1357580451819","end":"1357581433549","duration":"982","category":"update server"},{"start":"1357581434453","end":"1357582012058","duration":"578","category":"Robert"},{"start":"1357582016000","end":"1357582080000","duration":"64","category":"bathroom"},{"start":"1357582017554","end":"1357582018786","duration":"1","category":"label"},{"start":"1357582080000","end":"1357582548000","duration":"468","category":"Claudio"},{"start":"1357582500000","end":"1357582865000","duration":"365","category":"smoke"},{"start":"1357582868000","end":"1357583115000","duration":"247","category":"pos"},{"start":"1357583100000","end":"1357583818714","duration":"719","category":"Scott"},{"start":"1357583819418","end":"1357585842284","duration":"2023","category":"pos"},{"start":"1357585844665","end":"1357586640673","duration":"796","category":"update server"},{"start":"1357586642049","end":"1357587964128","duration":"1322","category":"pos"},{"start":"1357587965896","end":"1357588751096","duration":"785","category":"update server"},{"start":"1357588223000","end":"1357588320000","duration":"97","category":"bathroom"},{"start":"1357588320000","end":"1357588628000","duration":"308","category":"smoke"},{"start":"1357588751847","end":"1357590397698","duration":"1646","category":"pos"},{"start":"1357588753479","end":"1357589612255","duration":"859","category":"email"},{"start":"1357590399675","end":"1357590892148","duration":"492","category":"email"},{"start":"1357590400611","end":"1357590890420","duration":"490","category":"update server"},{"start":"1357590893580","end":"1357591578331","duration":"685","category":"email"},{"start":"1357591580755","end":"1357592017133","duration":"436","category":"smoke"},{"start":"1357591586573","end":"1357592016437","duration":"430","category":"pos"},{"start":"1357592018357","end":"1357592709370","duration":"691","category":"pos"},{"start":"1357592248781","end":"1357592708887","duration":"460","category":"Claudio"},{"start":"1357592714477","end":"1357595180046","duration":"2466","category":"Sunill"},{"start":"1357593927191","end":"1357596954476","duration":"3027","category":"pos"},{"start":"1357596955669","end":"1357597349963","duration":"394","category":"Claudio"},{"start":"1357597350771","end":"1357597723711","duration":"373","category":"smoke"},{"start":"1357597731312","end":"1357597859027","duration":"128","category":"update server"},{"start":"1357597759073","end":"1357599082233","duration":"1323","category":"Sunill"},{"start":"1357599083000","end":"1357599132000","duration":"49","category":"Claudio"},{"start":"1357599136000","end":"1357599703144","duration":"567","category":"pos"}]}';
 
 			console.warn('this is fake response data');
 
@@ -937,10 +805,13 @@ define(['util'], function(util){
 				console.log(response.message);
 			};
 
-			/*$.post(loadUrl, {
+			return;	//=================================================================
+
+
+			$.post(loadUrl, {
 				timeframe: {
 					start: start,
-					end: Date.now(),
+					end: end,
 					userID: userID
 				}
 			}, function(resp){
@@ -955,7 +826,7 @@ define(['util'], function(util){
 					console.log('error loading');
 					console.log(response.message);
 				};
-			});*/
+			});
 		};
 
 		/**
@@ -986,13 +857,12 @@ define(['util'], function(util){
 		/**
 		* @param {object} [preload] data for this Task to use
 		**/
-		//	TODO should we pass this variable here or is it used with this.get()?
-		initialize: function(preload){
+		initialize: function(){
 
 			var preload = preload;
 			
 			//	initialize
-			console.log('resume here - preload needs to have the model data');
+			console.log('resume here - preload needs to have the model data', this);
 			if(preload){
 
 				this.set({
@@ -1250,6 +1120,7 @@ define(['util'], function(util){
 	});
 
 	return {
-		Graph: Graph
+		Graph: Graph,
+		HistoryProxy: HistoryProxy
 	};
 });

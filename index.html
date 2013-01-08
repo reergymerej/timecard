@@ -24,6 +24,16 @@
 		</div>
 	</script>
 
+	<script type="text/template" id="summary_form_template">
+		<form id="summary_form">
+			<label>from</label>
+			<input type="text" id="start" value="" class="ui-corner-all" />
+			<label>to</label>
+			<input type="text" id="end" value="" class="ui-corner-all" />
+		<input type="submit" />
+	</form>
+	</script>
+
 </head>
 <body>
 	
@@ -41,7 +51,7 @@
 	</div>
 	<div class="clear"></div>
 
-	<div>
+	<div id="mainControls">
 		<button id="record">record</button>
 		<button id="load">load</button>
 	</div>
@@ -50,12 +60,6 @@
 	<div class="ticks">
 
 	</div>
-	
-	<form id="summary_form">
-		from <input type="text" id="start" value="17:11" class="ui-corner-all" />
-		to <input type="text" id="end" value="" class="ui-corner-all" />
-		<input type="submit" />
-	</form>
 	<div id="summary"></div>
 </body>
 </html>

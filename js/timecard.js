@@ -2,7 +2,7 @@
 $(function(){
 
 	$('.recorder-controls').hide();
-	$('#summary_form').hide();
+	
 
 	$('button, input[type="submit"]').button();
 
@@ -54,25 +54,68 @@ $(function(){
 		$('#load')
 			.click(function(){
 				
-				$('#summary_form')
-					.show()
-					.submit(function(){
-						var start = $('#start').val(),
-							end = $('#end').val() || String(new Date().getHours() + 1);
-
-						g = new graph.Graph( $('#graph') );
-
-						//	convert these values into dates
-						start = util.convertUserInputToDate(start).getTime();
-						end = util.convertUserInputToDate(end).getTime();
-
-						g.load( start, end );
-
-						$(this).hide();
-						return false;
-					});
-				$(this).parent().remove();
-				$('.recorder-controls').remove();			
+				var form;
+				form = new SummaryFormView();
 			});
+
+		var SummaryFormView = Backbone.View.extend({
+
+			initialize: function(){
+				this.render();
+			},
+
+			render: function(){
+
+				//	compile template
+				var template = _.template( $('#summary_form_template').html() );
+
+				//	load compiled template
+				this.$el.html( template );
+
+				$('#mainControls').hide();
+
+				//	attach to DOM
+				this.$el.appendTo( 'body' );
+
+				$('input[type="submit"]', this.$el).button();
+				$('input[type="text"]').datepicker();
+
+			},
+
+			events: {
+				'submit': 'load'
+			},
+
+			load: function(){
+				console.log(this);
+
+				var startEl = $('#start', this.$el),
+					start,
+					end,
+					historyProxy;
+
+				start = startEl.val(),
+				end = $('#end', this.$el).val() || String(new Date().getHours() + 1);
+				
+				start = util.convertUserInputToDate(start);
+
+				if(!start){
+					startEl.focus();
+					return false;
+				};
+
+				//	convert these values into dates
+				start = start.getTime();
+				end = util.convertUserInputToDate(end).getTime();
+
+				historyProxy = new graph.HistoryProxy('whatever', 0);
+
+				historyProxy.load(start, end, function(tasks){
+					console.log("tasks:", tasks);
+				});
+
+				return false;
+			}
+		});
 	});
 });

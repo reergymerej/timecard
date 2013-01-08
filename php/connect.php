@@ -2,7 +2,7 @@
 	
 	function connect(){
 		$user = 'wordtoth_visitor';
-		$server = 'wordtotheblurd.com';
+		$server = 'localhost';
 		$password = 'visitor';
 		$db = 'wordtoth_timecard';
 		
@@ -14,7 +14,6 @@
 			}
 		} else {
 			return 'unable to connect to db server';
-			die();
 		};
 	};
 
