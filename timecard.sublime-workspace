@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"summa",
+				"summaryModule"
+			],
+			[
 				"scree",
 				"screenType"
 			],
@@ -510,10 +514,6 @@
 			[
 				"mask",
 				"maskingSpec"
-			],
-			[
-				"comp",
-				"componentsToUpdate"
 			]
 		]
 	},
@@ -531,7 +531,7 @@
 			"file": "js/timecard.js",
 			"settings":
 			{
-				"buffer_size": 2243,
+				"buffer_size": 2164,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,7 +539,15 @@
 			"file": "js/graph.js",
 			"settings":
 			{
-				"buffer_size": 28528,
+				"buffer_size": 28532,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/summary.js",
+			"settings":
+			{
+				"buffer_size": 1076,
 				"line_ending": "Windows"
 			}
 		},
@@ -1046,15 +1054,15 @@
 					"file": "js/timecard.js",
 					"settings":
 					{
-						"buffer_size": 2243,
+						"buffer_size": 2164,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1927,
-								1927
+								1837,
+								1837
 							]
 						],
 						"settings":
@@ -1063,7 +1071,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 753.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1073,15 +1081,15 @@
 					"file": "js/graph.js",
 					"settings":
 					{
-						"buffer_size": 28528,
+						"buffer_size": 28532,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16826,
-								16826
+								22332,
+								22332
 							]
 						],
 						"settings":
@@ -1090,13 +1098,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1350.0,
+						"translation.y": 6540.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "js/summary.js",
+					"settings":
+					{
+						"buffer_size": 1076,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								320,
+								320
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "js/util.js",
 					"settings":
 					{

@@ -3,7 +3,7 @@ define(['graph'], function(graphModule){
 	var CATEGORY = 'category';
 
 
-	function Summary(tasks){
+	function Summary(start, end){
 
 		var historyProxy = new graphModule.HistoryProxy('whatever', 0),
 			tasks;
