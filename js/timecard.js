@@ -87,12 +87,10 @@ $(function(){
 			},
 
 			load: function(){
-				console.log(this);
 
 				var startEl = $('#start', this.$el),
 					start,
-					end,
-					historyProxy;
+					end;
 
 				start = startEl.val(),
 				end = $('#end', this.$el).val() || String(new Date().getHours() + 1);
@@ -108,10 +106,8 @@ $(function(){
 				start = start.getTime();
 				end = util.convertUserInputToDate(end).getTime();
 
-				historyProxy = new graph.HistoryProxy('whatever', 0);
-
-				historyProxy.load(start, end, function(tasks){
-					console.log("tasks:", tasks);
+				require(['summary'], function(summaryModule){
+					var summary = new summaryModule.Summary(start, end);
 				});
 
 				return false;

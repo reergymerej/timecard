@@ -519,6 +519,38 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 1885,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/timecard.js",
+			"settings":
+			{
+				"buffer_size": 2243,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/graph.js",
+			"settings":
+			{
+				"buffer_size": 28528,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/util.js",
+			"settings":
+			{
+				"buffer_size": 3277,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -548,6 +580,8 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect_test.php",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.buttons.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.lookup-components.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/main.js",
@@ -673,9 +707,7 @@
 		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.json.js",
 		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.grid.js",
 		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.dataview.js",
-		"/C/xampp/htdocs/wrms/ListScreenDispatcher.do",
-		"/C/xampp/htdocs/wrms/assets/scripts/controller/grid.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/wrms/ListScreenDispatcher.js"
+		"/C/xampp/htdocs/wrms/ListScreenDispatcher.do"
 	],
 	"find":
 	{
@@ -706,6 +738,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"userID",
+			"saveTasks",
+			"load",
+			"taskManager",
+			"save",
+			"convertUserInputToDate",
+			"console.log(start, end === undefined);",
+			"summary_form",
 			"transferRows",
 			"<body",
 			"sendData",
@@ -825,15 +865,7 @@
 			"Lookup",
 			"openModalEventData",
 			"parentEventData",
-			"transf",
-			"transferRows",
-			"require",
-			"prepop",
-			"prepopulate",
-			"saveUserPreferences",
-			"getScreenNameFromUrl",
-			"handleResponse",
-			"new Content"
+			"transf"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -979,8 +1011,117 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 1885,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1706,
+								1694
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 344.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/timecard.js",
+					"settings":
+					{
+						"buffer_size": 2243,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1927,
+								1927
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 753.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/graph.js",
+					"settings":
+					{
+						"buffer_size": 28528,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16826,
+								16826
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1350.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/util.js",
+					"settings":
+					{
+						"buffer_size": 3277,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1299,
+								1299
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 924.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
