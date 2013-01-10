@@ -1,4 +1,7 @@
-define(['util'], function(util){
+define(['util',
+		'labels'], 
+function(util, 
+		labelsModule){
 
 	function Graph(element){
 		var taskGraphElement = element,
@@ -499,18 +502,28 @@ define(['util'], function(util){
 
 					input = $('<input>')
 						.val(oldLabel)
+						
 						.click(function(e){
 							e.stopPropagation();
+						})
+
+						.focus(function(){
+							$(this).autocomplete({
+								source: labelsModule.getLabels()
+							});
 						})
 
 						.blur(function(){
 
 							var newVal = $.trim($(this).val());
 
+							$(this).autocomplete('destroy');
+
 							$(this).remove();
 
 							if(newVal !== ''){
 								setLabel(newVal);
+								labelsModule.addLabel(newVal);
 							} else {
 								setLabel(oldLabel);
 							};
@@ -862,7 +875,7 @@ define(['util'], function(util){
 			var preload = preload;
 			
 			//	initialize
-			console.log('resume here - preload needs to have the model data', this);
+			//	TODO	preload needs to have the model data
 			if(preload){
 
 				this.set({

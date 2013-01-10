@@ -544,14 +544,6 @@
 			}
 		},
 		{
-			"file": "js/summary.js",
-			"settings":
-			{
-				"buffer_size": 1076,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "js/util.js",
 			"settings":
 			{
@@ -588,6 +580,7 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect_test.php",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.buttons.js",
@@ -714,8 +707,7 @@
 		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.grid.js",
 		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.json.js",
 		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.grid.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.dataview.js",
-		"/C/xampp/htdocs/wrms/ListScreenDispatcher.do"
+		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.dataview.js"
 	],
 	"find":
 	{
@@ -1019,7 +1011,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1098,39 +1090,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 6540.0,
+						"translation.y": 11176.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "js/summary.js",
-					"settings":
-					{
-						"buffer_size": 1076,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								320,
-								320
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "js/util.js",
 					"settings":
 					{
