@@ -842,6 +842,51 @@ function(util,
 			});
 		};
 
+
+		/**
+		* Get a summary of tasks.
+		* @param {number} start
+		* @param {number} end
+		* @param {function} callback, passed array
+		**/
+		function summary(start, end, callback){
+
+			var taskSummary = [];
+
+			$.ajax({
+				type: 'POST',
+				url: 'php/summary.php',
+				data: {
+					timeframe: {
+						start: start,
+						end: end,
+						userID: userID
+					}
+				},
+
+				error: function(){
+					console.error('unable to fetch summary', arguments);
+				},
+
+				success: function(resp){
+					
+					resp = JSON.parse(resp);
+					
+					if(resp.status){
+						taskSummary = resp.data;
+					} else {
+						console.error(resp.message);
+						console.warn('using test data instead');
+						taskSummary = JSON.parse(TEST_DATA);
+					};
+				},
+
+				complete: function(){
+					callback(taskSummary);
+				}
+			});
+		};
+
 		/**
 		* @param {Date} [start]
 		* @param {Date} [end]
@@ -854,6 +899,7 @@ function(util,
 			saveCategories: saveCategories,
 			saveTasks: saveTasks,
 			load: load,
+			summary: summary,
 			getTasks: getTasksFromHistory
 		};
 	};
