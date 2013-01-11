@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"new",
+				"newLabel"
+			],
+			[
+				"label",
+				"labels"
+			],
+			[
 				"summa",
 				"summaryModule"
 			],
@@ -186,10 +194,6 @@
 			[
 				"data",
 				"data-property"
-			],
-			[
-				"label",
-				"label"
 			],
 			[
 				"valid",
@@ -510,10 +514,6 @@
 			[
 				"dataTy",
 				"dataTypes"
-			],
-			[
-				"mask",
-				"maskingSpec"
 			]
 		]
 	},
@@ -536,18 +536,34 @@
 			}
 		},
 		{
-			"file": "js/graph.js",
+			"file": "js/summary.js",
 			"settings":
 			{
-				"buffer_size": 28532,
+				"buffer_size": 11887,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/util.js",
+			"file": "php/summary.php",
 			"settings":
 			{
-				"buffer_size": 3277,
+				"buffer_size": 1489,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/graph.js",
+			"settings":
+			{
+				"buffer_size": 29565,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/labels.js",
+			"settings":
+			{
+				"buffer_size": 2450,
 				"line_ending": "Windows"
 			}
 		}
@@ -580,6 +596,10 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect_test.php",
@@ -703,11 +723,7 @@
 		"/C/xampp/htdocs/wrms/bug_fix.html",
 		"/C/xampp/htdocs/wrms/css-test.html",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.ajax.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.customerlist.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.grid.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.json.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.grid.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/slick.dataview.js"
+		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.customerlist.js"
 	],
 	"find":
 	{
@@ -738,6 +754,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"HistoryPro",
+			"History",
+			".click",
 			"userID",
 			"saveTasks",
 			"load",
@@ -862,10 +881,7 @@
 			"transfer",
 			"transferSingleRowToComponents",
 			"transferSelection",
-			"Lookup",
-			"openModalEventData",
-			"parentEventData",
-			"transf"
+			"Lookup"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1011,7 +1027,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1026,8 +1042,8 @@
 						"selection":
 						[
 							[
-								1706,
-								1694
+								1314,
+								1314
 							]
 						],
 						"settings":
@@ -1036,7 +1052,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 344.0,
+						"translation.y": 194.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1053,8 +1069,8 @@
 						"selection":
 						[
 							[
-								1837,
-								1837
+								1634,
+								1637
 							]
 						],
 						"settings":
@@ -1070,18 +1086,18 @@
 				},
 				{
 					"buffer": 2,
-					"file": "js/graph.js",
+					"file": "js/summary.js",
 					"settings":
 					{
-						"buffer_size": 28532,
+						"buffer_size": 11887,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22332,
-								22332
+								11168,
+								11168
 							]
 						],
 						"settings":
@@ -1090,25 +1106,52 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 11176.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "js/util.js",
+					"file": "php/summary.php",
 					"settings":
 					{
-						"buffer_size": 3277,
+						"buffer_size": 1489,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1299,
-								1299
+								60,
+								60
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/graph.js",
+					"settings":
+					{
+						"buffer_size": 29565,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								23043,
+								23043
 							]
 						],
 						"settings":
@@ -1117,7 +1160,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 924.0,
+						"translation.y": 4024.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/labels.js",
+					"settings":
+					{
+						"buffer_size": 2450,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1611,
+								2062
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -82,3 +82,7 @@ input:not([submit]) {
 .tick {
   border-left: 1px solid #000;
   position: absolute; }
+
+.lineitem label {
+  font-weight: bold;
+  margin-right: 1em; }

@@ -1,56 +1,54 @@
-define(['graph'], function(graphModule){
+define(['graph',
+		'util'],
+function(graphModule,
+		util){
 
-	var CATEGORY = 'category';
-	var TEST_DATA = '[{"start":"1357569093020","end":"1357569169308","duration":"76","category":"email"},{"start":"1357569170000","end":"1357569892000","duration":"722","category":"update server"},{"start":"1357569662612","end":"1357570553557","duration":"891","category":"email"},{"start":"1357569911000","end":"1357570187000","duration":"276","category":"update server"},{"start":"1357570608992","end":"1357571230247","duration":"621","category":"organize issues"},{"start":"1357571231024","end":"1357571649459","duration":"418","category":"Sunill"},{"start":"1357571650203","end":"1357571783525","duration":"133","category":"email"},{"start":"1357571784766","end":"1357572134985","duration":"350","category":"lookups"},{"start":"1357572135000","end":"1357572720000","duration":"585","category":"update server"},{"start":"1357572135049","end":"1357572138665","duration":"4","category":"lookups"},{"start":"1357572141680","end":"1357573335668","duration":"1194","category":"lookups"},{"start":"1357573288594","end":"1357573334836","duration":"46","category":"email"},{"start":"1357573326000","end":"1357573620000","duration":"294","category":"Claudio"},{"start":"1357573620000","end":"1357574248764","duration":"629","category":"email"},{"start":"1357574250000","end":"1357574340000","duration":"90","category":"bathroom"},{"start":"1357574256340","end":"1357574650123","duration":"394","category":"smoke"},{"start":"1357574670396","end":"1357574982829","duration":"312","category":"pos"},{"start":"1357574983000","end":"1357574984000","duration":"1","category":"Claudio"},{"start":"1357574983000","end":"1357575864974","duration":"882","category":"Sunill"},{"start":"1357575870895","end":"1357575882270","duration":"11","category":"label"},{"start":"1357575882974","end":"1357576598255","duration":"715","category":"Claudio"},{"start":"1357576068000","end":"1357576260000","duration":"192","category":"update server"},{"start":"1357576611855","end":"1357578118806","duration":"1507","category":"lookups"},{"start":"1357578117358","end":"1357579355748","duration":"1238","category":"pos"},{"start":"1357579270714","end":"1357579740105","duration":"469","category":"update server"},{"start":"1357579740688","end":"1357580452923","duration":"712","category":"pos"},{"start":"1357580451819","end":"1357581433549","duration":"982","category":"update server"},{"start":"1357581434453","end":"1357582012058","duration":"578","category":"Robert"},{"start":"1357582016000","end":"1357582080000","duration":"64","category":"bathroom"},{"start":"1357582017554","end":"1357582018786","duration":"1","category":"label"},{"start":"1357582080000","end":"1357582548000","duration":"468","category":"Claudio"},{"start":"1357582500000","end":"1357582865000","duration":"365","category":"smoke"},{"start":"1357582868000","end":"1357583115000","duration":"247","category":"pos"},{"start":"1357583100000","end":"1357583818714","duration":"719","category":"Scott"},{"start":"1357583819418","end":"1357585842284","duration":"2023","category":"pos"},{"start":"1357585844665","end":"1357586640673","duration":"796","category":"update server"},{"start":"1357586642049","end":"1357587964128","duration":"1322","category":"pos"},{"start":"1357587965896","end":"1357588751096","duration":"785","category":"update server"},{"start":"1357588223000","end":"1357588320000","duration":"97","category":"bathroom"},{"start":"1357588320000","end":"1357588628000","duration":"308","category":"smoke"},{"start":"1357588751847","end":"1357590397698","duration":"1646","category":"pos"},{"start":"1357588753479","end":"1357589612255","duration":"859","category":"email"},{"start":"1357590399675","end":"1357590892148","duration":"492","category":"email"},{"start":"1357590400611","end":"1357590890420","duration":"490","category":"update server"},{"start":"1357590893580","end":"1357591578331","duration":"685","category":"email"},{"start":"1357591580755","end":"1357592017133","duration":"436","category":"smoke"},{"start":"1357591586573","end":"1357592016437","duration":"430","category":"pos"},{"start":"1357592018357","end":"1357592709370","duration":"691","category":"pos"},{"start":"1357592248781","end":"1357592708887","duration":"460","category":"Claudio"},{"start":"1357592714477","end":"1357595180046","duration":"2466","category":"Sunill"},{"start":"1357593927191","end":"1357596954476","duration":"3027","category":"pos"},{"start":"1357596955669","end":"1357597349963","duration":"394","category":"Claudio"},{"start":"1357597350771","end":"1357597723711","duration":"373","category":"smoke"},{"start":"1357597731312","end":"1357597859027","duration":"128","category":"update server"},{"start":"1357597759073","end":"1357599082233","duration":"1323","category":"Sunill"},{"start":"1357599083000","end":"1357599132000","duration":"49","category":"Claudio"},{"start":"1357599136000","end":"1357599703144","duration":"567","category":"pos"},{"start":"1357655783915","end":"1357656191862","duration":"408","category":"smoke"},{"start":"1357656192703","end":"1357656503273","duration":"311","category":"email"},{"start":"1357656504476","end":"1357656584732","duration":"80","category":"bathroom"},{"start":"1357656585678","end":"1357657389496","duration":"804","category":"pos"},{"start":"1357657390498","end":"1357657817759","duration":"427","category":"Sunill"},{"start":"1357657499678","end":"1357657815847","duration":"316","category":"update server"},{"start":"1357657818504","end":"1357658069858","duration":"251","category":"email"},{"start":"1357658071211","end":"1357660162340","duration":"2091","category":"pos"},{"start":"1357660163000","end":"1357660413000","duration":"250","category":"ants"},{"start":"1357660420086","end":"1357660687927","duration":"268","category":"pos"},{"start":"1357660688000","end":"1357663309000","duration":"2621","category":"Claudio"},{"start":"1357663311000","end":"1357663392000","duration":"81","category":"bathroom"},{"start":"1357663392000","end":"1357663692000","duration":"300","category":"smoke"},{"start":"1357663691002","end":"1357666078808","duration":"2388","category":"pos"},{"start":"1357663706530","end":"1357663873521","duration":"167","category":"email"},{"start":"1357666079000","end":"1357666698000","duration":"619","category":"Scott"},{"start":"1357666699886","end":"1357668046309","duration":"1346","category":"Sunill"},{"start":"1357668047349","end":"1357668063925","duration":"17","category":"pos"},{"start":"1357668064693","end":"1357668565832","duration":"501","category":"smoke"},{"start":"1357668566817","end":"1357668596984","duration":"30","category":"pos"},{"start":"1357668595680","end":"1357668872211","duration":"277","category":"update server"},{"start":"1357668872899","end":"1357672039191","duration":"3166","category":"pos"},{"start":"1357672037816","end":"1357672038383","duration":"1","category":"update server"},{"start":"1357672040903","end":"1357672416511","duration":"376","category":"update server"},{"start":"1357672417223","end":"1357672670351","duration":"253","category":"pos"},{"start":"1357672673000","end":"1357672771000","duration":"98","category":"bathroom"},{"start":"1357672771000","end":"1357673037000","duration":"266","category":"smoke"},{"start":"1357673039452","end":"1357673588293","duration":"549","category":"email"},{"start":"1357673591000","end":"1357676904000","duration":"3313","category":"Claudio"},{"start":"1357676845827","end":"1357676899485","duration":"54","category":"update server"},{"start":"1357676990280","end":"1357678670452","duration":"1680","category":"Claudio"},{"start":"1357676991000","end":"1357677180000","duration":"189","category":"update server"},{"start":"1357678094000","end":"1357678540000","duration":"446","category":"pos"},{"start":"1357678671284","end":"1357678693396","duration":"22","category":"smoke"},{"start":"1357678706572","end":"1357679139908","duration":"433","category":"smoke"},{"start":"1357679162911","end":"1357679509041","duration":"346","category":"email"},{"start":"1357679510809","end":"1357679578830","duration":"68","category":"bathroom"},{"start":"1357679580790","end":"1357680637451","duration":"1057","category":"pos"},{"start":"1357680638000","end":"1357680900000","duration":"262","category":"update server"},{"start":"1357680638000","end":"1357683986000","duration":"3348","category":"Sunill"},{"start":"1357684042000","end":"1357684402000","duration":"360","category":"smoke"},{"start":"1357684402000","end":"1357686085405","duration":"1683","category":"Ed"},{"start":"1357742745982","end":"0","duration":"0","category":"smoke"},{"start":"1357743581098","end":"1357751790027","duration":"8209","category":"Ed - training"},{"start":"1357743847355","end":"1357744321055","duration":"474","category":"update server"},{"start":"1357751791188","end":"1357752374658","duration":"583","category":"break"},{"start":"1357752375000","end":"1357752960000","duration":"585","category":"update server"},{"start":"1357753295178","end":"1357753567411","duration":"272","category":"email"},{"start":"1357753574517","end":"1357753664095","duration":"90","category":"POS"},{"start":"1357753662863","end":"1357753691441","duration":"29","category":"update server"},{"start":"1357753691969","end":"1357754810191","duration":"1118","category":"POS"},{"start":"1357754811471","end":"1357755309886","duration":"498","category":"update server"},{"start":"1357755311063","end":"1357755517850","duration":"207","category":"Claudio"},{"start":"1357755518618","end":"1357756570336","duration":"1052","category":"POS"},{"start":"1357756571864","end":"1357758138735","duration":"1567","category":"lunch"},{"start":"1357758140888","end":"1357759379744","duration":"1239","category":"Sunill"},{"start":"1357758165000","end":"1357759380000","duration":"1215","category":"update server"},{"start":"1357759381511","end":"1357759474853","duration":"93","category":"Claudio"},{"start":"1357759475000","end":"1357760148000","duration":"673","category":"update server"},{"start":"1357760157660","end":"1357760366897","duration":"209","category":"bathroom"},{"start":"1357760455000","end":"1357762200000","duration":"1745","category":"Claudo"},{"start":"1357762200000","end":"1357764276509","duration":"2077","category":"POS"},{"start":"1357764276000","end":"1357764600000","duration":"324","category":"Claudo"},{"start":"1357764611000","end":"1357765229176","duration":"618","category":"break"},{"start":"1357765241047","end":"1357766392472","duration":"1151","category":"POS"},{"start":"1357766393561","end":"1357769523732","duration":"3130","category":"component interface"},{"start":"1357769524812","end":"1357769750029","duration":"225","category":"bathroom"},{"start":"1357769750630","end":"1357770775835","duration":"1025","category":"component interface"},{"start":"1357770776779","end":"1357772692207","duration":"1915","category":"documentation"},{"start":"1357826795770","end":"0","duration":"0","category":"a"}]';
+	var CATEGORY = 'category',
+		summaryLines = [];
+
+	var SummaryLineView = Backbone.View.extend({
+		initialize: function(){
+			this.render();
+		},
+		render: function(){
+			var variables = {
+				label: this.options.category,
+				duration: util.convertSecondsToTime(this.options.duration)
+			};
+			var template = _.template( $('#summary_lineitem_template').html(), variables );
+			this.$el.html(template);
+
+			console.log(this);
+
+			$('#summary').append(this.$el);
+		}
+	});
 
 
 	function Summary(start, end){
 
-		var historyProxy = new graphModule.HistoryProxy('whatever', 0),
-			tasks;
+		var historyProxy = new graphModule.HistoryProxy('whatever', 0);
 
 		historyProxy.summary(start, end, function(t){
-			console.log(t);
+			createViews(t);
 		});
-	};
 
-
-	/**
-	* @param {string} prop
-	* @param {array} arr
-	* @return {array} 
-	**/
-	function groupBy(prop, arr){
-
-		var grouped = [],
-			index;
-
-		for(var i = 0; i < arr.length; i++){
-			index = getIndex( prop, grouped, arr[i][prop] );
-
-			if( index === -1 ){
-				index = grouped.push({ duration: 0 }) - 1;
-				grouped[index][prop] = arr[i][prop];
-			};
-
-			grouped[index].duration += parseInt(arr[i].duration, 10);
-		};
-
-		return grouped;
 
 		/**
-		* find the index of the object in array with matching property
+		* Create views with the summary info received from the server.
+		* @param {array} tasks
 		**/
-		function getIndex(prop, arr, needle){
-			for(var i = 0; i < arr.length; i++){
-				if(arr[i][prop] === needle){
-					return i;
-				};
-			};
+		function createViews(tasks){
 
-			return -1;
+			$('#summary').empty();
+			summaryLines = [];
+
+			for(var i = 0; i < tasks.length; i++){
+				summaryLines.push(new SummaryLineView(tasks[i]));
+			};
 		};
 	};
+
 
 	return {
 		Summary: Summary

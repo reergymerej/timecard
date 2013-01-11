@@ -20,10 +20,10 @@
 	$end 		= $timeframe['end'];
 	$user_id 	= $timeframe['userID'];
 
-	$sql = "SELECT category, sum(duration) FROM task ";
+	$sql = "SELECT category, sum(duration) AS duration FROM task ";
 	$sql .= "WHERE start >= $start  AND end <= $end ";
 	$sql .= "AND user_id = $user_id AND duration > 0 ";
-	$sql .= "GROUP BY category ORDER BY category;";
+	$sql .= "GROUP BY category ORDER BY sum(duration) DESC;";
 
 	//	execute query
 	$result = mysql_query( mysql_real_escape_string($sql) );
@@ -61,5 +61,6 @@
 		);
 
 		echo json_encode($response);
-	};
+	};	
+
 ?>

@@ -852,6 +852,7 @@ function(util,
 		function summary(start, end, callback){
 
 			var taskSummary = [];
+			var TEST_DATA = '[{"category":"email","duration":"5411"},{"category":"grids","duration":"5006"},{"category":"component interface","duration":"4566"},{"category":"Robert","duration":"4429"},{"category":"update server","duration":"3399"},{"category":"POS","duration":"3143"},{"category":"Claudio","duration":"1867"},{"category":"smoke break","duration":"1635"},{"category":"POS - data structure","duration":"1007"},{"category":"pay screen","duration":"808"},{"category":"lunch","duration":"669"},{"category":"lookups","duration":"484"},{"category":"bathroom","duration":"237"},{"category":"label","duration":"82"},{"category":"organize issues","duration":"22"}]';
 
 			$.ajax({
 				type: 'POST',
