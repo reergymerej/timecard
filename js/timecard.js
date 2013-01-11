@@ -1,3 +1,7 @@
+require.config({
+	urlArgs: 'bustCache=' + Date.now()
+});
+
 
 $(function(){
 
@@ -89,11 +93,15 @@ $(function(){
 			load: function(){
 
 				var startEl = $('#start', this.$el),
+					endEl = $('#end', this.$el), 
 					start,
 					end;
 
 				start = startEl.val(),
-				end = $('#end', this.$el).val() || String(new Date().getHours() + 1);
+				end = endEl.val() || String(new Date().getHours() + 1);
+
+				//	update form in case end was empty
+				endEl.val(end);
 				
 				start = util.convertUserInputToDate(start);
 

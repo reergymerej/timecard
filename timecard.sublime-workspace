@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"summ",
+				"summaryLines"
+			],
+			[
+				"Summa",
+				"SummaryLineView"
+			],
+			[
 				"new",
 				"newLabel"
 			],
@@ -506,14 +514,6 @@
 			[
 				"curre",
 				"currentValue"
-			],
-			[
-				"conver",
-				"convertedValue"
-			],
-			[
-				"dataTy",
-				"dataTypes"
 			]
 		]
 	},
@@ -523,15 +523,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 1885,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/timecard.js",
-			"settings":
-			{
-				"buffer_size": 2164,
+				"buffer_size": 2106,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,31 +531,15 @@
 			"file": "js/summary.js",
 			"settings":
 			{
-				"buffer_size": 11887,
+				"buffer_size": 1037,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "php/summary.php",
+			"file": "css/main.scss",
 			"settings":
 			{
-				"buffer_size": 1489,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/graph.js",
-			"settings":
-			{
-				"buffer_size": 29565,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/labels.js",
-			"settings":
-			{
-				"buffer_size": 2450,
+				"buffer_size": 1362,
 				"line_ending": "Windows"
 			}
 		}
@@ -596,11 +572,13 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/summary.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect_test.php",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.buttons.js",
@@ -721,9 +699,7 @@
 		"/C/Users/Jeremy Greer/Desktop/wrms info/applicationContext node for local db.txt",
 		"/C/Users/Jeremy Greer/Desktop/wrms info/detail screens.txt",
 		"/C/xampp/htdocs/wrms/bug_fix.html",
-		"/C/xampp/htdocs/wrms/css-test.html",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.ajax.js",
-		"/C/xampp/htdocs/wrms/assets/scripts/wrms/wrms.customerlist.js"
+		"/C/xampp/htdocs/wrms/css-test.html"
 	],
 	"find":
 	{
@@ -754,6 +730,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"summary",
 			"HistoryPro",
 			"History",
 			".click",
@@ -880,8 +857,7 @@
 			"parentData",
 			"transfer",
 			"transferSingleRowToComponents",
-			"transferSelection",
-			"Lookup"
+			"transferSelection"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1027,7 +1003,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1035,15 +1011,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 1885,
+						"buffer_size": 2106,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1314,
-								1314
+								1511,
+								1511
 							]
 						],
 						"settings":
@@ -1059,18 +1035,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "js/timecard.js",
+					"file": "js/summary.js",
 					"settings":
 					{
-						"buffer_size": 2164,
+						"buffer_size": 1037,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1634,
-								1637
+								87,
+								87
 							]
 						],
 						"settings":
@@ -1079,115 +1055,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1170.0,
+						"translation.y": 29.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "js/summary.js",
+					"file": "css/main.scss",
 					"settings":
 					{
-						"buffer_size": 11887,
+						"buffer_size": 1362,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11168,
-								11168
+								1243,
+								1243
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "php/summary.php",
-					"settings":
-					{
-						"buffer_size": 1489,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								60,
-								60
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "js/graph.js",
-					"settings":
-					{
-						"buffer_size": 29565,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								23043,
-								23043
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4024.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "js/labels.js",
-					"settings":
-					{
-						"buffer_size": 2450,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1611,
-								2062
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 1094.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

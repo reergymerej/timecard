@@ -85,4 +85,9 @@ input:not([submit]) {
 
 .lineitem label {
   font-weight: bold;
-  margin-right: 1em; }
+  margin: auto 1em; }
+.lineitem .percentage {
+  font-style: italic;
+  font-size: .8em;
+  display: inline-block;
+  width: 4em; }

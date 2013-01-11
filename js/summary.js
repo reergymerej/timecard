@@ -13,7 +13,8 @@ function(graphModule,
 		render: function(){
 			var variables = {
 				label: this.options.category,
-				duration: util.convertSecondsToTime(this.options.duration)
+				duration: util.convertSecondsToTime(this.options.duration),
+				percentage: this.options.percentage
 			};
 			var template = _.template( $('#summary_lineitem_template').html(), variables );
 			this.$el.html(template);
@@ -40,11 +41,29 @@ function(graphModule,
 		**/
 		function createViews(tasks){
 
+			var totalDuration = getTotalDuration(tasks),
+				percentage;
+
 			$('#summary').empty();
 			summaryLines = [];
 
 			for(var i = 0; i < tasks.length; i++){
+				tasks[i].percentage = Math.round(tasks[i].duration / totalDuration * 10000) / 100;
 				summaryLines.push(new SummaryLineView(tasks[i]));
+			};
+
+			/**
+			* @param {array} tasks
+			* @return {number}
+			**/
+			function getTotalDuration(tasks){
+				var total = 0;
+
+				for(var i = 0; i < tasks.length; i++){
+					total += parseInt(tasks[i].duration, 10);
+				};
+
+				return total;
 			};
 		};
 	};
