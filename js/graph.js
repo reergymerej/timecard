@@ -423,11 +423,8 @@ function(util,
 		};
 
 		function deleteTask(t){
-			console.log('deleteing task', t);
-
 			for(var i = 0; i < tasks.length; i++){
 				if(tasks[i] === t){
-					tasks[i].getElement().remove();
 					tasks.splice(i, 1);
 					return;
 				};
@@ -941,7 +938,8 @@ function(util,
 			this.set({
 				view: new TaskView({
 					taskGroup: this.attributes.taskGroup,
-					taskModel: this
+					taskModel: this,
+					model: this
 				})
 			});
 		},
@@ -1017,11 +1015,19 @@ function(util,
 			} else  {
 				this.set('start', time);
 			};
+		},
+
+
+		delete: function(){
+			this.get('view').remove();
+			this.attributes.taskGroup.deleteTask(this);
 		}
 	});
 
 	//=================================================================
 	//	views
+
+	
 	var TaskModifierView = Backbone.View.extend({
 
 		initialize: function(){
@@ -1125,14 +1131,16 @@ function(util,
 
 		//	delete this task
 		deleteTask: function(){
-			console.log('delete task', this.options.task);
-			this.options.task.destroy();
+			this.options.taskModel.delete();
 		}
 	});
 
 	var TaskView = Backbone.View.extend({
 
 		initialize: function(){
+
+			this.model.on('change', this.render, this);
+
 			this.render();
 		},
 
@@ -1172,10 +1180,12 @@ function(util,
 		},
 
 		clickTask: function(){
-			console.log('yo', this);
 
 			//	create a new view to modify task
-			new TaskModifierView({ task: this });
+			new TaskModifierView({
+				task: this,
+				taskModel: this.model
+			});
 		}
 	});
 

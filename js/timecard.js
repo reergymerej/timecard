@@ -1,7 +1,6 @@
 require.config({
-	urlArgs: 'bustCache=' + Date.now()
+	//urlArgs: 'bustCache=' + Date.now()
 });
-
 
 $(function(){
 
