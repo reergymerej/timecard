@@ -239,6 +239,7 @@ function(util,
 	* @param {number} userID
 	**/
 	function TaskManager(userID){
+		
 		var taskGroups = []
 			history = new HistoryProxy('localStorage', userID);
 
@@ -908,7 +909,8 @@ function(util,
 	var Task = Backbone.Model.extend({
 
 		defaults: {
-
+			width: 0,
+			left: 0
 		},
 		
 		/**
@@ -945,11 +947,18 @@ function(util,
 		},
 
 
-		scale: function(start, timeSpan, timelineWidth){
+		scale: function(graphStart, timeSpan, timelinePixels){
 
-			//	TODO this seems like too much to pass to the function
-			//	Can we eliminate any of this?
-			this.get('view').scale(start, timeSpan, timelineWidth, this.get('start'), this.get('end'));
+			//	TODO is this this best way to get/set within the model?
+
+			var left = (this.attributes.start - graphStart) / timeSpan * timelinePixels,
+				width = this.attributes.end ? (this.attributes.end - this.attributes.start) / 
+					timeSpan * timelinePixels : timelinePixels - left;
+
+			this.set({
+				left: left,
+				width: width
+			});
 		},
 
 		/**
@@ -960,11 +969,22 @@ function(util,
 			//	TODO There is probably a better way to do this rather than calling get() over and over.
 			//	Why do we use get()?
 			return {
-				start: this.get('start'),
-				end: this.get('end'),
+				start: this.attributes.start,
+				end: this.attributes.end,
 				duration: this.get('duration'),
 				category: this.get('category')
 			};
+		},
+
+
+		getDisplaySpecs: function(){
+
+			console.log(this);
+
+			return {
+				left: left + 'px',
+				width: width + 'px'
+			}
 		},
 
 		/**
@@ -1139,13 +1159,6 @@ function(util,
 
 		initialize: function(){
 
-			this.model.on('change', this.render, this);
-
-			this.render();
-		},
-
-		render: function(){
-
 			//	compile template
 			var template = _.template( $('#task_template').html() );
 
@@ -1159,16 +1172,20 @@ function(util,
 			//	attach to DOM
 			this.$el.appendTo( this.options.taskGroup.getElement() );
 
+			this.model.on('change', this.render, this);
+
+			this.render();
+
 			function getColor(){
 				return 'rgba(' + util.rand(0, 255) + ', ' + util.rand(0, 255) + ', ' +  util.rand(0, 255) + ', .5)';
 			};
 		},
 
-		scale: function(graphStart, timeSpan, timelinePixels, start, end){
+		render: function(){
+			var left = this.model.get('left'),
+				width = this.model.get('width');
 
-			var left = (start - graphStart) / timeSpan * timelinePixels,
-				width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
-			
+
 			this.$el.css({
 				left: left + 'px',
 				width: width + 'px'
