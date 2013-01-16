@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"delete",
+				"deleteTask"
+			],
+			[
 				"tota",
 				"totalDuration"
 			],
@@ -510,48 +514,11 @@
 			[
 				"fa",
 				"fakeResponse"
-			],
-			[
-				"visib",
-				"visibleRows"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "js/summary.js",
-			"settings":
-			{
-				"buffer_size": 1472,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/timecard.js",
-			"settings":
-			{
-				"buffer_size": 2858,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "var tm = new TestModel({donkey: 'yellow'});\nvar tv = new TestView({model:tm});",
-			"settings":
-			{
-				"buffer_size": 78,
-				"line_ending": "Windows",
-				"name": "var tm = new TestModel({donkey: 'yellow'});"
-			}
-		},
-		{
-			"file": "js/graph.js",
-			"settings":
-			{
-				"buffer_size": 30233,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -581,13 +548,13 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/css/main.scss",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/summary.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
@@ -736,9 +703,27 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"TaskView",
+			"TaskManager",
+			"addTaskGroup",
+			"taskLines",
+			"tasks",
+			"TaskView",
+			"deleteTask",
+			"delete",
+			"taskModal",
+			"destroy",
+			"Task",
+			"TaskModel",
+			"TaskView",
+			"TaskModifierView",
+			"delete",
+			"delete(",
+			"delete",
+			"new Task(",
 			"TaskModifierView",
 			"destroy",
 			"summary",
@@ -848,25 +833,7 @@
 			".transfer",
 			".transfer(",
 			"transfer",
-			"getSendData",
-			"sendToServer",
-			"getSendData",
-			"getAlternateSendData",
-			"sendToServer",
-			"getSendData",
-			"sendToServer",
-			"getSendData",
-			"sendData",
-			"sendToServer",
-			".continue",
-			"lookuppickscreensendfield",
-			"parentContentHandler",
-			"ContentHandler",
-			"parentContentHandler ",
-			"\\n",
-			"transferRows",
-			"parentData",
-			"transfer"
+			"getSendData"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1006,122 +973,14 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 3,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "js/summary.js",
-					"settings":
-					{
-						"buffer_size": 1472,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								744,
-								744
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 354.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "js/timecard.js",
-					"settings":
-					{
-						"buffer_size": 2858,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2858,
-								2858
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1844.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"settings":
-					{
-						"buffer_size": 78,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								78,
-								78
-							]
-						],
-						"settings":
-						{
-							"auto_name": "var tm = new TestModel({donkey: 'yellow'});",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "js/graph.js",
-					"settings":
-					{
-						"buffer_size": 30233,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								30233,
-								30233
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 15315.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1440,7 +1299,7 @@
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 237.0,
 	"status_bar_visible": true
 }

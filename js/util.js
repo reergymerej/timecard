@@ -181,11 +181,48 @@ define(function(){
 		return min + Math.floor(Math.random() * (max - min + 1));
 	};
 
+
+	/**
+	* perform an AJAX call
+	* @param {string} url
+	* @param {object, string} data to send or 'GET'
+	* @param {function} callback, passed (success boolean, response string)
+	**/
+	function ajax(url, data, callback){
+		
+		var type = 'POST',
+			success = false,
+			response = '';
+
+		if(data === 'GET'){
+			type = 'GET';
+			data = undefined;
+		}
+
+		$.ajax({
+			type: type,
+			url: url,
+			data: data,
+			cache: false,
+			success: function(resp){
+				success = true;
+				response = resp;
+			},
+			error: function(){
+				console.error('ajax error');
+			},
+			complete: function(){
+				callback(success, response);
+			}
+		});
+	};
+
 	return {
 		getFriendlyTimeStamp: getFriendlyTimeStamp,
 		getFriendlyDateTimeStamp: getFriendlyDateTimeStamp,
 		convertSecondsToTime: convertSecondsToTime,
 		convertUserInputToDate: convertUserInputToDate,
-		rand: rand
+		rand: rand,
+		ajax: ajax
 	};
 });

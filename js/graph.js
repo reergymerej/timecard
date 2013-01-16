@@ -17,8 +17,11 @@ function(util,
 			refreshTimeoutHandle,
 			saveTimeoutHandle,
 			userID = userID || 0,
-			taskManager = new TaskManager(userID);
+			taskManager = new TaskManager(userID),
+			history = new HistoryProxy('blah', 0);
 
+		//	Are there any tasks in progress?
+		console.log('unsaved: ', history.getActiveTasks());
 
 		//	set css
 		taskGraphElement.css({
@@ -364,6 +367,9 @@ function(util,
 		timeline = $('<div>').addClass('timeline');
 		controls = $('<div>').addClass('controls');
 
+		toggle = new Toggle();
+		label = new Label(category);
+
 		//	initialize
 		if(preload === undefined){
 			addTask();
@@ -372,9 +378,6 @@ function(util,
 				addTask(preload.tasks[i])
 			};
 		};
-
-		toggle = new Toggle();
-		label = new Label(category);
 
 		controls.append(
 			toggle.getElement(),
@@ -400,20 +403,11 @@ function(util,
 
 			tasks.push(task);
 
-
-			//	TODO
-			//	make task draggable
-			//taskElement.draggable();
-
-			/*taskElement.click(function(e){
-				e.stopPropagation();
-				
-				//	create a new view to modify task
-				new TaskModifierView({ task: task });
-			});*/
-
 			//	move this task line to the top of the graph
 			shiftTaskLineToTop();
+
+			//	save task locally
+			history.storeLocal(task.get('start'), task.get('end'), label.getLabel());
 		};
 
 		function shiftTaskLineToTop(){
@@ -769,25 +763,30 @@ function(util,
 			var saveUrl = 'php/save.php',
 				tasksJSON = JSON.stringify(newTasks);
 
-			$.post(saveUrl, {
-				tasks: newTasks,
-				timeframe: {
-					start: start,
-					end: Date.now(),
-					userID: userID
-				}
-			}, function(resp){
+			util.ajax(saveUrl, 
+				{
+					tasks: newTasks,
+					timeframe: {
+						start: start,
+						end: Date.now(),
+						userID: userID
+					}
+				}, function(success, resp){
+					if(success){
+						var response = JSON.parse(resp);
+						console.log(response);
 
-				var response = JSON.parse(resp);
-				console.log(response);
-				if(response.status){
-					console.log('saved successfully');
-					console.log(response.message);
-				} else {
-					console.error('error saving');
-					console.log(response.message);
-				}
-			});
+						if(response.status){
+							console.log('saved successfully');
+							console.log(response.message);
+							//	clear locally stored
+							clearLocal();
+						} else {
+							console.error('error saving');
+							console.log(response.message);
+						};
+					};
+				});
 		};
 
 
@@ -800,24 +799,6 @@ function(util,
 		function load(start, end, callback){
 
 			var loadUrl = 'php/load.php';
-
-/*			var resp = '{"status":true,"message":"tasks loaded: 57","data":[{"start":"1357569093020","end":"1357569169308","duration":"76","category":"email"},{"start":"1357569170000","end":"1357569892000","duration":"722","category":"update server"},{"start":"1357569662612","end":"1357570553557","duration":"891","category":"email"},{"start":"1357569911000","end":"1357570187000","duration":"276","category":"update server"},{"start":"1357570608992","end":"1357571230247","duration":"621","category":"organize issues"},{"start":"1357571231024","end":"1357571649459","duration":"418","category":"Sunill"},{"start":"1357571650203","end":"1357571783525","duration":"133","category":"email"},{"start":"1357571784766","end":"1357572134985","duration":"350","category":"lookups"},{"start":"1357572135000","end":"1357572720000","duration":"585","category":"update server"},{"start":"1357572135049","end":"1357572138665","duration":"4","category":"lookups"},{"start":"1357572141680","end":"1357573335668","duration":"1194","category":"lookups"},{"start":"1357573288594","end":"1357573334836","duration":"46","category":"email"},{"start":"1357573326000","end":"1357573620000","duration":"294","category":"Claudio"},{"start":"1357573620000","end":"1357574248764","duration":"629","category":"email"},{"start":"1357574250000","end":"1357574340000","duration":"90","category":"bathroom"},{"start":"1357574256340","end":"1357574650123","duration":"394","category":"smoke"},{"start":"1357574670396","end":"1357574982829","duration":"312","category":"pos"},{"start":"1357574983000","end":"1357575864974","duration":"882","category":"Sunill"},{"start":"1357574983000","end":"1357574984000","duration":"1","category":"Claudio"},{"start":"1357575870895","end":"1357575882270","duration":"11","category":"label"},{"start":"1357575882974","end":"1357576598255","duration":"715","category":"Claudio"},{"start":"1357576068000","end":"1357576260000","duration":"192","category":"update server"},{"start":"1357576611855","end":"1357578118806","duration":"1507","category":"lookups"},{"start":"1357578117358","end":"1357579355748","duration":"1238","category":"pos"},{"start":"1357579270714","end":"1357579740105","duration":"469","category":"update server"},{"start":"1357579740688","end":"1357580452923","duration":"712","category":"pos"},{"start":"1357580451819","end":"1357581433549","duration":"982","category":"update server"},{"start":"1357581434453","end":"1357582012058","duration":"578","category":"Robert"},{"start":"1357582016000","end":"1357582080000","duration":"64","category":"bathroom"},{"start":"1357582017554","end":"1357582018786","duration":"1","category":"label"},{"start":"1357582080000","end":"1357582548000","duration":"468","category":"Claudio"},{"start":"1357582500000","end":"1357582865000","duration":"365","category":"smoke"},{"start":"1357582868000","end":"1357583115000","duration":"247","category":"pos"},{"start":"1357583100000","end":"1357583818714","duration":"719","category":"Scott"},{"start":"1357583819418","end":"1357585842284","duration":"2023","category":"pos"},{"start":"1357585844665","end":"1357586640673","duration":"796","category":"update server"},{"start":"1357586642049","end":"1357587964128","duration":"1322","category":"pos"},{"start":"1357587965896","end":"1357588751096","duration":"785","category":"update server"},{"start":"1357588223000","end":"1357588320000","duration":"97","category":"bathroom"},{"start":"1357588320000","end":"1357588628000","duration":"308","category":"smoke"},{"start":"1357588751847","end":"1357590397698","duration":"1646","category":"pos"},{"start":"1357588753479","end":"1357589612255","duration":"859","category":"email"},{"start":"1357590399675","end":"1357590892148","duration":"492","category":"email"},{"start":"1357590400611","end":"1357590890420","duration":"490","category":"update server"},{"start":"1357590893580","end":"1357591578331","duration":"685","category":"email"},{"start":"1357591580755","end":"1357592017133","duration":"436","category":"smoke"},{"start":"1357591586573","end":"1357592016437","duration":"430","category":"pos"},{"start":"1357592018357","end":"1357592709370","duration":"691","category":"pos"},{"start":"1357592248781","end":"1357592708887","duration":"460","category":"Claudio"},{"start":"1357592714477","end":"1357595180046","duration":"2466","category":"Sunill"},{"start":"1357593927191","end":"1357596954476","duration":"3027","category":"pos"},{"start":"1357596955669","end":"1357597349963","duration":"394","category":"Claudio"},{"start":"1357597350771","end":"1357597723711","duration":"373","category":"smoke"},{"start":"1357597731312","end":"1357597859027","duration":"128","category":"update server"},{"start":"1357597759073","end":"1357599082233","duration":"1323","category":"Sunill"},{"start":"1357599083000","end":"1357599132000","duration":"49","category":"Claudio"},{"start":"1357599136000","end":"1357599703144","duration":"567","category":"pos"}]}';
-
-			console.warn('this is fake response data');
-
-			var response = JSON.parse(resp);
-			if(response.status){
-				console.log('loaded successfully');
-				console.log(response.message);
-				console.log(response.data);
-				callback(response.data);
-			} else {
-				console.log('error loading');
-				console.log(response.message);
-			};
-
-			return;	//=================================================================
-*/
 
 			$.post(loadUrl, {
 				timeframe: {
@@ -894,12 +875,66 @@ function(util,
 			return getTasks(start, end);
 		};
 
+
+		/**
+		* save task locally in array
+		**/
+		function storeLocal(start, end, category){
+			var unsavedTasks = getUnsavedTasksLocal();
+
+			unsavedTasks.push({
+				start: start,
+				end: end,
+				category: category
+			});
+
+			//	convert back to JSON for storage
+			localStorage.unsavedTasks = JSON.stringify(unsavedTasks);
+		};
+
+
+		function clearLocal(){
+			delete localStorage.unsavedTasks;
+		};
+
+		/**
+		* @return {array}
+		**/
+		function getUnsavedTasksLocal(){
+			var unsavedTasks = localStorage.unsavedTasks;
+
+			try {
+				unsavedTasks = JSON.parse(unsavedTasks);
+			} catch(e){
+				unsavedTasks = [];
+			};
+
+			return unsavedTasks;
+		};
+
+		
+		/**
+		* @param {function} callback, passed array
+		**/
+		function getActiveTasks(callback){
+			var unsavedLocal = getUnsavedTasksLocal();
+
+			console.warn('need query to get only unfinished tasks');
+			console.info('We should probably rethink this whole thing.  Maybe have a flag for "day complete" or something and only resume with those.');
+
+/*			load(0, Date.now(), function(tasks){
+
+			});*/
+		};
+
 		return {
 			saveCategories: saveCategories,
 			saveTasks: saveTasks,
+			storeLocal: storeLocal,
 			load: load,
 			summary: summary,
-			getTasks: getTasksFromHistory
+			getTasks: getTasksFromHistory,
+			getActiveTasks: getActiveTasks
 		};
 	};
 
