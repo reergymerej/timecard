@@ -270,6 +270,47 @@ function(util,
 			saveTimeoutHandle = setTimeout(save, $('#save-interval').slider('option', 'value') * 1000);
 		};
 
+
+		/**
+		* fetch any unfinished tasks from the database
+		* @method getUnfinishedTasks
+		* @private
+		**/
+		function getUnfinishedTasks(){
+			var TEST_DATA = '[{"start":"1355013825120","end":"0","duration":"0","category":"label"},{"start":"1355014091368","end":"0","duration":"0","category":"label"},{"start":"1355014223771","end":"0","duration":"0","category":"label"},{"start":"1355014234419","end":"0","duration":"0","category":"label"},{"start":"1355014235435","end":"0","duration":"0","category":"label"},{"start":"1355014236091","end":"0","duration":"0","category":"label"},{"start":"1355014237835","end":"0","duration":"0","category":"label"},{"start":"1355014238330","end":"0","duration":"0","category":"label"},{"start":"1355014238915","end":"0","duration":"0","category":"label"},{"start":"1355014239451","end":"0","duration":"0","category":"label"},{"start":"1355014239986","end":"0","duration":"0","category":"label"},{"start":"1355014242806","end":"0","duration":"0","category":"label"},{"start":"1355014243349","end":"0","duration":"0","category":"label"},{"start":"1355014243742","end":"0","duration":"0","category":"label"},{"start":"1355014245371","end":"0","duration":"0","category":"label"},{"start":"1355014245574","end":"0","duration":"0","category":"label"},{"start":"1355014245810","end":"0","duration":"0","category":"label"},{"start":"1355014246033","end":"0","duration":"0","category":"label"},{"start":"1355014246250","end":"0","duration":"0","category":"label"},{"start":"1355014246490","end":"0","duration":"0","category":"label"},{"start":"1355014443636","end":"0","duration":"0","category":"label"},{"start":"1355019546976","end":"0","duration":"0","category":"label"},{"start":"1355019548122","end":"0","duration":"0","category":"label"},{"start":"1355019549379","end":"0","duration":"0","category":"label"},{"start":"1355019563023","end":"0","duration":"0","category":"label"},{"start":"1355019563693","end":"0","duration":"0","category":"label"},{"start":"1355019627286","end":"0","duration":"0","category":"label"},{"start":"1355019628189","end":"0","duration":"0","category":"label"},{"start":"1355019629611","end":"0","duration":"0","category":"label"},{"start":"1355019630831","end":"0","duration":"0","category":"label"},{"start":"1355019631913","end":"0","duration":"0","category":"label"},{"start":"1355019632913","end":"0","duration":"0","category":"label"},{"start":"1355019633924","end":"0","duration":"0","category":"label"},{"start":"1355019634375","end":"0","duration":"0","category":"label"},{"start":"1355019635029","end":"0","duration":"0","category":"label"},{"start":"1355019637127","end":"0","duration":"0","category":"label"},{"start":"1355019704141","end":"0","duration":"0","category":"label"},{"start":"1355082904315","end":"0","duration":"0","category":"label"},{"start":"1355082904983","end":"0","duration":"0","category":"label"},{"start":"1355082905154","end":"0","duration":"0","category":"label"},{"start":"1355085198467","end":"0","duration":"0","category":"label a"},{"start":"1355085434159","end":"0","duration":"0","category":"label"},{"start":"1355086293323","end":"0","duration":"0","category":"label"},{"start":"1355086293481","end":"0","duration":"0","category":"label"},{"start":"1355086293649","end":"0","duration":"0","category":"label"},{"start":"1355086293819","end":"0","duration":"0","category":"label"},{"start":"1355103937095","end":"0","duration":"0","category":"label"},{"start":"1355104022003","end":"0","duration":"0","category":"label"},{"start":"1355104036109","end":"0","duration":"0","category":"label"},{"start":"1355104036277","end":"0","duration":"0","category":"label"},{"start":"1355104111000","end":"0","duration":"0","category":"label"},{"start":"1355104112496","end":"0","duration":"0","category":"label"},{"start":"1355104154759","end":"0","duration":"0","category":"label"},{"start":"1355104369905","end":"0","duration":"0","category":"label"},{"start":"1355104372380","end":"0","duration":"0","category":"label"},{"start":"1355104372665","end":"0","duration":"0","category":"label"},{"start":"1355104461207","end":"0","duration":"0","category":"label"},{"start":"1355104467883","end":"0","duration":"0","category":"label"},{"start":"1355104468000","end":"0","duration":"0","category":"label"},{"start":"1355104530690","end":"0","duration":"0","category":"label"},{"start":"1355104550443","end":"0","duration":"0","category":"label"},{"start":"1355104552245","end":"0","duration":"0","category":"label"},{"start":"1355104649808","end":"0","duration":"0","category":"label"},{"start":"1355104652431","end":"0","duration":"0","category":"label"},{"start":"1355104652843","end":"0","duration":"0","category":"label"},{"start":"1355104655233","end":"0","duration":"0","category":"label"},{"start":"1355104655403","end":"0","duration":"0","category":"label"},{"start":"1355104661257","end":"0","duration":"0","category":"label"},{"start":"1355104661422","end":"0","duration":"0","category":"label"},{"start":"1355105436611","end":"0","duration":"0","category":"label"},{"start":"1355105437207","end":"0","duration":"0","category":"label"},{"start":"1355105438286","end":"0","duration":"0","category":"label"},{"start":"1355105438440","end":"0","duration":"0","category":"label"},{"start":"1355105784587","end":"0","duration":"0","category":"label"},{"start":"1355105840883","end":"0","duration":"0","category":"label"},{"start":"1355105938634","end":"0","duration":"0","category":"label"},{"start":"1355105940433","end":"0","duration":"0","category":"label"},{"start":"1355105942342","end":"0","duration":"0","category":"label"},{"start":"1355105944458","end":"0","duration":"0","category":"label"},{"start":"1355106632163","end":"0","duration":"0","category":"label"},{"start":"1355106633613","end":"0","duration":"0","category":"label"},{"start":"1355229922157","end":"0","duration":"0","category":"migrate site"},{"start":"1355319964848","end":"0","duration":"0","category":"email"},{"start":"1355782778610","end":"0","duration":"0","category":"email"},{"start":"1356359597068","end":"0","duration":"0","category":"label"},{"start":"1356561285354","end":"0","duration":"0","category":"Claudio - chat"},{"start":"1356618600000","end":"0","duration":"0","category":"organize issues"},{"start":"1356618600000","end":"0","duration":"0","category":"organize issues"},{"start":"1356732117760","end":"0","duration":"0","category":"bug 129893"},{"start":"1357742745982","end":"0","duration":"0","category":"smoke"},{"start":"1357826795770","end":"0","duration":"0","category":"a"},{"start":"1358345048997","end":"0","duration":"0","category":"label"},{"start":"1358345049772","end":"0","duration":"0","category":"label"},{"start":"1358345050188","end":"0","duration":"0","category":"label"},{"start":"1358345114415","end":"0","duration":"0","category":"label"},{"start":"1358345114589","end":"0","duration":"0","category":"label"},{"start":"1358345115421","end":"0","duration":"0","category":"label"},{"start":"1358345126109","end":"0","duration":"0","category":"label"},{"start":"1358345126317","end":"0","duration":"0","category":"label"},{"start":"1358345126525","end":"0","duration":"0","category":"label"},{"start":"1358345126804","end":"0","duration":"0","category":"label"}]';
+
+			util.ajax('php/load-running.php', {
+				timeframe: {
+					userID: 0
+				}
+			}, function(success, resp){
+
+				var response;
+
+				if(success){
+					response = JSON.parse(resp);
+					
+					if(response.status){
+						console.log(response.data);
+					} else {
+
+						//	TODO remove the TEST_DATA reference
+						console.error(response.message);
+
+						response = JSON.parse(TEST_DATA);
+						console.warn('using test data', response);
+					};
+
+					//	get start of first, this is lowest since the query is ordered by start
+					if(response && response.length > 0){
+						changeStart(new Date(parseInt(response[0].start, 10)));
+					};
+				} else {
+					console.error('unable to fetch unfinished tasks');
+				};
+			});
+		};
+
 		/*********************************
 				public interface
 		*********************************/
@@ -279,7 +320,8 @@ function(util,
 		* @method record
 		**/
 		function record(){
-			console.log('start recording');
+
+			getUnfinishedTasks();
 
 			//	add listeners to sliders
 			refreshSlider.on('slidechange', function(event, ui){
@@ -362,8 +404,7 @@ function(util,
 		* @param {Date} start
 		**/
 		function changeStart(start){
-			console.log(this);
-			console.log(start);
+			console.log('change graph start to: ' + start);
 			startTime = start.getTime();
 		};
 
