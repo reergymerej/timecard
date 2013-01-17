@@ -1,24 +1,147 @@
+/**
+* module used to display tasks while recording or as a summary
+* @module graph
+**/
+
 define(['util',
 		'labels'], 
 function(util, 
 		labelsModule){
 
+	/**
+	* manages controls for graph, triggers save/refresh, 
+	* can by used to display saved tasks currently (Does this make sense?)
+	* @class Graph
+	* @constructor
+	* @param {jq} element the container for the Graph
+	**/
 	function Graph(element){
-		var taskGraphElement = element,
+
+		window.test = new util.HistoryProxy(1234);
+
+		var 
+			/**
+			* container for the Graph
+			* @property taskGraphElement
+			* @type jq
+			* @private
+			**/
+			taskGraphElement = element,
+
+			/**
+			* button to create new tasks
+			* @property newTaskButton
+			* @type jq
+			* @private
+			**/
 			newTaskButton,
+			
+			/**
+			* wrapper for controls
+			* @property controls
+			* @type jq
+			* @private
+			**/
 			controls,
+			
+			/**
+			* collection of each line/group of tasks
+			* @property taskLines
+			* @type array
+			* @private
+			**/
 			taskLines = [],
+
+			/**
+			* milliseconds indicating start of Graph 
+			* @property startTime
+			* @type number
+			* @private
+			**/
 			startTime = Date.now(),
+			
+			/**
+			* milliseconds indicating end of Graph 
+			* @property endTime
+			* @type number
+			* @private
+			**/
 			endTime,
+			
+			/**
+			* refresh interval control
+			* @property refreshSlider
+			* @type jq
+			* @private
+			**/
 			refreshSlider = $('#refresh-interval'),
+
+			/**
+			* save interval control
+			* @property saveSlider
+			* @type jq
+			* @private
+			**/			
 			saveSlider = $('#save-interval'),
+
+			/**
+			* refresh interval in milliseconds
+			* @property refreshInterval
+			* @type number
+			* @default 100
+			* @private
+			**/						
 			refreshInterval = 100,
+
+			/**
+			* save interval in milliseconds
+			* @property saveInterval
+			* @type number
+			* @default 30000
+			* @private
+			**/			
 			saveInterval = 30000,
+
+			/**
+			* handle for refresh timeout
+			* @property refreshTimeoutHandle
+			* @type number
+			* @private
+			**/
 			refreshTimeoutHandle,
+
+			/**
+			* handle for save timeout
+			* @property saveTimeoutHandle
+			* @type number
+			* @private
+			**/
 			saveTimeoutHandle,
+
+			/**
+			* user id
+			* @property userID
+			* @type number
+			* @default 0
+			* @private
+			**/			
 			userID = userID || 0,
-			taskManager = new TaskManager(userID),
-			history = new HistoryProxy('blah', 0);
+
+			/**
+			* task manager
+			* @property taskManager
+			* @type TaskGroupManager
+			* @private
+			**/
+			taskManager = new TaskGroupManager(userID),
+			
+			/**
+			* history interface
+			* @property history
+			* @type HistoryProxy
+			* @private
+			**/
+			history = new util.HistoryProxy(userID);
 
 		//	Are there any tasks in progress?
 		console.log('unsaved: ', history.getActiveTasks());
@@ -45,7 +168,9 @@ function(util,
 		
 		/**
 		* Rescale the graph.
+		* @method adjustGraph
 		* @param {booelan} [recurring=true] If set, will schedule another adjustGraph automatically.
+		* @private
 		**/
 		function adjustGraph(recurring){
 			var timeSpan,
@@ -113,9 +238,12 @@ function(util,
 
 
 		/**
+		* create a new line/group of tasks
+		* @method addTaskGroup
 		* @param {object} [tasks] if provided, loads these tasks into the group
 		* @param {string} [tasks.category]
 		* @param {array} [tasks.tasks]
+		* @private
 		**/
 		function addTaskGroup(tasks){
 			var taskGroup = new TaskGroup(tasks);
@@ -125,18 +253,12 @@ function(util,
 			taskGraphElement.prepend(taskGroup.getElement());
 		};
 
-		function showSummary(start, end){
-			var summary = taskManager.getSummary(start, end),
-				summaryContainer = $('#summary');
 
-			//	empty existing summary
-			summaryContainer.empty();
-
-			for(var i = 0; i < summary.length; i++){			
-				summaryContainer.append($('<div>').text(summary[i]));
-			};
-		};
-
+		/**
+		* clears save interval, saves, sets up new interval
+		* @method save
+		* @private
+		**/
 		function save(){
 			//	clear out pending saves
 			clearTimeout(saveTimeoutHandle);
@@ -154,6 +276,7 @@ function(util,
 		
 		/**
 		* Start using this graph to record new events.
+		* @method record
 		**/
 		function record(){
 			console.log('start recording');
@@ -179,6 +302,7 @@ function(util,
 
 		/**
 		* Load a previously saved group of events for review/editing.
+		* @method load
 		* @param {number} start
 		* @param {number} end
 		**/
@@ -192,7 +316,7 @@ function(util,
 				var categories = [];
 
 				//	replace old info with info from loaded tasks
-				taskManager = new TaskManager(userID)
+				taskManager = new TaskGroupManager(userID)
 
 				//	identify unique categories
 				for(var i = 0; i < tasks.length; i++){
@@ -231,26 +355,54 @@ function(util,
 			});
 		};
 
+
+		/**
+		* change start time of graph
+		* @method changeStart
+		* @param {Date} start
+		**/
+		function changeStart(start){
+			console.log(this);
+			console.log(start);
+			startTime = start.getTime();
+		};
+
 		return {
 			record: record,
-			load: load
+			load: load,
+			changeStart: changeStart
 		};
 	};
 
 
 	/**
+	* manages all the lines/groups of tasks
+	* @class TaskGroupManager
+	* @constructor
 	* @param {number} userID
 	**/
-	function TaskManager(userID){
+	function TaskGroupManager(userID){
 		
-		var taskGroups = []
-			history = new HistoryProxy('localStorage', userID);
+		var 
+			/**
+			* lines/groups of tasks managed by this TaskGroupManager
+			* @property taskGroups
+			* @type array
+			* @private
+			**/ 
+			taskGroups = [],
 
-		function addTaskGroup(tg){
-			taskGroups.push(tg);
-		};
+			/**
+			* history proxy used to save/load tasks
+			* @property history
+			* @type HistoryProxy
+			* @private
+			**/
+			history = new util.HistoryProxy(userID);	
 
 		/**
+		* save tasks on graph since a specified start time
+		* @method save
 		* @param {number} start beginning of this TimeGraph
 		**/
 		function save(start){
@@ -283,6 +435,7 @@ function(util,
 
 		/**
 		* Load saved tasks for this manager to use.
+		* @method load
 		* @param {number} start
 		* @param {number} end
 		* @param {function} callback passed array of tasks
@@ -294,6 +447,14 @@ function(util,
 			});
 		};
 
+
+		/**
+		* get an array of tasks via the util.HistoryProxy
+		* @method getSummary
+		* @param start
+		* @param end
+		* @return {array}
+		**/
 		function getSummary(start, end){
 			
 			var tasks = history.getTasks(start, end);
@@ -322,7 +483,16 @@ function(util,
 			return tasks;
 		};
 
-		//	public
+		
+		/**
+		* push to the taskGroups array
+		* @method addTaskGroup
+		* @param tg
+		**/
+		function addTaskGroup(tg){
+			taskGroups.push(tg);
+		};
+
 		return {
 			addTaskGroup: addTaskGroup,
 			save: save,
@@ -333,25 +503,101 @@ function(util,
 
 
 	/**
-	* @param {object} [tasks] if provided, loads these tasks into the group
-	* @param {string} [tasks.category]
-	* @param {array} [tasks.tasks]
+	* group/line of tasks, used to manage starting/stopping instances of a task category/label
+	* contains charted portion and controls (start/stop & label)
+	* @class TaskGroup
+	* @constructor
+	* @param {object} [preload] I don't think these work anymore... if provided, loads these tasks into the group
+	* 	@param {string} [preload.category]
+	* 	@param {array} 	[preload.tasks]
 	**/
 	function TaskGroup(preload){
-		var publicInterface = {},
+
+		var 
+			/**
+			* returned from this constructor, for some weird reason I don't remember, it's 
+			* passed to new tasks
+			* @property publicInterface
+			* @type object
+			* @private
+			**/
+			publicInterface = {},
+
+			/**
+			* container for this TaskGroup
+			* @property taskLineElement
+			* @type jq
+			* @private
+			**/
 			taskLineElement,
+
+			/**
+			* container for the portion of this TaskGroup that shows the tasks
+			* @property timeline
+			* @type jq
+			* @private
+			**/
 			timeline,
-			timelineWidth,	// update this on window resize
+
+			/**
+			* container for controls (pause button, label)
+			* @property controls
+			* @type jq
+			* @private
+			**/
 			controls,
+
+			/**
+			* toggle control
+			* @property toggle
+			* @type Toggle
+			* @private
+			**/
 			toggle,
+
+			/**
+			* label control
+			* @property label
+			* @type Label
+			* @private
+			**/
 			label,
+
+			/**
+			* category/label for this TaskGroup and its tasks
+			* @property category
+			* @type string
+			* @private
+			**/
 			category = ( preload !== undefined ) ? preload.category : undefined,
-			tasks = [];
 
-		/*********************************
-				public interface
-		*********************************/
+			/**
+			* collection of tasks within this TaskGroup
+			* @property tasks
+			* @type array
+			* @private
+			**/
+			tasks = [],
 
+			/**
+			* history proxy for saving tasks on this TaskGroup
+			* @property history
+			* @type HistoryProxy
+			* @private
+			**/
+			history = new util.HistoryProxy(0);
+
+		taskLineElement = $('<div>').addClass('taskLine ui-corner-all ui-widget-content');
+
+		timeline = $('<div>').addClass('timeline');
+		controls = $('<div>').addClass('controls');
+
+		toggle = new Toggle();
+		label = new Label(category);
+
+
+		//	This has to be defined above the first addTask().
+		//	This is crazy.  Refactor this crap.
 		publicInterface = {
 			getElement: getElement,
 			getCategory: getCategory,
@@ -361,14 +607,6 @@ function(util,
 			deleteTask: deleteTask,
 			addTask: addTask
 		};
-
-		taskLineElement = $('<div>').addClass('taskLine ui-corner-all ui-widget-content');
-
-		timeline = $('<div>').addClass('timeline');
-		controls = $('<div>').addClass('controls');
-
-		toggle = new Toggle();
-		label = new Label(category);
 
 		//	initialize
 		if(preload === undefined){
@@ -389,6 +627,8 @@ function(util,
 
 
 		/**
+		* add a new task to this TaskGroup
+		* @method addTask
 		* @param {object} [preload]
 		**/
 		function addTask(preload){
@@ -410,6 +650,12 @@ function(util,
 			history.storeLocal(task.get('start'), task.get('end'), label.getLabel());
 		};
 
+
+		/**
+		* shift this TaskGroup to the top of the Graph
+		* @method shiftTaskLineToTop
+		* @private
+		**/
 		function shiftTaskLineToTop(){
 			taskLineElement.fadeOut(function(){
 				taskLineElement.parent().prepend(taskLineElement);
@@ -417,6 +663,12 @@ function(util,
 			});
 		};
 
+
+		/**
+		* delete a task from this TaskGroup
+		* @method deleteTask
+		* @param t
+		**/
 		function deleteTask(t){
 			for(var i = 0; i < tasks.length; i++){
 				if(tasks[i] === t){
@@ -426,10 +678,21 @@ function(util,
 			};
 		};
 
+
+		/**
+		* get the container for this TaskGroup (taskLineElement)
+		* @method getElement
+		* @return {jq}
+		**/
 		function getElement(){
 			return taskLineElement;
 		};
 
+
+		/**
+		* appears to just assign the category to each task
+		* @method save
+		**/
 		function save(){
 
 			//	record category
@@ -441,18 +704,37 @@ function(util,
 			};
 		};
 
+
+		/**
+		* rescale the dimensions of each task in this TaskGroup
+		* @method scale
+		* @param start
+		* @param timeSpan
+		**/
 		function scale(start, timeSpan){
-			timelineWidth = timeline.width();
+			var timelineWidth = timeline.width();
 
 			for(var i = 0; i < tasks.length; i++){
 				tasks[i].scale(start, timeSpan, timelineWidth);
 			};
 		};
 
+
+		/**
+		* getter for category
+		* @method getCategory
+		* @return {string}
+		**/
 		function getCategory(){
 			return category;
 		};
 
+
+		/**
+		* get an array of summaries for each task
+		* @method getTasks
+		* @return {array}
+		**/
 		function getTasks(){
 			var taskSummaries = [];
 
@@ -467,18 +749,42 @@ function(util,
 				constructors
 		*********************************/
 
+		/**
+		* Backbone view to modify task -
+		* This is not the best way to do this.
+		* @class TaskModifier
+		* @constructor
+		* @param {Task} task
+		**/
 		function TaskModifier(task){
 			var view = new TaskModifierView({
 				task: task
 			});
 		};
 
+
 		/**
+		* used to set the category for the TaskGroup
+		* @class Label
+		* @constructor
 		* @param {string} [category='label']
 		**/
 		function Label(category){
 
-			var labelElement,
+			var 
+				/**
+				* @property labelElement
+				* @type jq
+				* @private
+				**/ 
+				labelElement,
+
+				/**
+				* @property label
+				* @type string
+				* @default 'label'
+				* @private
+				**/
 				label = category || 'label';
 
 			labelElement = $('<div>')
@@ -529,15 +835,33 @@ function(util,
 			//	set initial label
 			setLabel(label);
 
+
+			/**
+			* setter for label
+			* @method setLabel
+			* @param {string} newLabel
+			**/
 			function setLabel(newLabel){
 				label = newLabel;
 				labelElement.text(label);
 			};
 
+
+			/**
+			* getter for label
+			* @method getLabel
+			* @return string
+			**/ 
 			function getLabel(){
 				return label;
 			};
 
+			
+			/**
+			* get the container element
+			* @method getElement
+			* @return jq
+			**/
 			function getElement(){
 				return labelElement;
 			};
@@ -549,17 +873,17 @@ function(util,
 			};
 		};
 
+
+		/**
+		* used to pause/resume tasks
+		* @class Toggle
+		* @constructor
+		**/ 
 		function Toggle(){
 
 			var toggleElement,
 				playing = true;
 
-			/*
-			toggleElement = $('<div>')
-				.addClass('toggle pause')
-				.text('pause')
-				.click(toggle);
-			*/
 			toggleElement = $('<div>')
 				.addClass('ui-state-default ui-corner-all toggle')
 				.append(
@@ -576,9 +900,12 @@ function(util,
 				)
 				.click(toggle);
 
-			//<li class="ui-state-default ui-corner-all" title=".ui-icon-play"><span class="ui-icon ui-icon-play"></span></li>
 
-
+			/**
+			* stop a running task or start a new one if none running
+			* @method toggle
+			* @private
+			**/ 
 			function toggle(){
 
 				var newestTask = tasks[tasks.length - 1];
@@ -595,6 +922,10 @@ function(util,
 				playing = !playing;
 			};
 
+			/**
+			* @method getElement
+			* @return jq
+			**/
 			function getElement(){
 				return toggleElement;
 			};	
@@ -604,343 +935,18 @@ function(util,
 			};
 		};
 
-		/*********************************
-				public interface
-		*********************************/
-
 		return publicInterface;
 	};
 
 
-	/**
-	* Used to abstract saving from where data is actually saved.  Provides a single interface for saving to localStorage or db.
-	* @param {string} location 'localStorage' is the only supported value so far
-	* @param {number} userID
-	**/
-	function HistoryProxy(location, userID){
-
-		var location = location,
-			userID = userID;
-
-		/**
-		* returns an array of categories from history
-		**/
-		function getCategories(){
-			if(location === 'localStorage'){
-				return getCategoriesLocal();
-			};
-		};
-
-		function setCategories(c){
-			if(location === 'localStorage'){
-				setCategoriesLocal(c);
-			};
-		}
-
-		/**
-		* @param {Date} [start]
-		* @param {Date} [end]
-		**/
-		function getTasks(start, end){
-			if(location === 'localStorage'){
-				return getTasksLocal(start, end);
-			};
-		};
-
-		function getCategoriesLocal(){
-			
-			var categories = localStorage.categories;
-
-			//	convert from JSON or create a new array
-			if(categories !== undefined){
-				categories = JSON.parse(categories);
-			} else {
-				categories = [];
-			};
-
-			return categories;
-		};
-
-		function setCategoriesLocal(c){
-			localStorage.categories = JSON.stringify(c);
-		};
-
-		/**
-		* @param {Date} [start]
-		* @param {Date} [end]
-		* @return {array}
-		**/
-		function getTasksLocal(start, end){
-			
-			var tasks = localStorage.tasks;
-
-			//	convert from JSON or create a new array
-			if(tasks !== undefined){
-				tasks = JSON.parse(tasks);
-			} else {
-				tasks = [];
-			};
-
-			//	remove any tasks that start before specified start
-			if(start){
-				
-				//	convert to ms for faster comparison
-				start = start.getTime();
-
-				//	tasks are stored in order, so we just need to find the first one that qualifies
-				for(var i = 0; i < tasks.length; i++){
-					if(tasks[i].start >= start){
-						tasks = tasks.splice(i);
-						break;
-					};
-				};
-			};
-
-			//	remove any that start after end
-			if(end){
-
-				//	convert for faster comparison
-				end = end.getTime();
-
-				//	splice off those out of bounds
-				for(var i = 0; i < tasks.length; i++){
-					if(tasks[i].start >= end){
-						tasks.splice(i);
-					};
-				};
-			};
-			
-			return tasks;
-		};
-
-		function setTasksLocal(t){
-
-			//	sort by start
-			t.sort(function(a, b){
-				return a.start - b.start;
-			});
-
-			//	dedupe tasks
-			for(var i = 0; i < t.length - 1; i++){
-				if(t[i].start === t[i + 1].start){
-					t.splice(i, 1);
-				};
-			};
-
-			localStorage.tasks = JSON.stringify(t);
-		};
-
-		//	merge these categories with previously saved so we have a unique list
-		function saveCategories(newCategories){
-			var oldCategories = getCategories(),
-				categories = [];
-
-			//	combine oldCategories and categoriesUsed
-			oldCategories = oldCategories.concat(newCategories);
-
-			//	filter to only unique
-			for(var i = 0; i < oldCategories.length; i++){
-				if(categories.indexOf(oldCategories[i]) === -1){
-					categories.push(oldCategories[i]);
-				};
-			};
-
-			// save combined list
-			setCategories(categories);
-		};
-
-
-		/**
-		* @param {array} newTasks
-		* @param {number} userID
-		* @param {number} start beginning of timeframe for this Graph
-		**/
-		function saveTasks(newTasks, userID, start){
-
-			console.log('saving @ ' + new Date());
-			console.log(newTasks);
-
-			var saveUrl = 'php/save.php',
-				tasksJSON = JSON.stringify(newTasks);
-
-			util.ajax(saveUrl, 
-				{
-					tasks: newTasks,
-					timeframe: {
-						start: start,
-						end: Date.now(),
-						userID: userID
-					}
-				}, function(success, resp){
-					if(success){
-						var response = JSON.parse(resp);
-						console.log(response);
-
-						if(response.status){
-							console.log('saved successfully');
-							console.log(response.message);
-							//	clear locally stored
-							clearLocal();
-						} else {
-							console.error('error saving');
-							console.log(response.message);
-						};
-					};
-				});
-		};
-
-
-		/**
-		* Load saved tasks.
-		* @param {number} start
-		* @param {number} end
-		* @param {function} callback passed array of tasks loaded
-		**/
-		function load(start, end, callback){
-
-			var loadUrl = 'php/load.php';
-
-			$.post(loadUrl, {
-				timeframe: {
-					start: start,
-					end: end,
-					userID: userID
-				}
-			}, function(resp){
-				
-				var response = JSON.parse(resp);
-				if(response.status){
-					console.log('loaded successfully');
-					console.log(response.message);
-					console.log(response.data);
-					callback(response.data);
-				} else {
-					console.log('error loading');
-					console.log(response.message);
-				};
-			});
-		};
-
-
-		/**
-		* Get a summary of tasks.
-		* @param {number} start
-		* @param {number} end
-		* @param {function} callback, passed array
-		**/
-		function summary(start, end, callback){
-
-			var taskSummary = [];
-			var TEST_DATA = '[{"category":"email","duration":"5411"},{"category":"grids","duration":"5006"},{"category":"component interface","duration":"4566"},{"category":"Robert","duration":"4429"},{"category":"update server","duration":"3399"},{"category":"POS","duration":"3143"},{"category":"Claudio","duration":"1867"},{"category":"smoke break","duration":"1635"},{"category":"POS - data structure","duration":"1007"},{"category":"pay screen","duration":"808"},{"category":"lunch","duration":"669"},{"category":"lookups","duration":"484"},{"category":"bathroom","duration":"237"},{"category":"label","duration":"82"},{"category":"organize issues","duration":"22"}]';
-
-			$.ajax({
-				type: 'POST',
-				url: 'php/summary.php',
-				data: {
-					timeframe: {
-						start: start,
-						end: end,
-						userID: userID
-					}
-				},
-
-				error: function(){
-					console.error('unable to fetch summary', arguments);
-				},
-
-				success: function(resp){
-					
-					resp = JSON.parse(resp);
-					
-					if(resp.status){
-						taskSummary = resp.data;
-					} else {
-						console.error(resp.message);
-						console.warn('using test data instead');
-						taskSummary = JSON.parse(TEST_DATA);
-					};
-				},
-
-				complete: function(){
-					callback(taskSummary);
-				}
-			});
-		};
-
-		/**
-		* @param {Date} [start]
-		* @param {Date} [end]
-		**/
-		function getTasksFromHistory(start, end){
-			return getTasks(start, end);
-		};
-
-
-		/**
-		* save task locally in array
-		**/
-		function storeLocal(start, end, category){
-			var unsavedTasks = getUnsavedTasksLocal();
-
-			unsavedTasks.push({
-				start: start,
-				end: end,
-				category: category
-			});
-
-			//	convert back to JSON for storage
-			localStorage.unsavedTasks = JSON.stringify(unsavedTasks);
-		};
-
-
-		function clearLocal(){
-			delete localStorage.unsavedTasks;
-		};
-
-		/**
-		* @return {array}
-		**/
-		function getUnsavedTasksLocal(){
-			var unsavedTasks = localStorage.unsavedTasks;
-
-			try {
-				unsavedTasks = JSON.parse(unsavedTasks);
-			} catch(e){
-				unsavedTasks = [];
-			};
-
-			return unsavedTasks;
-		};
-
-		
-		/**
-		* @param {function} callback, passed array
-		**/
-		function getActiveTasks(callback){
-			var unsavedLocal = getUnsavedTasksLocal();
-
-			console.warn('need query to get only unfinished tasks');
-			console.info('We should probably rethink this whole thing.  Maybe have a flag for "day complete" or something and only resume with those.');
-
-/*			load(0, Date.now(), function(tasks){
-
-			});*/
-		};
-
-		return {
-			saveCategories: saveCategories,
-			saveTasks: saveTasks,
-			storeLocal: storeLocal,
-			load: load,
-			summary: summary,
-			getTasks: getTasksFromHistory,
-			getActiveTasks: getActiveTasks
-		};
-	};
-
 	//=================================================================
 	//	models
 
+	/**
+	* Backbone Model
+	* @class Task
+	* @constructor
+	**/
 	var Task = Backbone.Model.extend({
 
 		defaults: {
@@ -982,6 +988,12 @@ function(util,
 		},
 
 
+		/**
+		* @method scale
+		* @param graphStart
+		* @param timeSpan
+		* @param timelinePixels
+		**/
 		scale: function(graphStart, timeSpan, timelinePixels){
 
 			//	TODO is this this best way to get/set within the model?
@@ -996,7 +1008,9 @@ function(util,
 			});
 		},
 
+
 		/**
+		* @method getSummary
 		* @return {object}
 		**/
 		getSummary: function(){
@@ -1011,18 +1025,8 @@ function(util,
 			};
 		},
 
-
-		getDisplaySpecs: function(){
-
-			console.log(this);
-
-			return {
-				left: left + 'px',
-				width: width + 'px'
-			}
-		},
-
 		/**
+		* @method setEnd
 		* @param {Date} [time] defaults to current time
 		* @return {boolean}
 		**/
@@ -1053,8 +1057,8 @@ function(util,
 		},
 
 		/**
+		* @method setStart
 		* @param {number, Date} time
-		* @return {boolean} success
 		**/
 		setStart: function(time){
 
@@ -1072,7 +1076,10 @@ function(util,
 			};
 		},
 
-
+		/**
+		* remove the view, delete the task from the TaskGroup
+		* @method delete
+		**/
 		delete: function(){
 			this.get('view').remove();
 			this.attributes.taskGroup.deleteTask(this);
@@ -1082,7 +1089,11 @@ function(util,
 	//=================================================================
 	//	views
 
-	
+	/**
+	* Backbone View
+	* @class TaskModifierView
+	* @constructor
+	**/
 	var TaskModifierView = Backbone.View.extend({
 
 		initialize: function(){
@@ -1242,7 +1253,6 @@ function(util,
 	});
 
 	return {
-		Graph: Graph,
-		HistoryProxy: HistoryProxy
+		Graph: Graph
 	};
 });

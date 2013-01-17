@@ -28,7 +28,7 @@ function(graphModule,
 
 	function Summary(start, end){
 
-		var historyProxy = new graphModule.HistoryProxy('whatever', 0);
+		var historyProxy = new util.HistoryProxy(0);
 
 		historyProxy.summary(start, end, function(t){
 			createViews(t);

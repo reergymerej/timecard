@@ -9,9 +9,12 @@ $(function(){
 
 	$('button, input[type="submit"]').button();
 
+	$('#graphStartDate').datepicker();
+
 	require(['graph', 'util'], function(graph, util){
 
-		var g;
+		var g,
+			graphStart = $('#graphStartDate, #graphStartTime');
 
 		//	set up components, event listeners handled in modules
 		$( '#refresh-interval').slider({
@@ -50,6 +53,20 @@ $(function(){
 
 				g = new graph.Graph( $('#graph') );
 				g.record();
+				
+				graphStart.change(function(){
+					var val = '';
+					graphStart.each(function(){
+						val += $(this).val() + ' ';
+					});
+					
+					val = $.trim(val);
+					if(val === ''){
+						return;
+					};
+					g.changeStart(util.convertUserInputToDate(val));
+				});
+
 				$(this).parent().remove();
 				$('.recorder-controls').show();
 			});
