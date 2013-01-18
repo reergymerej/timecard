@@ -1041,7 +1041,11 @@ function(util,
 
 			var left = (this.attributes.start - graphStart) / timeSpan * timelinePixels,
 				width = this.attributes.end ? (this.attributes.end - this.attributes.start) / 
-					timeSpan * timelinePixels : timelinePixels - left;
+					timeSpan * timelinePixels : timelinePixels - left,
+				MIN_WIDTH = 20;
+
+			//	account for minimum width
+			width = Math.max(width, MIN_WIDTH);
 
 			this.set({
 				left: left,

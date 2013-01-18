@@ -519,6 +519,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "js/graph.js",
+			"settings":
+			{
+				"buffer_size": 26317,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/timecard.js",
+			"settings":
+			{
+				"buffer_size": 2306,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -548,13 +564,14 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/load.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/css/main.scss",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/summary.php",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
@@ -674,8 +691,7 @@
 		"/C/Users/Jeremy Greer/Desktop/conference call notes.txt",
 		"/C/Users/Jeremy Greer/Desktop/wrms info/Detail Screen Data Example.txt",
 		"/C/Users/Jeremy Greer/Desktop/wrms info/List Screen Data Example.txt",
-		"/C/Users/Jeremy Greer/Desktop/wrms info/applicationContext node for local db.txt",
-		"/C/Users/Jeremy Greer/Desktop/wrms info/detail screens.txt"
+		"/C/Users/Jeremy Greer/Desktop/wrms info/applicationContext node for local db.txt"
 	],
 	"find":
 	{
@@ -706,6 +722,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"history",
+			"new Task",
+			"save",
 			"TaskView",
 			"TaskManager",
 			"addTaskGroup",
@@ -830,10 +849,7 @@
 			"getSend",
 			"inProgress",
 			".transfer(",
-			".transfer",
-			".transfer(",
-			"transfer",
-			"getSendData"
+			".transfer"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -973,14 +989,69 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "js/graph.js",
+					"settings":
+					{
+						"buffer_size": 26317,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								154,
+								154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/timecard.js",
+					"settings":
+					{
+						"buffer_size": 2306,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								922,
+								927
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 360.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
