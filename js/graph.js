@@ -251,6 +251,10 @@ function(util,
 			taskLines.push(taskGroup);
 			taskManager.addTaskGroup(taskGroup);
 			taskGraphElement.prepend(taskGroup.getElement());
+
+			//	debug
+			// console.log('test');
+			// new TaskGroupView();
 		};
 
 
@@ -1294,6 +1298,19 @@ function(util,
 				task: this,
 				taskModel: this.model
 			});
+		}
+	});
+
+
+	var TaskGroupView = Backbone.View.extend({
+		//task_group_template
+		initialize: function(){
+			var template = _.template( $('#task_group_template').html() );
+			this.$el.html( template );
+			this.$el.appendTo('body');
+		},
+		render: function(){
+
 		}
 	});
 

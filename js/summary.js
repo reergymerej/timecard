@@ -19,8 +19,6 @@ function(graphModule,
 			var template = _.template( $('#summary_lineitem_template').html(), variables );
 			this.$el.html(template);
 
-			console.log(this);
-
 			$('#summary').append(this.$el);
 		}
 	});
