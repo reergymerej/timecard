@@ -246,15 +246,15 @@ function(util,
 		* @private
 		**/
 		function addTaskGroup(tasks){
-			var taskGroup = new TaskGroup(tasks);
+			var taskGroup = new TaskGroup(tasks),
+				taskGroupNew = new TaskGroupModel();
 
 			taskLines.push(taskGroup);
 			taskManager.addTaskGroup(taskGroup);
 			taskGraphElement.prepend(taskGroup.getElement());
 
-			//	debug
-			// console.log('test');
-			// new TaskGroupView();
+			taskGroupNew.set({ view: new TaskGroupView({model: taskGroupNew}) });
+			taskGroupNew.addTask();
 		};
 
 
@@ -679,6 +679,8 @@ function(util,
 		function addTask(preload){
 			var task;
 
+			
+			return;
 			//	make new Task with backbone
 			task = new Task({
 				taskGroup: publicInterface,
@@ -1135,6 +1137,49 @@ function(util,
 		}
 	});
 
+	/**
+	* model to manage a group of similar tasks and stopping/starting instances
+	* @class TaskGroupModel
+	* @constructor
+	**/
+	var TaskGroupModel = Backbone.Model.extend({
+		initialize: function(){
+
+			this.tasks = [];
+		},
+
+		/**
+		* add a new task to this TaskGroupModel
+		* @method addTask
+		* @param {object} [preload]
+		**/
+		addTask: function(preload){
+			var task;
+
+			//	make new Task with backbone
+			task = new Task({
+				taskGroup: this
+			});
+
+			this.tasks.push(task);
+			
+			//	move this task line to the top of the graph
+			//shiftTaskLineToTop();
+
+			//	save task locally
+			// history.storeLocal(task.get('start'), task.get('end'), label.getLabel());
+		},
+
+		/**
+		* get the DOM element that contains the tasks this TaskGroupModel manages
+		* @method getTaskContainer
+		* @return {jq}
+		**/
+		getTaskContainer: function(){
+			return this.attributes.view.$el.find('.timeline');
+		}
+	});
+
 	//=================================================================
 	//	views
 
@@ -1265,7 +1310,7 @@ function(util,
 				.addClass('task');
 
 			//	attach to DOM
-			this.$el.appendTo( this.options.taskGroup.getElement() );
+			this.$el.appendTo( this.options.taskGroup.getTaskContainer() );
 
 			this.model.on('change', this.render, this);
 
@@ -1302,15 +1347,29 @@ function(util,
 	});
 
 
+	/**
+	* line that contains all instances if a task
+	* @class TaskGroupView
+	* @constructor
+	**/
 	var TaskGroupView = Backbone.View.extend({
 		//task_group_template
 		initialize: function(){
 			var template = _.template( $('#task_group_template').html() );
 			this.$el.html( template );
-			this.$el.appendTo('body');
+			this.$el.prependTo('#graph');
+
+			console.log('TaskGroupView', this);
 		},
 		render: function(){
 
+		},
+		events: {
+			'click .toggle': 'toggleTask'
+		},
+		toggleTask: function(){
+			console.log('toggled');
+			console.log(this.model.tasks);
 		}
 	});
 

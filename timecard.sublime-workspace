@@ -520,6 +520,14 @@
 	"buffers":
 	[
 		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 3634,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "js/timecard.js",
 			"settings":
 			{
@@ -531,7 +539,15 @@
 			"file": "js/graph.js",
 			"settings":
 			{
-				"buffer_size": 32758,
+				"buffer_size": 33084,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/summary.js",
+			"settings":
+			{
+				"buffer_size": 1430,
 				"line_ending": "Windows"
 			}
 		}
@@ -699,7 +715,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\wrms\\",
@@ -722,6 +738,15 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"new TaskGroup",
+			"pause",
+			"timeline",
+			"toggle",
+			"Toggle",
+			"click",
+			"addTaskGroup",
+			"newTaskButton",
+			"controls",
 			"history",
 			"new Task",
 			"save",
@@ -840,16 +865,7 @@
 			"getSendFieldsMap",
 			"getSendData",
 			"sendData",
-			"console.warn",
-			"transferRowsIntoGrids",
-			"datahandler",
-			"TODO",
-			"sendToServer",
-			"getSendFieldsMap",
-			"getSend",
-			"inProgress",
-			".transfer(",
-			".transfer"
+			"console.warn"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -995,11 +1011,38 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 3634,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1595,
+								1576
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 224.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
 					"file": "js/timecard.js",
 					"settings":
 					{
@@ -1010,8 +1053,8 @@
 						"selection":
 						[
 							[
-								519,
-								519
+								779,
+								779
 							]
 						],
 						"settings":
@@ -1026,19 +1069,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "js/graph.js",
 					"settings":
 					{
-						"buffer_size": 32758,
+						"buffer_size": 33084,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								28405,
-								28405
+								5246,
+								5246
 							]
 						],
 						"settings":
@@ -1047,7 +1090,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 712.0,
+						"translation.y": 2499.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/summary.js",
+					"settings":
+					{
+						"buffer_size": 1430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								199,
+								199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1096,6 +1166,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"summ",
+				"js/summary.js"
+			],
 			[
 				"wpos.bu",
 				"scripts/wpos/wpos.buttons.js"
