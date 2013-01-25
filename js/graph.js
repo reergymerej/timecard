@@ -17,8 +17,6 @@ function(util,
 	**/
 	function Graph(element){
 
-		window.test = new util.HistoryProxy(1234);
-
 		var 
 			/**
 			* container for the Graph
@@ -183,10 +181,7 @@ function(util,
 				timeSpan = endTime - startTime;
 			};
 
-			//	adjust the TaskLines
-			for(var i = 0; i < taskLines.length; i++){
-				taskLines[i].scale(startTime, timeSpan);
-			};
+			taskManager.scaleTaskGroups(timeSpan);
 
 			showTicks(timeSpan, startTime);
 
@@ -246,15 +241,7 @@ function(util,
 		* @private
 		**/
 		function addTaskGroup(tasks){
-			var taskGroup = new TaskGroup(tasks),
-				taskGroupNew = new TaskGroupModel();
-
-			taskLines.push(taskGroup);
-			taskManager.addTaskGroup(taskGroup);
-			taskGraphElement.prepend(taskGroup.getElement());
-
-			taskGroupNew.set({ view: new TaskGroupView({model: taskGroupNew}) });
-			taskGroupNew.addTask();
+			taskManager.addTaskGroup();
 		};
 
 
@@ -460,7 +447,7 @@ function(util,
 			//	capture current organization of Tasks and TaskGroups
 			for(var i = 0; i < taskGroups.length; i++){
 				
-				taskGroups[i].save();
+				taskGroups[i].saveTaskGroup();
 
 				//	concatenate so arrays returned from TaskGroup are combined into one
 				tasksUsed = tasksUsed.concat(taskGroups[i].getTasks());
@@ -530,19 +517,37 @@ function(util,
 
 		
 		/**
-		* push to the taskGroups array
+		* Create a new TaskGroupModel & TaskGroupView
 		* @method addTaskGroup
-		* @param tg
 		**/
-		function addTaskGroup(tg){
-			taskGroups.push(tg);
+		function addTaskGroup(){
+			
+			var taskGroupModel = new TaskGroupModel(),
+				taskGroupView = new TaskGroupView({
+				model: taskGroupModel
+			});
+
+			taskGroups.push(taskGroupModel);
+		};
+
+
+		/**
+		* trigger each TaskGroup to rescale
+		* @method scaleTaskGroups
+		* @param {number} timeSpan
+		**/
+		function scaleTaskGroups(timeSpan){
+			for(var i = 0; i < taskGroups.length; i++){
+				taskGroups[i].set({timeSpan: timeSpan});
+			};
 		};
 
 		return {
 			addTaskGroup: addTaskGroup,
 			save: save,
 			load: load,
-			getSummary: getSummary
+			getSummary: getSummary,
+			scaleTaskGroups: scaleTaskGroups
 		}
 	};
 
@@ -648,7 +653,7 @@ function(util,
 			getCategory: getCategory,
 			getTasks: getTasks,
 			scale: scale,
-			save: save,
+			saveTaskGroup: save,
 			deleteTask: deleteTask,
 			addTask: addTask
 		};
@@ -1146,6 +1151,23 @@ function(util,
 		initialize: function(){
 
 			this.tasks = [];
+			this.timeSpan = 0;
+			this.startTime = 0;
+			this.on('change', this.handleChanges, this);
+		},
+
+		/**
+		* listen for changes to this model and handle them accordingly - primarily used
+		* to listen for changes to timespan
+		* @method handleChanges
+		* @param {TaskGroupModel} model
+		* @param {object} info info about what changed
+		**/
+		handleChanges: function(model, info){
+			if(info.changes.timeSpan){
+				console.log(model.changed.timeSpan);
+				this.scaleTasks(0, model.changed.timeSpan);
+			};
 		},
 
 		/**
@@ -1177,11 +1199,60 @@ function(util,
 		**/
 		getTaskContainer: function(){
 			return this.attributes.view.$el.find('.timeline');
+		},
+
+		/**
+		* rescale the dimensions of each task in this TaskGroup
+		* @method scale
+		* @param start
+		* @param timeSpan
+		**/
+		scaleTasks: function(startTime, timeSpan){
+			
+			var timelineWidth = this.getTaskContainer().width();
+
+			for(var i = 0; i < this.tasks.length; i++){
+				this.tasks[i].scale(startTime, timeSpan, timelineWidth);
+			};
+		},
+
+		/**
+		* appears to just assign the category to each task
+		* @method save
+		**/
+		saveTaskGroup: function(){
+
+			//	record category
+			this.category = this.label.getLabel();
+
+			//	assign category to each task
+			for(var i = 0; i < tasks.length; i++){
+				tasks[i].set({ category: category });
+			};
+		}
+	});
+
+
+	var LabelModel = Backbone.Model.extend({
+		defaults: {
+			label: 'label'
+		},
+		initialize: function(){
+			
 		}
 	});
 
 	//=================================================================
 	//	views
+
+	var LabelView = Backbone.View.extend({
+		initialize: function(){
+			this.render();
+		},
+		render: function(){
+		}
+	});
+
 
 	/**
 	* Backbone View
@@ -1359,10 +1430,10 @@ function(util,
 			this.$el.html( template );
 			this.$el.prependTo('#graph');
 
-			console.log('TaskGroupView', this);
+			this.model.on('change', this.render, this);
 		},
 		render: function(){
-
+			console.log('TaskGroupModel changed', this.model.get('timeSpan'));
 		},
 		events: {
 			'click .toggle': 'toggleTask'
