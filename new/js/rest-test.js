@@ -73,10 +73,8 @@ var TaskGroupView = Backbone.View.extend({
 
 var TaskModel = Backbone.Model.extend({
 	urlRoot: 'php/api/Task',
-	defaults: {
-		start: Date.now()
-	},
 	initialize: function(){
+		this.attributes.start = Date.now();
 	},
 	stop: function(){
 		this.set({end: Date.now()});
@@ -99,8 +97,21 @@ var TaskView = Backbone.View.extend({
 		});
 	},
 	render: function(){
-		this.$el.find('.start').val(this.model.get('start'));
-		this.$el.find('.end').val(this.model.get('end'));
+
+		var start = this.model.get('start'),
+			end = this.model.get('end');
+
+		start = new Date(this.model.get('start'));
+		start = getTimeStampFromDate(start);
+
+		if(end){
+			end = new Date(this.model.get('end'));
+			end = getTimeStampFromDate(end);
+		};
+
+		this.$el.find('.start').val(start);
+		this.$el.find('.end').val(end);
+
 	},
 	events: {
 		'click a': 'deleteTask',
@@ -119,7 +130,12 @@ var TaskView = Backbone.View.extend({
 			end;
 
 		start = this.$el.find('.start').val();
+		start = getDateFromTimeStamp(start).getTime();
+
 		end = this.$el.find('.end').val();
+		if(end){
+			end = getDateFromTimeStamp(end).getTime();
+		};
 
 		this.model.set({
 			start: start,
@@ -143,3 +159,53 @@ $(function(){
 		taskGroups.push(taskGroup);
 	});
 });
+
+/**
+* Converts seconds into h:mm:ss format.
+* @param {integer} date
+* @return {string}
+**/
+function getTimeStampFromDate(date){
+	var h,
+		m,
+		s;
+
+	h = date.getHours();
+	m = pad(date.getMinutes());
+	s = pad(date.getSeconds());
+
+	return h + ':' + m + ':' + s;
+
+	function pad(x){
+		if(Number(x) < 10){
+			return '0' + x;
+		};
+		return x;
+	};
+};
+
+
+/**
+* get Date for today adjusted by h:mm:ss
+* @param {string} time h:mm:ss
+* @return {Date}
+**/
+function getDateFromTimeStamp(time){
+	var parts = time.split(':'),
+		date = new Date();
+
+	if(parts.length < 3){
+		return;
+	};
+
+	date.setHours(parts[0]);
+	date.setMinutes(parts[1]);
+	date.setSeconds(parts[2]);
+
+	return date;
+};
+
+
+// $.ajaxPrefilter(function(options){
+// 	options.url = 'http://wordtotheblurd.com/dev/timecard/new/' + options.url;
+// });
