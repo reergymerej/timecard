@@ -4,14 +4,37 @@
 	<script type="text/javascript" src="lib/underscore.js"></script>
 	<script type="text/javascript" src="lib/backbone.js"></script>
 	<script type="text/javascript" src="js/rest-test.js"></script>
+
+	
 	<script type="text/template" id="task_view_template">
-		<p>I am a new Task.</p>
-		<span class="id"></span>
-		<a href="#">delete</a>
+		<form class="form-inline">
+			<label>start</label>
+			<input class="start" type="text" />
+			<label>end</label>
+			<input class="end" type="text" />
+			<a href="#" class="btn btn-danger">delete</a>
+		</form>
 	</script>
+	
+	<script type="text/template" id="task-group-view">
+		<h4>TaskGroupView</h4>
+		<label></label>
+		<button class="btn toggle">
+			<span class="icon-play"></span>
+		</button>
+		<div class="tasks"></div>
+	</script>
+
+
+	<!-- bootstrap -->
+	<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-	<button id="new">new</button>
-	<div id="taskHolder"></div>
+	<div class="page">
+		<button class="btn btn-primary new-taskGroup">New Task Group</button>
+		<div class="recorder"></div>
+	</div>
 </body>
 </html>

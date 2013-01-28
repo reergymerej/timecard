@@ -17,11 +17,12 @@ $noun = $request[0];
 //	get variables
 //	TODO this should eventually not be tied to Tasks so we can reuse this script for other objects
 $start = mysql_real_escape_string($post->start);
+$label = mysql_real_escape_string($post->label);
 $user_id = 0;
 
 //	insert to DB
-$sql = "INSERT INTO task (start, user_id) ";
-$sql .= "VALUES ($start, $user_id);";
+$sql = "INSERT INTO task (start, label, user_id) ";
+$sql .= "VALUES ($start, '$label', $user_id);";
 $result = mysql_query($sql);
 
 if(mysql_error()){

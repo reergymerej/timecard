@@ -39,7 +39,7 @@ $result = mysql_query($sql);
 if(mysql_error()){
 	return false;
 } else {
-	echo mysql_affected_rows();
+	//echo mysql_affected_rows();
 };
 
 
