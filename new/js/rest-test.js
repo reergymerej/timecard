@@ -2,12 +2,14 @@ var taskGroups = [];
 
 var TaskGroupModel = Backbone.Model.extend({
 	defaults: {
-		label: 'label',
-		running: false,
-		tasks: []
+		label: 'new task',
+		running: false
 	},
 	initialize: function(){
 		var that = this;
+
+		this.set({tasks: []});
+
 		this.on('change:label', function(){
 			for(var i = 0; i < that.attributes.tasks.length; i++){
 				that.attributes.tasks[i].set({label: that.get('label')});
@@ -58,16 +60,34 @@ var TaskGroupView = Backbone.View.extend({
 		});
 	},
 	render: function(){
-		this.$el.find('label').html(this.model.get('label'));
+		this.$el.find('.taskGroupLabel').html(this.model.get('label'));
 	},
 	renderToggle: function(){
 		this.$el.find('.toggle > span').toggleClass('icon-play icon-pause');
 	},
 	events: {
-		'click .toggle': 'toggle'
+		'click .toggle': 'toggle',
+		'click .taskGroupLabel': 'modifyLabel'
 	},
 	toggle: function(){
 		this.model.toggle();
+	},
+	modifyLabel: function(){
+		var label = this.$el.find('.taskGroupLabel'),
+			input = $('<input>'),
+			that = this;
+
+		label.after(input).hide();
+
+		input
+		.val(this.model.get('label'))
+		.focus()
+		.blur(function(){
+			var input = $(this);
+			that.model.set({label: input.val()});
+			input.hide();
+			label.show();
+		});
 	}
 });
 

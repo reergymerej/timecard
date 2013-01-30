@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"conver",
+				"convertSecondsToTimeStamp"
+			],
+			[
 				"colum",
 				"columnManager"
 			],
@@ -510,15 +514,27 @@
 			[
 				"repl",
 				"replaceDateConstants"
-			],
-			[
-				"part",
-				"parts"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "js/rest-test.js",
+			"settings":
+			{
+				"buffer_size": 4126,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 1118,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -548,6 +564,9 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html_backup.html",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.modal.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.lookup-components.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.buttonhandler.js",
@@ -672,10 +691,7 @@
 		"/C/xampp/htdocs/wrms/slickgrid/examples/example4-model.html",
 		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js",
 		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example5-collapsing.html",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example-header-row.html",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example-plugin-headermenu.html",
-		"/C/xampp/htdocs/wrms/slickgrid/slick.grid.js"
+		"/C/xampp/htdocs/wrms/slickgrid/examples/example5-collapsing.html"
 	],
 	"find":
 	{
@@ -708,9 +724,20 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"getDateFromTimeStamp",
+			".val",
+			"val",
+			"val(",
+			"save",
+			"delete",
+			"destroy",
+			"default",
+			"convert",
+			"sec",
+			"convertSecondsToTime",
 			"@method",
 			"autosearch",
 			"prepopulate",
@@ -827,25 +854,15 @@
 			"wrms.core",
 			"transactionMod",
 			"hasChildren",
-			"trigger",
-			"$.trigger",
-			"ModalListScreen",
-			"modalDetailScreen",
-			"require",
-			"require(",
-			"require",
-			"find-button",
-			";\n",
-			"controlClick",
-			"wrms.masking",
-			"masking"
+			"trigger"
 		],
 		"highlight": true,
 		"in_selection": false,
-		"preserve_case": true,
+		"preserve_case": false,
 		"regex": false,
 		"replace_history":
 		[
+			"date",
 			"",
 			"saveUrl",
 			"options.parentScreen",
@@ -972,20 +989,74 @@
 			"datahandler: datahandler",
 			"destinationTableName",
 			"transferRowsIntoGrids",
-			"scope",
-			"console.error('"
+			"scope"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "js/rest-test.js",
+					"settings":
+					{
+						"buffer_size": 4126,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2913,
+								2913
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1299.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 1118,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								482,
+								482
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
