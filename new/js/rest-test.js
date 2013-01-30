@@ -95,6 +95,9 @@ var TaskModel = Backbone.Model.extend({
 	urlRoot: 'php/api/Task',
 	initialize: function(){
 		this.attributes.start = Date.now();
+		this.on('change:label', function(){
+			this.save();
+		});
 	},
 	stop: function(){
 		this.set({end: Date.now()});
