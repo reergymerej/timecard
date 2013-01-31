@@ -1,5 +1,8 @@
 <html>
 <head>
+
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+
 	<script type="text/javascript" src="lib/jquery.min.js"></script>
 	<script type="text/javascript" src="lib/underscore.js"></script>
 	<script type="text/javascript" src="lib/backbone.js"></script>
@@ -7,12 +10,29 @@
 
 	
 	<script type="text/template" id="task_view_template">
-		<form class="form-inline">
-			<label>start</label>
-			<input class="start" type="text" />
-			<label>end</label>
-			<input class="end" type="text" />
-			<a href="#" class="btn btn-danger">delete</a>
+		<div class="task"></div>
+	</script>
+
+	<script type="text/template" id="task_modifier_view_template">
+		<form class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label">start</label>
+				<div class="controls">
+					<input class="start" type="text" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">end</label>
+				<div class="controls">
+					<input class="end" type="text" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-success">ok</button>
+					<a href="#" class="delete btn btn-danger">delete</a>
+				</div>
+			</div>
 		</form>
 	</script>
 	

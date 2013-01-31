@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"TaskM",
+				"TaskModifierView"
+			],
+			[
 				"taskG",
 				"taskGroupLabel"
 			],
@@ -510,52 +514,32 @@
 			[
 				"perfo",
 				"performOperations"
-			],
-			[
-				"perf",
-				"performOperation"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "js/rest-test.js",
-			"settings":
-			{
-				"buffer_size": 4581,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 1110,
+				"buffer_size": 1627,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "php/delete.php",
+			"file": "css/main.scss",
 			"settings":
 			{
-				"buffer_size": 619,
+				"buffer_size": 67,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "php/put.php",
+			"file": "js/rest-test.js",
 			"settings":
 			{
-				"buffer_size": 1183,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "php/post.php",
-			"settings":
-			{
-				"buffer_size": 864,
+				"buffer_size": 5706,
 				"line_ending": "Windows"
 			}
 		}
@@ -588,9 +572,10 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/delete.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/put.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html_backup.html",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.modal.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.lookup-components.js",
@@ -714,8 +699,7 @@
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/validation.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/css/grid.css",
 		"/C/xampp/htdocs/wrms/slickgrid/examples/example4-model.html",
-		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js",
-		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js"
+		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js"
 	],
 	"find":
 	{
@@ -751,6 +735,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"focus",
 			"getDateFromTimeStamp",
 			".val",
 			"val",
@@ -877,8 +862,7 @@
 			"contenthandler",
 			"wrms.core",
 			"transactionMod",
-			"hasChildren",
-			"trigger"
+			"hasChildren"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1024,56 +1008,55 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "js/rest-test.js",
-					"settings":
-					{
-						"buffer_size": 4581,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2238,
-								2238
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 495.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 1110,
+						"buffer_size": 1627,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								757,
-								757
+								1058,
+								1058
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "css/main.scss",
+					"settings":
+					{
+						"buffer_size": 67,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								65,
+								65
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1083,79 +1066,27 @@
 				},
 				{
 					"buffer": 2,
-					"file": "php/delete.php",
+					"file": "js/rest-test.js",
 					"settings":
 					{
-						"buffer_size": 619,
+						"buffer_size": 5706,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								596,
-								596
+								3948,
+								3948
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "php/put.php",
-					"settings":
-					{
-						"buffer_size": 1183,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1011,
-								1011
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 689.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "php/post.php",
-					"settings":
-					{
-						"buffer_size": 864,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								858,
-								826
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 284.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

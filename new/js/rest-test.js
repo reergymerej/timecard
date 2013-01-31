@@ -145,8 +145,15 @@ var TaskView = Backbone.View.extend({
 
 	},
 	events: {
-		'click a': 'deleteTask',
-		'change .start, .end': 'saveTask'
+		'click': 'showTaskModifier'
+		// 'click a': 'deleteTask',
+		// 'change .start, .end': 'saveTask'
+	},
+	showTaskModifier: function(){
+		var mod = new TaskModifierView({
+			taskModel: this.model,
+			taskView: this
+		});
 	},
 	deleteTask: function(){
 		var that = this;
@@ -177,6 +184,42 @@ var TaskView = Backbone.View.extend({
 	}
 });
 
+var TaskModifierView = Backbone.View.extend({
+	initialize: function(){
+
+		var template = _.template( $('#task_modifier_view_template').html(), {} );
+		this.$el.html(template);
+		this.$el.appendTo( this.options.taskView.$el );
+	
+		console.log('prepopulate this by referencing the task model');
+		console.log('shove in values using _ template variables');
+
+		this.render();
+	},
+
+	render: function(){
+		this.$el.find('input').first().focus();
+	},
+
+	events: {
+		'click': 'preventBubble',
+		'submit form': 'submitForm',
+		'click .delete': 'deleteTask'
+	},
+
+	preventBubble: function(ev){
+		ev.stopPropagation();
+	},
+
+	submitForm: function(){
+		console.log('woo');
+		return false;
+	},
+
+	deleteTask: function(){
+		console.log('what?');
+	}
+});
 
 $(function(){
 	$('.new-taskGroup').click(function(){
