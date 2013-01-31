@@ -46,7 +46,7 @@ var TaskGroupView = Backbone.View.extend({
 	initialize: function(){
 		var that = this;
 		var template = _.template( $('#task-group-view').html(), {} );
-		this.$el.append(template).appendTo( $('.recorder') );
+		this.$el.append(template).prependTo( $('.recorder') );
 		this.render();
 
 		this.model.set({taskContainer: this.$el.find('.tasks')});
@@ -63,7 +63,15 @@ var TaskGroupView = Backbone.View.extend({
 		this.$el.find('.taskGroupLabel').html(this.model.get('label'));
 	},
 	renderToggle: function(){
+		var that = this;
+
 		this.$el.find('.toggle > span').toggleClass('icon-play icon-pause');
+
+		if(this.model.get('running') && this.$el.find('.end').val() !== $('.recorder > div').first().find('.end').val()){
+			this.$el.slideUp(function(){
+				that.$el.prependTo($('.recorder')).slideDown();
+			});
+		};
 	},
 	events: {
 		'click .toggle': 'toggle',

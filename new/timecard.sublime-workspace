@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"taskG",
+				"taskGroupLabel"
+			],
+			[
 				"conver",
 				"convertSecondsToTimeStamp"
 			],
@@ -510,10 +514,6 @@
 			[
 				"perf",
 				"performOperation"
-			],
-			[
-				"repl",
-				"replaceDateConstants"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "js/rest-test.js",
 			"settings":
 			{
-				"buffer_size": 4126,
+				"buffer_size": 4581,
 				"line_ending": "Windows"
 			}
 		},
@@ -531,7 +531,31 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 1118,
+				"buffer_size": 1110,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "php/delete.php",
+			"settings":
+			{
+				"buffer_size": 619,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "php/put.php",
+			"settings":
+			{
+				"buffer_size": 1183,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "php/post.php",
+			"settings":
+			{
+				"buffer_size": 864,
 				"line_ending": "Windows"
 			}
 		}
@@ -564,6 +588,7 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/put.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html_backup.html",
@@ -690,8 +715,7 @@
 		"/C/workspace_wrms/wrms/WebContent/assets/css/grid.css",
 		"/C/xampp/htdocs/wrms/slickgrid/examples/example4-model.html",
 		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js",
-		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example5-collapsing.html"
+		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js"
 	],
 	"find":
 	{
@@ -1000,7 +1024,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -1008,15 +1032,15 @@
 					"file": "js/rest-test.js",
 					"settings":
 					{
-						"buffer_size": 4126,
+						"buffer_size": 4581,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2913,
-								2913
+								2238,
+								2238
 							]
 						],
 						"settings":
@@ -1025,7 +1049,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1299.0,
+						"translation.y": 495.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1035,15 +1059,15 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 1118,
+						"buffer_size": 1110,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								482,
-								482
+								757,
+								757
 							]
 						],
 						"settings":
@@ -1053,6 +1077,85 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "php/delete.php",
+					"settings":
+					{
+						"buffer_size": 619,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								596,
+								596
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "php/put.php",
+					"settings":
+					{
+						"buffer_size": 1183,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1011,
+								1011
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 689.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "php/post.php",
+					"settings":
+					{
+						"buffer_size": 864,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								858,
+								826
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
