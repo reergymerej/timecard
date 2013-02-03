@@ -142,7 +142,6 @@ var TaskView = Backbone.View.extend({
 
 		this.$el.find('.start').val(start);
 		this.$el.find('.end').val(end);
-
 	},
 	events: {
 		'click': 'showTaskModifier'
@@ -189,16 +188,22 @@ var TaskModifierView = Backbone.View.extend({
 
 		var template = _.template( $('#task_modifier_view_template').html(), {} );
 		this.$el.html(template);
-		this.$el.appendTo( this.options.taskView.$el );
-	
-		console.log('prepopulate this by referencing the task model');
-		console.log('shove in values using _ template variables');
-
+		this.$el.appendTo( this.options.taskView.$el.find('.task') );
 		this.render();
 	},
 
 	render: function(){
+		var start = this.options.taskModel.get('start'),
+			end = this.options.taskModel.get('end');
+
+		start = getTimeStampFromDate(new Date(start));
+		if(end){
+			end = getTimeStampFromDate(new Date(end));
+		};
+
 		this.$el.find('input').first().focus();
+		$('.start', this.$el).val(start);
+		$('.end', this.$el).val(end);
 	},
 
 	events: {
@@ -212,12 +217,34 @@ var TaskModifierView = Backbone.View.extend({
 	},
 
 	submitForm: function(){
-		console.log('woo');
+
+		var start = $('.start', this.$el),
+			end = $('.end', this.$el);
+
+		start = getDateFromTimeStamp(start.val());
+		end = getDateFromTimeStamp(end.val());
+
+		this.options.taskModel.set({
+			start: start,
+			end: end
+		});
+
+		this.remove();
 		return false;
 	},
 
 	deleteTask: function(){
-		console.log('what?');
+
+		var that = this,
+			taskModel = this.options.taskModel,
+			taskView = this.options.taskView;
+
+		taskModel.destroy({
+			success: function(){
+				that.remove();
+				taskView.remove();
+			}
+		});
 	}
 });
 
@@ -236,13 +263,17 @@ $(function(){
 
 /**
 * Converts seconds into h:mm:ss format.
-* @param {integer} date
+* @param {Date} date
 * @return {string}
 **/
 function getTimeStampFromDate(date){
 	var h,
 		m,
 		s;
+
+	if(date === undefined){
+		return;
+	};
 
 	h = date.getHours();
 	m = pad(date.getMinutes());

@@ -4,228 +4,108 @@
 		"selected_items":
 		[
 			[
-				"TaskM",
-				"TaskModifierView"
+				"get",
+				"getDateFromTimeStamp"
 			],
 			[
-				"taskG",
-				"taskGroupLabel"
+				"getTime",
+				"getTimeStampFromDate"
 			],
 			[
 				"conver",
-				"convertSecondsToTimeStamp"
+				"convertSecondsToTime"
 			],
 			[
-				"colum",
-				"columnManager"
+				"mysql_fe",
+				"mysql_fetch_assoc"
 			],
 			[
-				"transa",
-				"transactionMod"
+				"isn",
+				"is_null"
 			],
 			[
-				"saveU",
-				"saveUserPreferences"
+				"par",
+				"paramIndex"
 			],
 			[
-				"getSc",
-				"getScreenName"
+				"req",
+				"request"
 			],
 			[
-				"user",
-				"userpreferences"
-			],
-			[
-				"conte",
-				"contentHandler"
-			],
-			[
-				"proo",
-				"prototype"
-			],
-			[
-				"prop",
-				"prototype"
-			],
-			[
-				"L",
-				"ListScreen"
-			],
-			[
-				"primar",
-				"primaryScreen"
-			],
-			[
-				"trans",
-				"transactionMod"
-			],
-			[
-				"modalD",
-				"modalDialog"
-			],
-			[
-				"conten",
-				"contentHandler"
-			],
-			[
-				"pop",
-				"populateComponents"
-			],
-			[
-				"table",
-				"tableName"
-			],
-			[
-				"getGr",
-				"getGrids"
-			],
-			[
-				"update",
-				"updates"
-			],
-			[
-				"res",
-				"result"
-			],
-			[
-				"pri",
-				"primaryModule"
-			],
-			[
-				"ge",
-				"getResult"
-			],
-			[
-				"scre",
-				"screenUtil"
-			],
-			[
-				"dataH",
-				"datahandler"
-			],
-			[
-				"getG",
-				"getGrids"
-			],
-			[
-				"cont",
-				"controlClick"
-			],
-			[
-				"key",
-				"keypadModule"
-			],
-			[
-				"exe",
-				"executeCallbacks"
-			],
-			[
-				"modu",
-				"modules"
+				"json",
+				"json_encode"
 			],
 			[
 				"des",
-				"destroyResult"
+				"destroyed"
 			],
 			[
-				"sub",
-				"submitSettings"
+				"mysql_nu",
+				"mysql_num_rows"
 			],
 			[
-				"dest",
-				"destroyModal"
+				"var",
+				"varName"
 			],
 			[
-				"moda",
-				"modalContentHandler"
+				"mysql_rea",
+				"mysql_real_escape_string"
 			],
 			[
-				"conve",
-				"convertChildren"
+				"mysql_er",
+				"mysql_error"
 			],
 			[
-				"pays",
-				"payscreenMod"
+				"mysql_e",
+				"mysql_error"
 			],
 			[
-				"de",
-				"defaultValues"
+				"mys_re",
+				"mysql_real_escape_string"
 			],
 			[
-				"sele",
-				"selectedIndex"
+				"mysql_re",
+				"mysql_real_escape_string"
 			],
 			[
-				"valid",
-				"validationUrl"
+				"taskG",
+				"TaskGroupModel"
 			],
 			[
-				"con",
-				"context"
+				"getTask",
+				"getTaskContainer"
 			],
 			[
-				"reci",
-				"receiptMod"
+				"delete",
+				"deleteTask"
 			],
 			[
-				"ini",
-				"initialElement"
+				"tota",
+				"totalDuration"
 			],
 			[
-				"eve",
-				"eventData"
+				"summ",
+				"summaryLines"
 			],
 			[
-				"grid",
-				"gridContainer"
+				"Summa",
+				"SummaryLineView"
 			],
 			[
-				"pay",
-				"payButton"
+				"new",
+				"newLabel"
 			],
 			[
-				"simple",
-				"simpleGrid"
+				"label",
+				"labels"
 			],
 			[
-				"hea",
-				"headerContainer"
-			],
-			[
-				"ATT",
-				"ATTR_CLEAR_FIELDS"
-			],
-			[
-				"dataF",
-				"dataFormat"
-			],
-			[
-				"DE",
-				"DETAIL"
-			],
-			[
-				"Pos",
-				"POSDataHandler"
-			],
-			[
-				"POS",
-				"POSDataHandler"
-			],
-			[
-				"succ",
-				"success"
-			],
-			[
-				"cal",
-				"onReadyCallback"
-			],
-			[
-				"suc",
-				"success"
+				"summa",
+				"summaryModule"
 			],
 			[
 				"scree",
-				"screenName"
+				"screenType"
 			],
 			[
 				"pre",
@@ -234,6 +114,10 @@
 			[
 				"dataha",
 				"datahandler"
+			],
+			[
+				"conte",
+				"contentHandler"
 			],
 			[
 				"string",
@@ -264,12 +148,24 @@
 				"parentContentHandler"
 			],
 			[
+				"succ",
+				"successCallback"
+			],
+			[
+				"trans",
+				"transferMethod"
+			],
+			[
 				"modalC",
 				"modalContext"
 			],
 			[
 				"closeModa",
 				"closeModalSearch"
+			],
+			[
+				"ATT",
+				"ATTR_MODAL_TITLE"
 			],
 			[
 				"compo",
@@ -282,6 +178,10 @@
 			[
 				"child",
 				"children"
+			],
+			[
+				"scre",
+				"screenType"
 			],
 			[
 				"head",
@@ -328,6 +228,10 @@
 				"columnsToReturn"
 			],
 			[
+				"colum",
+				"columnDefinitions"
+			],
+			[
 				"columns",
 				"columns"
 			],
@@ -360,8 +264,16 @@
 				"newGrid"
 			],
 			[
+				"getG",
+				"getGrid"
+			],
+			[
 				"convertT",
 				"convertToGridRowFormat"
+			],
+			[
+				"cont",
+				"container"
 			],
 			[
 				"clea",
@@ -372,8 +284,8 @@
 				"data-property"
 			],
 			[
-				"label",
-				"label"
+				"valid",
+				"validationSuccessful"
 			],
 			[
 				"columN",
@@ -382,6 +294,10 @@
 			[
 				"row",
 				"rowIndex"
+			],
+			[
+				"update",
+				"updated"
 			],
 			[
 				"popu",
@@ -406,10 +322,6 @@
 			[
 				"all",
 				"allFieldsPopulated"
-			],
-			[
-				"req",
-				"requiredFields"
 			],
 			[
 				"ATTR_F",
@@ -442,6 +354,10 @@
 			[
 				"hand",
 				"handleResponse"
+			],
+			[
+				"res",
+				"responseObj"
 			],
 			[
 				"wait",
@@ -514,32 +430,116 @@
 			[
 				"perfo",
 				"performOperations"
+			],
+			[
+				"perf",
+				"performOperation"
+			],
+			[
+				"repl",
+				"replaceDateConstants"
+			],
+			[
+				"part",
+				"parts"
+			],
+			[
+				"DATE",
+				"DATE_CONSTANTS"
+			],
+			[
+				"DAT",
+				"DATE_CONSTANTS"
+			],
+			[
+				"spli",
+				"splitOperationIntoElements"
+			],
+			[
+				"oper",
+				"operation"
+			],
+			[
+				"att",
+				"attributes"
+			],
+			[
+				"isDa",
+				"isDateOperation"
+			],
+			[
+				"getM",
+				"getMappedFieldsFromRows"
+			],
+			[
+				"getD",
+				"getDataForServer"
+			],
+			[
+				"pars",
+				"parseMap"
+			],
+			[
+				"grid",
+				"gridValue"
+			],
+			[
+				"PO",
+				"PO_SKU_ID"
+			],
+			[
+				"primar",
+				"primaryKey"
+			],
+			[
+				"promp",
+				"promptMessage"
+			],
+			[
+				"getMe",
+				"getMessageFrom"
+			],
+			[
+				"getS",
+				"getSelected"
+			],
+			[
+				"prompt",
+				"promptDialog"
+			],
+			[
+				"callb",
+				"callback"
+			],
+			[
+				"getV",
+				"getValuesFromRows"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "index.html",
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 			"settings":
 			{
-				"buffer_size": 1627,
+				"buffer_size": 207,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "css/main.scss",
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 			"settings":
 			{
-				"buffer_size": 67,
+				"buffer_size": 1423,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/rest-test.js",
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 			"settings":
 			{
-				"buffer_size": 5706,
+				"buffer_size": 6293,
 				"line_ending": "Windows"
 			}
 		}
@@ -572,78 +572,64 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/delete.php",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/put.php",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/timecard.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html_backup.html",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.modal.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.lookup-components.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.buttonhandler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.change-price.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.screen-module-template.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/slickgrid/slick.grid.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.screen-utilities.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.payscreen.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/put.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/get.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/php/delete.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/post.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/rest-test.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/get.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/delete.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/put.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/save.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/api.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/.htaccess",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/css/main.scss",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/load.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/summary.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/labels.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/labels.php",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/connect_test.php",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.buttons.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.user-preferences.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.data-handler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid-utilities.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid-crud.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/screen-manager.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.lookup-components.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/main.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.util.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.content-handler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/screen.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/list-screen.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.debug.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.core.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.contenthandler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.transaction.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/yuidoc.json",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.change-quantity.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.swipe.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/screens/wpos.returns.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.data-handler.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid-utilities.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.buttonhandler.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.user-preferences.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.componentdecorator.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/main-page.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.search.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.taxonomy.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.contenthandler.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.find-buttons.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.validation.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.custom-button-handler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.dom.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.masking.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.crud-data-handler.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.receipt.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.sublime-workspace",
-		"/C/workspace_wrms/wrms/WebContent/sandbox/change-quantity.css",
-		"/C/workspace_wrms/wrms/WebContent/sandbox/changePrice.css",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.keypad.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/wpos.payscreen.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.main-page.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/model/coremodel.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/functions.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/login.js",
-		"/C/Users/Jeremy Greer/Desktop/wrms info/receipt data example.txt",
-		"/C/workspace_wrms/wrms/WebContent/sandbox/receipt_dummy_data.json",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/menu.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/receipt.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/logset.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/masking.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/controllers/wrms.functions.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/css/pos/pos.css",
-		"/C/workspace_wrms/wrms/WebContent/assets/css/pos/pos.scss",
-		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/buttons.json",
 		"/C/workspace_wrms/wrms/WebContent/POS/buttons.json",
 		"/C/workspace_wrms/wrms/WebContent/POS/index.html",
+		"/C/workspace_wrms/wrms/WebContent/assets/css/pos/pos.css",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wpos/asdf",
 		"/C/workspace_wrms/wrms/WebContent/POS/scripts/buttons.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wpos.buttons.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.masking.js",
 		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.util.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/refactored-modules/buttonhandler.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.taxonomy.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.custom-button-handler.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.component.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.core.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.dom.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.search.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/slickgrid/slick.grid.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/vzListSplit.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/menu.js",
 		"/C/xampp/htdocs/wrms/sandbox/utilities/slickgrid/slick.grid.js",
 		"/C/xampp/htdocs/wrms/sandbox/wrms/wrms.grid.js",
 		"/C/xampp/htdocs/wrms/sandbox/utilities/slickgrid/slick.checkboxselectcolumn.js",
@@ -653,7 +639,10 @@
 		"/C/xampp/htdocs/wrms/sandbox/wrms/wrms.data-handler.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid.js-backup.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.grid-column-picker.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.debug.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.logic.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/controllers/wrms.functions.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/wrms.validation.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/debugging.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/data/validations.wrms",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/slickgrid/slick.formatters.js",
@@ -695,11 +684,22 @@
 		"/C/workspace_wrms/wrms/WebContent/assets/data/taxonomy_data.json",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/taxonomy-min.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/taxonomy.js",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/functions.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/validations/screenhandler.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/validation.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/css/grid.css",
 		"/C/xampp/htdocs/wrms/slickgrid/examples/example4-model.html",
-		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js"
+		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js",
+		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js",
+		"/C/xampp/htdocs/wrms/slickgrid/examples/example5-collapsing.html",
+		"/C/xampp/htdocs/wrms/slickgrid/examples/example-header-row.html",
+		"/C/xampp/htdocs/wrms/slickgrid/examples/example-plugin-headermenu.html",
+		"/C/xampp/htdocs/wrms/slickgrid/slick.grid.js",
+		"/C/xampp/htdocs/wrms/throw-event.js",
+		"/C/xampp/htdocs/wrms/main.js",
+		"/C/xampp/htdocs/wrms/test-custom-events.html",
+		"/C/xampp/htdocs/wrms/assets/scripts/utilities/slickgrid/MIT-LICENSE.txt",
+		"/C/workspace_wrms/wrms/WebContent/assets/scripts/wrms/DetailScreenDispatcher.js"
 	],
 	"find":
 	{
@@ -710,11 +710,6 @@
 		"height": 0.0,
 		"where_history":
 		[
-			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\",
-			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\*.js",
-			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\",
-			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\wpos\\screens",
-			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\wrms\\",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\css",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts",
@@ -732,137 +727,137 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
-			"focus",
-			"getDateFromTimeStamp",
-			".val",
-			"val",
-			"val(",
-			"save",
-			"delete",
-			"destroy",
-			"default",
-			"convert",
-			"sec",
-			"convertSecondsToTime",
-			"@method",
-			"autosearch",
-			"prepopulate",
-			"getModalHtml",
-			"modalFormEvent",
-			".ListScreen",
-			".ListScreen(",
-			"wrms.contenthandler",
-			"updateOutput",
+			"remove",
+			"taskGroups",
+			"label",
+			"getTimeStampFromDate",
+			"dateInt",
+			"date",
+			"getTimeStampFromDate",
+			"&z=10",
+			"q",
+			"[A-Za-z $,:®]",
+			"[A-Za-z $,:]",
+			"[, a-zA-Z]",
+			":[ $]*",
+			"\\n",
+			" ",
 			"\\s",
-			"Math",
-			"greer",
-			"externalData",
-			"context",
-			"getScreenName",
-			"container",
-			"DetailScreenDataHandler",
-			"dataSource",
-			"DetailScreenDataHandler",
-			"beforeClose",
+			"GA ",
+			"Cumming",
+			"Date.now",
+			"TaskView",
+			"TaskModel",
+			"val",
+			"TaskView",
+			"TaskModel",
+			"TaskView",
+			".set",
+			"TaskModel",
+			"TaskView",
+			"\n	",
+			"();",
+			");\n",
+			"\n$",
+			"parse_str",
+			"$_POST",
+			"TaskGroupModel",
+			".set",
+			".set(",
+			"on",
+			"scaleTaskGroups",
+			"TaskGroupManager",
+			"scale",
+			"addTaskGroup",
+			"saveTaskGroup",
+			"addTaskGroup",
+			"timelineWidth",
+			"timeline",
+			"timelineWidth",
+			"scale",
+			"TaskGroupModel",
+			"taskLines.push",
+			"new Task",
+			"new TaskView",
+			"TaskView",
+			"TaskGroupModel",
+			"TaskGroupView",
+			"TaskGroup",
+			"Task",
+			"new Task",
+			"TaskGroupView",
+			"TaskGroupModel",
+			"TaskGroup",
+			"new Task",
+			"addTask",
+			"addTaskGroup",
+			"TaskGroupView",
+			"Toggle",
+			"TaskGroupModel",
+			"addTask",
+			"TaskGroupModel",
+			"addTask",
+			"TaskGroupView",
+			"TaskGroup",
+			"TaskGroupModel",
+			"TaskGroupView",
+			"addTaskGroup",
+			"new TaskGroup",
+			"pause",
+			"timeline",
+			"toggle",
+			"Toggle",
+			"click",
+			"addTaskGroup",
+			"newTaskButton",
+			"controls",
+			"history",
+			"new Task",
+			"save",
+			"TaskView",
+			"TaskManager",
+			"addTaskGroup",
+			"taskLines",
+			"tasks",
+			"TaskView",
+			"deleteTask",
+			"delete",
+			"taskModal",
 			"destroy",
-			"EDIT",
-			"decorate(",
-			"CREATE",
-			"modal",
-			"addCrudButtons",
-			"DetailScreenDataHandler",
-			"title",
-			"datahandler",
-			"getGrids",
-			"getGrid",
-			"setGrid",
-			"posContentHandler",
-			"setContentHandler",
-			"POS",
-			"screenType",
-			"Dude",
-			"Saving preferences",
-			"manageStandardClick",
-			"saveUserPreferences",
-			"transferRowsToParent",
-			"saveUserPreferences",
-			"successCallback",
-			"transferRowsToParent",
+			"Task",
+			"TaskModel",
+			"TaskView",
+			"TaskModifierView",
+			"delete",
+			"delete(",
+			"delete",
+			"new Task(",
+			"TaskModifierView",
+			"destroy",
+			"summary",
+			"HistoryPro",
+			"History",
+			".click",
+			"userID",
+			"saveTasks",
+			"load",
+			"taskManager",
+			"save",
+			"convertUserInputToDate",
+			"console.log(start, end === undefined);",
+			"summary_form",
 			"transferRows",
-			"parentEventData",
-			"makeScreen",
-			"find",
-			"transferRowsToParent",
-			"makeScreen",
-			"Search",
-			"manageModalClick",
-			"Search",
-			"MODAL",
-			"manageModalClick",
-			"mainButtonEvent",
+			"<body",
+			"sendData",
+			"lookup",
+			"performLookup",
+			"url",
+			"getTask",
 			"manageStandardClick",
-			"getU",
-			"this.screenName",
-			"makeScreen",
-			"userpreferences",
-			"buttonhandler",
-			"datahandler",
-			"componentdecorator",
-			"validation",
-			"buttonhandler",
-			"userpreferences",
-			"util",
-			"validation",
-			"componentdecorator",
-			"datahandler",
-			"buttonhandler",
-			"userpreferences",
-			"componentdecorator",
-			"validation",
-			"addDecoration",
-			"DetailScreenDataHandler",
-			"makeScreen",
-			"manageStandardClick",
-			"newUrl",
-			"getModalHtml",
-			"ajax",
-			"Save",
-			"getModalHtml",
-			"options.title",
-			"getModalHtml",
-			"parentScreen",
-			"loadUserPreferences",
-			"saveUserPreferences",
-			"loadUserPreferences",
-			"decorateButtons",
-			"manageDetailClick",
-			"TASK_READ",
-			"manageCustomClick",
-			"ignoreMinFilter",
-			"Search",
-			"setTopPanelVisibility",
-			"addEventHandlers",
-			"addEventHandlers ",
-			"addEventHandlers",
-			"bind(",
-			"this.screenName = String(util.getURLParam('screenName')).toUpperCase();",
-			"displayButtons",
-			"screenName",
-			"displayButtons",
-			"loadUser",
-			"screenName",
-			"userpreferences",
-			"createTabs",
-			"parentScreen",
-			"addScree",
-			"DetailScreen",
-			"contenthandler",
-			"wrms.core",
-			"transactionMod",
-			"hasChildren"
+			"mainButtonEvent"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -871,53 +866,18 @@
 		"replace_history":
 		[
 			"date",
+			"dateInt",
 			"",
-			"saveUrl",
-			"options.parentScreen",
-			"screenManager",
-			"updateTablesWithCrud",
-			"executeCallback",
-			"modulePath:",
-			"modulePath",
-			"module",
-			"screenUtil",
-			"wpos.screen-utilities",
-			".keypad",
-			".change-quantity",
-			"identifier",
-			"MESSAGES",
-			" ",
-			"",
-			" ",
-			"",
-			"'",
-			":",
-			"",
-			",\\n",
-			"\":",
-			"\"",
-			",\\n",
-			",",
-			"\":",
-			"\"",
-			"\",\\n",
-			"\":\"",
-			"\"",
-			"\":\"",
-			"\",\\n\"",
-			"\\n\",\"",
+			"daddr=Roswell,+GA&saddr",
 			"",
 			"\\t",
-			"",
-			"resp",
-			"data",
-			"url",
-			"STATE_TAX",
-			"",
-			" ",
-			"util.set(",
-			"\"glyphsImagePath\":\"assets/images/Glyphs/\"",
-			"util.ajax(",
+			"&z=10\\n",
+			"&z=10",
+			"\\nhttps://maps.google.com/maps?q=",
+			"+",
+			"GA \\t",
+			"\\tCumming",
+			"$post",
 			"",
 			"src=\"assets",
 			"getButtonsJSON",
@@ -997,7 +957,42 @@
 			"datahandler: datahandler",
 			"destinationTableName",
 			"transferRowsIntoGrids",
-			"scope"
+			"scope",
+			"console.error('",
+			"console.log('",
+			"console.error('",
+			"console.warn('",
+			"console.error('",
+			"console.log('",
+			"console.warn('",
+			"fieldPair",
+			"findButtonsModule",
+			"evaluateThisRule",
+			"ruleMessage",
+			"closeModalSearch(",
+			":\\s=================================================================\n : =================================================================\n : ",
+			"\\n",
+			"convertListDataToArray",
+			"index",
+			"newColumnsDefinition",
+			"containerId",
+			"defaultValues",
+			"gridColumns",
+			"),",
+			"scrubValues(columnDefinition",
+			"columnDefinition",
+			"val",
+			"encodeColumns",
+			"setDefaultValues",
+			"setGridPreferences",
+			"",
+			"delimiter",
+			"inputField",
+			"listContainer",
+			"closeButton",
+			"collapseButton",
+			"expandButton",
+			"pickButton"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1013,45 +1008,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "index.html",
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 					"settings":
 					{
-						"buffer_size": 1627,
+						"buffer_size": 207,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1058,
-								1058
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 270.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "css/main.scss",
-					"settings":
-					{
-						"buffer_size": 67,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								65,
-								65
+								205,
+								205
 							]
 						],
 						"settings":
@@ -1065,19 +1033,46 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "js/rest-test.js",
+					"buffer": 1,
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 					"settings":
 					{
-						"buffer_size": 5706,
+						"buffer_size": 1423,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3948,
-								3948
+								341,
+								341
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
+					"settings":
+					{
+						"buffer_size": 6293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4554,
+								4554
 							]
 						],
 						"settings":
@@ -1086,7 +1081,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 284.0,
+						"translation.y": 811.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1136,332 +1131,24 @@
 		"selected_items":
 		[
 			[
-				"wpso.scre",
-				"wpos/wpos.screen-utilities.js"
+				"inde",
+				"index.html"
 			],
 			[
-				"wpos.pa",
-				"wpos/screens/wpos.payscreen.js"
+				"post",
+				"php/post.php"
 			],
 			[
-				"wpos.scr",
-				"wpos/wpos.screen-utilities.js"
-			],
-			[
-				"user-",
-				"wrms/wrms.user-preferences.js"
-			],
-			[
-				"wrms.grid-u",
-				"wrms/wrms.grid-utilities.js"
-			],
-			[
-				"wrms.grid",
-				"wrms/wrms.grid.js"
-			],
-			[
-				"wrms.uti",
-				"wrms/wrms.util.js"
-			],
-			[
-				"data",
-				"wrms/wrms.data-handler.js"
-			],
-			[
-				"buttonha",
-				"wrms/wrms.buttonhandler.js"
-			],
-			[
-				"util",
-				"wrms/wrms.util.js"
-			],
-			[
-				"debug",
-				"wrms/wrms.debug.js"
-			],
-			[
-				"wrms.u",
-				"wrms/wrms.util.js"
-			],
-			[
-				"wrms.util",
-				"wrms/wrms.util.js"
-			],
-			[
-				"de",
-				"scripts/wrms/wrms.debug.js"
-			],
-			[
-				"wpos.scre",
-				"scripts/wpos/wpos.screen-utilities.js"
-			],
-			[
-				"wpos.mod",
-				"scripts/wpos/wpos.modal.js"
-			],
-			[
-				"search",
-				"scripts/wrms/wrms.search.js"
-			],
-			[
-				"wrms.tax",
-				"scripts/wrms/wrms.taxonomy.js"
-			],
-			[
-				"find-bu",
-				"scripts/wrms/wrms.find-buttons.js"
-			],
-			[
-				"wrms.deb",
-				"scripts/wrms/wrms.debug.js"
-			],
-			[
-				"wrms.user-",
-				"scripts/wrms/wrms.user-preferences.js"
-			],
-			[
-				"wrms.gri",
-				"scripts/wrms/wrms.grid.js"
-			],
-			[
-				"wrms.data-ha",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"wrms.loo",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"wrms.vali",
-				"scripts/wrms/wrms.validation.js"
-			],
-			[
-				"wrms.compo",
-				"scripts/wrms/wrms.componentdecorator.js"
-			],
-			[
-				"wrms.cus",
-				"scripts/wrms/wrms.custom-button-handler.js"
-			],
-			[
-				"wrms.but",
-				"scripts/wrms/wrms.buttonhandler.js"
-			],
-			[
-				"wrms.uil",
-				"scripts/wrms/wrms.util.js"
-			],
-			[
-				"conten",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"main",
-				"scripts/wrms/main.js"
-			],
-			[
-				"uti",
-				"scripts/wrms/wrms.util.js"
-			],
-			[
-				"conte",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"w",
-				"scripts/wpos/wpos.buttons.js"
-			],
-			[
-				"main.js",
-				"scripts/wrms/main.js"
-			],
-			[
-				"main-",
-				"scripts/wrms/main-page.js"
+				"summ",
+				"js/summary.js"
 			],
 			[
 				"wpos.bu",
 				"scripts/wpos/wpos.buttons.js"
 			],
 			[
-				"function",
-				"scripts/utilities/general/functions.js"
-			],
-			[
-				"menu",
-				"scripts/controller/menu.js"
-			],
-			[
-				"corem",
-				"scripts/model/coremodel.js"
-			],
-			[
-				"login.js",
-				"scripts/wrms/login.js"
-			],
-			[
-				"util.",
-				"scripts/wrms/wrms.util.js"
-			],
-			[
-				"user",
-				"scripts/wrms/wrms.user-preferences.js"
-			],
-			[
-				"wdata",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"wrms.com",
-				"scripts/wrms/wrms.componentdecorator.js"
-			],
-			[
-				"wrms.look",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"men",
-				"scripts/controller/menu.js"
-			],
-			[
-				"content",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"compon",
-				"scripts/wrms/wrms.componentdecorator.js"
-			],
-			[
-				"wpos",
-				"scripts/wpos/wpos.buttons.js"
-			],
-			[
-				"loo",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"data-ha",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"logse",
-				"scripts/controller/logset.js"
-			],
-			[
-				"coremod",
-				"scripts/model/coremodel.js"
-			],
-			[
-				"functions.j",
-				"scripts/utilities/general/functions.js"
-			],
-			[
-				"wrm.cont",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"slick.grid.js",
-				"scripts/utilities/slickgrid/slick.grid.js"
-			],
-			[
-				"w.cont",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"wrm.loo",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"gri",
-				"scripts/wrms/wrms.grid.js"
-			],
-			[
-				"main.",
-				"scripts/wrms/main.js"
-			],
-			[
-				"wr.look",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"wrm.grid-u",
-				"scripts/wrms/wrms.grid-utilities.js"
-			],
-			[
-				"w.data-",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"wrms.val",
-				"scripts/wrms/wrms.validation.js"
-			],
-			[
-				"wrms.mask",
-				"scripts/wrms/wrms.masking.js"
-			],
-			[
-				"masking",
-				"scripts/utilities/general/masking.js"
-			],
-			[
-				"componentdecorator",
-				"scripts/wrms/wrms.componentdecorator.js"
-			],
-			[
-				"custom-bu",
-				"scripts/wrms/wrms.custom-button-handler.js"
-			],
-			[
-				"wrms.button",
-				"scripts/wrms/wrms.buttonhandler.js"
-			],
-			[
-				"w.u",
-				"scripts/wrms/wrms.util.js"
-			],
-			[
-				"deb",
-				"scripts/wrms/wrms.debug.js"
-			],
-			[
-				"pre",
-				"scripts/wrms/wrms.user-preferences.js"
-			],
-			[
-				"wda",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"wrms.cont",
-				"scripts/wrms/wrms.contenthandler.js"
-			],
-			[
-				"buttons.j",
-				"scripts/wpos/buttons.json"
-			],
-			[
-				"wlook",
-				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"wpb",
-				"scripts/wpos/wpos.buttons.js"
-			],
-			[
 				"wloo",
 				"scripts/wrms/wrms.lookup-components.js"
-			],
-			[
-				"w.da",
-				"scripts/wrms/wrms.data-handler.js"
-			],
-			[
-				"wruti",
-				"scripts/wrms/wrms.util.js"
-			],
-			[
-				"wcon",
-				"scripts/wrms/wrms.contenthandler.js"
 			],
 			[
 				"looku",
@@ -1476,6 +1163,10 @@
 				"scripts/wrms/wrms.grid-utilities.js"
 			],
 			[
+				"wrms.gri",
+				"scripts/wrms/wrms.grid.js"
+			],
+			[
 				"data-h",
 				"scripts/wrms/wrms.data-handler.js"
 			],
@@ -1488,8 +1179,24 @@
 				"scripts/wpos/wpos.buttons.js"
 			],
 			[
+				"data-ha",
+				"scripts/wrms/wrms.data-handler.js"
+			],
+			[
+				"conten",
+				"scripts/wrms/wrms.contenthandler.js"
+			],
+			[
+				"content",
+				"scripts/wrms/wrms.contenthandler.js"
+			],
+			[
 				"look",
 				"wrms/wrms.lookup-components.js"
+			],
+			[
+				"wrms.grid",
+				"wrms/wrms.grid.js"
 			],
 			[
 				"wrmscom",
@@ -1512,6 +1219,10 @@
 				"wrms/wrms.contenthandler.js"
 			],
 			[
+				"wrms.cont",
+				"wrms/wrms.contenthandler.js"
+			],
+			[
 				"componend",
 				"wrms/wrms.componentdecorator.js"
 			],
@@ -1524,12 +1235,28 @@
 				"wrms/wrms.componentdecorator.js"
 			],
 			[
+				"main",
+				"wrms/main.js"
+			],
+			[
+				"user",
+				"wrms/wrms.user-preferences.js"
+			],
+			[
+				"conte",
+				"wrms/wrms.contenthandler.js"
+			],
+			[
 				"wrms.buttonh",
 				"wrms/wrms.buttonhandler.js"
 			],
 			[
 				"wbu",
 				"wrms/wrms.find-buttons.js"
+			],
+			[
+				"loo",
+				"wrms/wrms.lookup-components.js"
 			],
 			[
 				"data-a",
@@ -1540,12 +1267,20 @@
 				"wrms/wrms.grid.js"
 			],
 			[
+				"wrms.util",
+				"wrms/wrms.util.js"
+			],
+			[
 				"vzlistsplit",
 				"utilities/general/vzListSplit.js"
 			],
 			[
 				"menu.",
 				"controller/menu.js"
+			],
+			[
+				"slick.grid.js",
+				"sandbox/utilities/slickgrid/slick.grid.js"
 			],
 			[
 				"grid-ui",
@@ -1564,8 +1299,16 @@
 				"scripts/wrms/wrms.debug.js"
 			],
 			[
+				"main.js",
+				"scripts/wrms/main.js"
+			],
+			[
 				"data-",
 				"scripts/wrms/wrms.data-handler.js"
+			],
+			[
+				"util",
+				"scripts/wrms/wrms.util.js"
 			],
 			[
 				"w.comp",
@@ -1592,6 +1335,10 @@
 				"scripts/wrms/wrms.debug.js"
 			],
 			[
+				"util.",
+				"scripts/wrms/wrms.util.js"
+			],
+			[
 				"comp",
 				"scripts/wrms/wrms.componentdecorator.js"
 			],
@@ -1600,8 +1347,20 @@
 				"scripts/wrms/wrms.logic.js"
 			],
 			[
+				"search",
+				"scripts/wrms/wrms.search.js"
+			],
+			[
+				"compon",
+				"scripts/wrms/wrms.componentdecorator.js"
+			],
+			[
 				"cust",
 				"scripts/wrms/wrms.custom-button-handler.js"
+			],
+			[
+				"uti",
+				"scripts/wrms/wrms.util.js"
 			],
 			[
 				"buttonh",
@@ -1612,8 +1371,16 @@
 				"scripts/wrms/wrms.contenthandler.js"
 			],
 			[
+				"custom-bu",
+				"scripts/wrms/wrms.custom-button-handler.js"
+			],
+			[
 				".lo",
 				"scripts/wrms/wrms.logic.js"
+			],
+			[
+				"deb",
+				"scripts/utilities/general/debugging.js"
 			],
 			[
 				"menu.js",
@@ -1650,6 +1417,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 265.0,
+	"side_bar_width": 237.0,
 	"status_bar_visible": true
 }

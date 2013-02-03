@@ -1,5 +1,17 @@
+.recorder {
+	position:relative;
+}
+
 .task {
 	padding:1em;
 	border:1px solid pink;
 	position:relative;
+}
+
+.taskModifier {
+	position:absolute;
+	border:1px;
+	background-color:#666;
+	z-index:100;
+	padding:.5em;
 }
