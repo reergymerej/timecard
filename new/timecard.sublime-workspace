@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"taskGrou",
+				"taskGroups"
+			],
+			[
+				"timeline",
+				"timelinePixels"
+			],
+			[
 				"get",
 				"getDateFromTimeStamp"
 			],
@@ -506,14 +514,6 @@
 			[
 				"prompt",
 				"promptDialog"
-			],
-			[
-				"callb",
-				"callback"
-			],
-			[
-				"getV",
-				"getValuesFromRows"
 			]
 		]
 	},
@@ -523,7 +523,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 			"settings":
 			{
-				"buffer_size": 207,
+				"buffer_size": 415,
 				"line_ending": "Windows"
 			}
 		},
@@ -531,7 +531,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 			"settings":
 			{
-				"buffer_size": 1423,
+				"buffer_size": 1512,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 			"settings":
 			{
-				"buffer_size": 6293,
+				"buffer_size": 7832,
 				"line_ending": "Windows"
 			}
 		}
@@ -572,6 +572,8 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
 		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/timecard.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/index.html_backup.html",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
@@ -592,8 +594,6 @@
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/api.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/.htaccess",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/summary.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/timecard.js",
-		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/graph.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/css/main.scss",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/load.php",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/php/summary.php",
@@ -730,6 +730,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"MIN_WIDTH",
+			"change",
+			"left",
+			"refresh",
+			"adjustGraph",
+			"timeSpan",
+			"scale",
+			"graphStart",
+			"getDateFromTimeStamp",
+			"TaskModel",
 			"remove",
 			"taskGroups",
 			"label",
@@ -847,17 +857,7 @@
 			"taskManager",
 			"save",
 			"convertUserInputToDate",
-			"console.log(start, end === undefined);",
-			"summary_form",
-			"transferRows",
-			"<body",
-			"sendData",
-			"lookup",
-			"performLookup",
-			"url",
-			"getTask",
-			"manageStandardClick",
-			"mainButtonEvent"
+			"console.log(start, end === undefined);"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1003,7 +1003,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1011,15 +1011,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 					"settings":
 					{
-						"buffer_size": 207,
+						"buffer_size": 415,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								205,
-								205
+								96,
+								96
 							]
 						],
 						"settings":
@@ -1037,15 +1037,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 					"settings":
 					{
-						"buffer_size": 1423,
+						"buffer_size": 1512,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								341,
-								341
+								1041,
+								1041
 							]
 						],
 						"settings":
@@ -1064,15 +1064,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 					"settings":
 					{
-						"buffer_size": 6293,
+						"buffer_size": 7832,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4554,
-								4554
+								1807,
+								1807
 							]
 						],
 						"settings":
@@ -1081,7 +1081,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 811.0,
+						"translation.y": 129.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

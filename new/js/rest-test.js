@@ -123,7 +123,7 @@ var TaskModel = Backbone.Model.extend({
 	},
 	scale: function(){
 		//	trigger event so TaskView will fix itself
-		this.trigger('change:start');
+		this.trigger('change:scale');
 	}
 });
 
@@ -139,6 +139,10 @@ var TaskView = Backbone.View.extend({
 		//	rerender when model changes
 		this.model.on('change:start change:end change:label', function(){
 			that.render();
+		});
+
+		this.model.on('change:scale', function(){
+			that.rescale();
 		});
 	},
 	render: function(){
@@ -158,54 +162,20 @@ var TaskView = Backbone.View.extend({
 
 		this.$el.find('.start').val(start);
 		this.$el.find('.end').val(end);
-		
-
-		//	position/scale this task
-		(function(){
-			var 
-				/**
-				* difference between the start of this graph and now
-				* @property timeSpan
-				* @type number
-				**/
-				timeSpan,
-
-				/**
-				* current width of the .tasks element that contains this .task
-				* @property timelinePixels
-				* @type number
-				**/
-				timelinePixels,
-				left,
-				width,
-
-				MIN_WIDTH = 20,
-				start,
-				end;
-
-			timeSpan = Date.now() - graphStart;
-			timelinePixels = that.$el.closest('.tasks').width();
-			start = that.model.get('start');
-			end = that.model.get('end');
-
-			left = (start - graphStart) / timeSpan * timelinePixels;
-			width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
-			width = Math.max(width, MIN_WIDTH);
-
-			that.$el.find('.task').css({
-				left:left,
-				width:width
-			});
-
-		})();
-
-
-		// this.$el.find('.task').width()
 	},
 	events: {
-		'click': 'showTaskModifier'
-		// 'click a': 'deleteTask',
-		// 'change .start, .end': 'saveTask'
+		'click': 'showTaskModifier',
+		'hover': 'hover'
+	},
+	hover: function(ev){
+		var task = this.$el.find('.task');
+
+		if(ev.type === 'mouseenter'){
+			task.css('box-shadow', '0px 0px 15px ' + task.css('border-color'));
+		} else {
+			task.css('box-shadow', '');
+		};
+		
 	},
 	showTaskModifier: function(){
 		var mod = new TaskModifierView({
@@ -239,6 +209,42 @@ var TaskView = Backbone.View.extend({
 		});
 
 		this.model.save();
+	},
+	rescale: function(){
+		var 
+			/**
+			* difference between the start of this graph and now
+			* @property timeSpan
+			* @type number
+			**/
+			timeSpan,
+
+			/**
+			* current width of the .tasks element that contains this .task
+			* @property timelinePixels
+			* @type number
+			**/
+			timelinePixels,
+			left,
+			width,
+
+			MIN_WIDTH = 20,
+			start,
+			end;
+
+		timeSpan = Date.now() - graphStart;
+		timelinePixels = this.$el.closest('.tasks').width();
+		start = this.model.get('start');
+		end = this.model.get('end');
+
+		left = Math.max( 0, (start - graphStart) / timeSpan * timelinePixels );
+		width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+		width = Math.max(width, MIN_WIDTH);
+
+		this.$el.find('.task').css({
+			left:left,
+			width:width
+		});
 	}
 });
 
