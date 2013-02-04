@@ -1,4 +1,5 @@
 var taskGroups = [];
+var graphStart;
 
 var TaskGroupModel = Backbone.Model.extend({
 	defaults: {
@@ -39,6 +40,11 @@ var TaskGroupModel = Backbone.Model.extend({
 		task.save();
 
 		this.attributes.tasks.push(task);
+	},
+	scaleTasks: function(){
+		$(this.attributes.tasks).each(function(i, task){
+			task.scale();
+		});
 	}
 });
 
@@ -67,11 +73,15 @@ var TaskGroupView = Backbone.View.extend({
 
 		this.$el.find('.toggle > span').toggleClass('icon-play icon-pause');
 
-		if(this.model.get('running') && this.$el.find('.end').val() !== $('.recorder > div').first().find('.end').val()){
-			this.$el.slideUp(function(){
-				that.$el.prependTo($('.recorder')).slideDown();
-			});
-		};
+		this.$el.slideUp(function(){
+			that.$el.prependTo($('.recorder')).slideDown();
+		});
+
+		// if(this.model.get('running') && this.$el.find('.end').val() !== $('.recorder > div').first().find('.end').val()){
+		// 	this.$el.slideUp(function(){
+		// 		that.$el.prependTo($('.recorder')).slideDown();
+		// 	});
+		// };
 	},
 	events: {
 		'click .toggle': 'toggle',
@@ -103,13 +113,17 @@ var TaskModel = Backbone.Model.extend({
 	urlRoot: 'php/api/Task',
 	initialize: function(){
 		this.attributes.start = Date.now();
-		this.on('change:label', function(){
+		this.on('change', function(){
 			this.save();
 		});
 	},
 	stop: function(){
 		this.set({end: Date.now()});
 		this.save();
+	},
+	scale: function(){
+		//	trigger event so TaskView will fix itself
+		this.trigger('change:start');
 	}
 });
 
@@ -132,6 +146,8 @@ var TaskView = Backbone.View.extend({
 		var start = this.model.get('start'),
 			end = this.model.get('end');
 
+		var that = this;
+
 		start = new Date(this.model.get('start'));
 		start = getTimeStampFromDate(start);
 
@@ -142,6 +158,49 @@ var TaskView = Backbone.View.extend({
 
 		this.$el.find('.start').val(start);
 		this.$el.find('.end').val(end);
+		
+
+		//	position/scale this task
+		(function(){
+			var 
+				/**
+				* difference between the start of this graph and now
+				* @property timeSpan
+				* @type number
+				**/
+				timeSpan,
+
+				/**
+				* current width of the .tasks element that contains this .task
+				* @property timelinePixels
+				* @type number
+				**/
+				timelinePixels,
+				left,
+				width,
+
+				MIN_WIDTH = 20,
+				start,
+				end;
+
+			timeSpan = Date.now() - graphStart;
+			timelinePixels = that.$el.closest('.tasks').width();
+			start = that.model.get('start');
+			end = that.model.get('end');
+
+			left = (start - graphStart) / timeSpan * timelinePixels;
+			width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;
+			width = Math.max(width, MIN_WIDTH);
+
+			that.$el.find('.task').css({
+				left:left,
+				width:width
+			});
+
+		})();
+
+
+		// this.$el.find('.task').width()
 	},
 	events: {
 		'click': 'showTaskModifier'
@@ -224,6 +283,11 @@ var TaskModifierView = Backbone.View.extend({
 		start = getDateFromTimeStamp(start.val());
 		end = getDateFromTimeStamp(end.val());
 
+		start = start.getTime();
+		if(end){
+			end = end.getTime();
+		};
+
 		this.options.taskModel.set({
 			start: start,
 			end: end
@@ -250,6 +314,9 @@ var TaskModifierView = Backbone.View.extend({
 
 $(function(){
 	$('.new-taskGroup').click(function(){
+
+		graphStart = graphStart || Date.now();
+
 		var taskGroup = new TaskGroupModel();
 		var taskGroupView = new TaskGroupView({
 			model: taskGroup
@@ -259,6 +326,9 @@ $(function(){
 
 		taskGroups.push(taskGroup);
 	});
+
+	//	start scaling graph
+	setInterval(refreshGraph, 1000);
 });
 
 /**
@@ -310,6 +380,15 @@ function getDateFromTimeStamp(time){
 	return date;
 };
 
+
+/**
+* tell each TaskGroup to rescale its Tasks
+**/
+function refreshGraph(){
+	for(var i = 0; i < taskGroups.length; i++){
+		taskGroups[i].scaleTasks();
+	};
+};
 
 // $.ajaxPrefilter(function(options){
 // 	options.url = 'http://wordtotheblurd.com/dev/timecard/new/' + options.url;

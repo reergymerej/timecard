@@ -2,10 +2,28 @@
 	position:relative;
 }
 
+.taskGroup {
+	margin-bottom: 1em;
+	border-top:1px solid #eee;
+
+	.tasks {
+		width:80%;
+		display:inline-block;
+	}
+	.taskGroupControls {
+		width:19%;
+		display:inline-block;
+
+		h4 {
+			display:inline;
+		}
+	}
+}
+
 .task {
-	padding:1em;
+	height:1em;
 	border:1px solid pink;
-	position:relative;
+	position:absolute;
 }
 
 .taskModifier {
