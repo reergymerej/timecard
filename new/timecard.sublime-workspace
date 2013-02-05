@@ -523,7 +523,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 			"settings":
 			{
-				"buffer_size": 415,
+				"buffer_size": 479,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 			"settings":
 			{
-				"buffer_size": 7832,
+				"buffer_size": 7986,
 				"line_ending": "Windows"
 			}
 		}
@@ -730,6 +730,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"left",
+			"that",
 			"MIN_WIDTH",
 			"change",
 			"left",
@@ -855,9 +857,7 @@
 			"saveTasks",
 			"load",
 			"taskManager",
-			"save",
-			"convertUserInputToDate",
-			"console.log(start, end === undefined);"
+			"save"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -865,6 +865,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"this",
 			"date",
 			"dateInt",
 			"",
@@ -991,8 +992,7 @@
 			"listContainer",
 			"closeButton",
 			"collapseButton",
-			"expandButton",
-			"pickButton"
+			"expandButton"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1003,7 +1003,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1011,23 +1011,24 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 					"settings":
 					{
-						"buffer_size": 415,
+						"buffer_size": 479,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								96,
-								96
+								311,
+								311
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage"
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 59.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1064,15 +1065,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 					"settings":
 					{
-						"buffer_size": 7832,
+						"buffer_size": 7986,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1807,
-								1807
+								1032,
+								1032
 							]
 						],
 						"settings":
@@ -1081,7 +1082,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 129.0,
+						"translation.y": 442.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

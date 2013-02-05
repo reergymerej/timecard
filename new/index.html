@@ -8,6 +8,21 @@
 	<script type="text/javascript" src="lib/backbone.js"></script>
 	<script type="text/javascript" src="js/rest-test.js"></script>
 
+	<script type="text/template" id="recorder">
+		<button class="btn btn-success new-taskGroup">New Task Group</button>
+		<div class="recorder"></div>
+	</script>
+
+	<script type="text/template" id="summary_view">
+		<form class="form-inline">
+			<fieldset>
+				<legend>Summary</legend>
+				<input type="text" class="start" name="start" value="<%= start %>" placeholder="<%= start %>" />
+				<input type="text" class="end" name="end" value="<%= end %>" placeholder="<%= end %>" />
+				<button type="submit" class="btn">load</button>
+			</fieldset>
+		</form>
+	</script>
 	
 	<script type="text/template" id="task_view_template">
 		<div class="task"></div>
@@ -50,9 +65,11 @@
 
 </head>
 <body>
-	<div class="page">
-		<button class="btn btn-primary new-taskGroup">New Task Group</button>
-		<div class="recorder"></div>
-	</div>
+
+	<a class="btn btn-primary" id="startRecorder" href="#/record">record</a>
+	<a class="btn btn-primary" id="loadSummary" href="#/summary">summary</a>
+	<hr />
+
+	<div class="page"></div>
 </body>
 </html>

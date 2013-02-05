@@ -1,5 +1,13 @@
 var taskGroups = [];
 var graphStart;
+var router;
+
+var AppRouter = Backbone.Router.extend({
+	routes: {
+		'record': 'startRecorder',
+		'summary': 'loadSummary'
+	}
+});
 
 var TaskGroupModel = Backbone.Model.extend({
 	defaults: {
@@ -318,7 +326,76 @@ var TaskModifierView = Backbone.View.extend({
 	}
 });
 
+var SummaryView = Backbone.View.extend({
+	initialize: function(){
+		var now = new Date();
+
+		var vars = {
+			start: getFriendlyDate(now),
+			end: getFriendlyDateTimeStamp(now)
+		};
+		
+		var template = _.template( $('#summary_view').html(), vars );
+		
+		this.$el.empty().html(template);
+		this.render();
+	},
+	render: function(){
+
+	},
+	events: {
+		'submit form': 'submit'
+	},
+	submit: function(){
+		var start = $('.start', this.$el).val(),
+			end = $('.end', this.$el).val();
+
+		//	convert values to times
+		start = convertUserInputToDate(start).getTime();
+		end = convertUserInputToDate(end).getTime();
+
+		console.log(start, end);
+
+		return false;
+	}
+});
+
 $(function(){
+
+	//=================================================================
+	//	setup routes
+	router = new AppRouter;
+	
+	router.on('route:startRecorder', function(){
+		$('#startRecorder').attr('disabled', 'disabled');
+		$('#loadSummary').removeAttr('disabled');
+		record();
+	});
+
+	router.on('route:loadSummary', function(){
+		$('#loadSummary').attr('disabled', 'disabled');
+		$('#startRecorder').removeAttr('disabled', 'disabled');
+		summary();
+	});
+
+	//	needed so Routers start working
+	Backbone.history.start();
+
+
+	//=================================================================
+	//	events
+	
+});
+
+
+/**
+* load the view for the recorder so we can start recording tasks
+**/
+function record(){
+	var template = _.template( $('#recorder').html(), {} );
+	$('.page').empty().html(template);
+
+
 	$('.new-taskGroup').click(function(){
 
 		graphStart = graphStart || Date.now();
@@ -335,7 +412,19 @@ $(function(){
 
 	//	start scaling graph
 	setInterval(refreshGraph, 1000);
-});
+};	
+
+
+/**
+* load the summary page
+**/
+function summary(){
+	var summaryView = new SummaryView({
+		el: $('.page')
+	});
+
+};
+
 
 /**
 * Converts seconds into h:mm:ss format.
@@ -366,6 +455,8 @@ function getTimeStampFromDate(date){
 };
 
 
+
+
 /**
 * get Date for today adjusted by h:mm:ss
 * @param {string} time h:mm:ss
@@ -386,6 +477,135 @@ function getDateFromTimeStamp(time){
 	return date;
 };
 
+
+/**
+* get the mm/dd/yyyy format of a Date
+* @param {Date} date
+* @return {string} mm/dd/yyyy
+**/
+function getFriendlyDate(date){
+	var m = date.getMonth() + 1,
+		d = date.getDate(),
+		y = date.getFullYear();
+
+	return m + '/' + d + '/' + y;	
+};
+
+
+/**
+* Converts a valid Date object into m/d/y h:mi:s format.
+* @param {Date} time
+* @return {string}
+**/
+function getFriendlyDateTimeStamp(time){
+	var date = getFriendlyDate(time),
+		timeStamp = getTimeStampFromDate(time);
+
+	return date + ' ' + timeStamp;
+};
+
+
+/**
+* [m/d[/y] ]h24[:mi[:s]]
+* @return {Date}
+**/
+function convertUserInputToDate(x){
+	//	new Date(year, month, day [, hour, minute, second, millisecond])
+	
+	var parts = [],
+		dayPart,
+		timePart;
+
+	if(x == undefined || x === ''){
+		return undefined;
+	};
+
+	//	What did they provide?
+	if(x.indexOf(' ') !== -1){
+		parts = x.split(' ');
+		dayPart = parts[0];
+		timePart = parts[1];
+
+	} else if(x.indexOf('/') !== -1) {
+		dayPart = x;
+	} else {
+		timePart = x;
+	};
+
+	//	complete the parts
+	dayPart = getDayPart(dayPart);
+	timePart = getTimePart(timePart);
+
+	return new Date(dayPart.y, dayPart.m, dayPart.d, timePart.h, timePart.mi, timePart.s);
+
+	/**
+	* @return {object.m}
+	* @return {object.d}
+	* @return {object.y}
+	**/
+	function getDayPart(dayPart){
+		var m, d, y, 
+			parts = [],
+			now = new Date();
+
+		//	set defaults
+		m = now.getMonth() + 1;
+		y = now.getFullYear();
+		d = now.getDate();
+
+		if(dayPart){
+			
+			parts = dayPart.split('/');
+			m = parts[0];
+			d = parts[1];
+
+			//	they provided a year, too
+			if(parts.length === 3){
+				y = parts[2];
+			};
+		};
+		
+		return {
+			m: m - 1,
+			d: d,
+			y: y
+		};
+	};
+
+	/**
+	* @return {object.h}
+	* @return {object.mi}
+	* @return {object.s}
+	**/
+	function getTimePart(timePart){
+		var h, mi, s, 
+			parts = [],
+			now = new Date();
+
+		//	set defaults
+		h = 0;
+		mi = 0;
+		s = 0;
+
+		if(timePart){
+			
+			parts = timePart.split(':');
+			h = parts[0];
+			mi = parts[1] || 0;
+
+			//	they provided seconds, too
+			if(parts.length === 3){
+				s = parts[2];
+			};
+		};
+
+		return {
+			h: h,
+			mi: mi,
+			s: s
+		};
+	};
+};
 
 /**
 * tell each TaskGroup to rescale its Tasks
