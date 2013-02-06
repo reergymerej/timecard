@@ -1,5 +1,4 @@
 define(['views/views'], function(views){
-	console.log(views);
 	var TaskGroupModel = Backbone.Model.extend({
 		defaults: {
 			label: 'new task',

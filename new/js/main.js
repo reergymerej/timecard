@@ -90,5 +90,19 @@ $(function(){
 				taskGroups[i].scaleTasks();
 			};
 		};
+
+
+
+		var TaskGroupCollection = Backbone.Collection.extend({
+			model: models.TaskModel,
+			url: 'php/api/Task/'
+		});
+
+		var taskGroupCollection = new TaskGroupCollection();
+		taskGroupCollection.fetch({
+			success: function(){
+				console.log('success', arguments);
+			}
+		});
 	});
 });

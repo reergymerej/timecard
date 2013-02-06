@@ -279,10 +279,14 @@ define(['js/util'], function(util){
 				end = $('.end', this.$el).val();
 
 			//	convert values to times
-			start = convertUserInputToDate(start).getTime();
-			end = convertUserInputToDate(end).getTime();
+			start = util.convertUserInputToDate(start).getTime();
+			end = util.convertUserInputToDate(end).getTime();
 
 			console.log(start, end);
+
+			$.get('php/api/Task/?start=' + start + '&end=' + end, function(resp){
+				console.log(resp);
+			})
 
 			return false;
 		}
