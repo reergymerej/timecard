@@ -81,7 +81,7 @@ if(mysql_error()){
 } else {
 
 	//echo mysql_affected_rows();
-	echo '{"id":$id}';
+	echo '{"id":' . $id . '}';
 
 };
 

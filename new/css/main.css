@@ -15,7 +15,7 @@
 
 .task {
   height: 1em;
-  border: 1px solid pink;
+  border: 1px solid #4c16ac;
   position: absolute; }
 
 .taskModifier {

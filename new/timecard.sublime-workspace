@@ -523,34 +523,15 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 			"settings":
 			{
-				"buffer_size": 479,
+				"buffer_size": 491,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/main.js",
 			"settings":
 			{
-				"buffer_size": 2147,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "var taskGroups = [];\nvar graphStart;\nvar router;\n\nvar AppRouter = Backbone.Router.extend({\n	routes: {\n		'record': 'startRecorder',\n		'summary': 'loadSummary'\n	}\n});\n\nvar TaskGroupModel = Backbone.Model.extend({\n	defaults: {\n		label: 'new task',\n		running: false\n	},\n	initialize: function(){\n		var that = this;\n\n		this.set({tasks: []});\n\n		this.on('change:label', function(){\n			for(var i = 0; i < that.attributes.tasks.length; i++){\n				that.attributes.tasks[i].set({label: that.get('label')});\n			};\n		});\n	},\n	toggle: function(){\n		this.set({running: !this.attributes.running});\n		if(this.attributes.running){\n			//	start a new task\n			this.addTask();\n		} else {\n			//	stop the most recent task\n			var task = this.attributes.tasks[this.attributes.tasks.length -1];\n			task.stop();\n		};\n	},\n	addTask: function(options){\n		this.set({running: true});\n\n		var task = new TaskModel({label: this.get('label')});\n		var taskView = new TaskView({\n			model: task,\n			container: this.attributes.taskContainer\n		});\n\n		task.save();\n\n		this.attributes.tasks.push(task);\n	},\n	scaleTasks: function(){\n		$(this.attributes.tasks).each(function(i, task){\n			task.scale();\n		});\n	}\n});\n\nvar TaskGroupView = Backbone.View.extend({\n	initialize: function(){\n		var that = this;\n		var template = _.template( $('#task-group-view').html(), {} );\n		this.$el.append(template).prependTo( $('.recorder') );\n		this.render();\n\n		this.model.set({taskContainer: this.$el.find('.tasks')});\n\n		//	listen to model for changes\n		this.model.on('change:label', function(){\n			that.render();\n		});\n		this.model.on('change:running', function(){\n			that.renderToggle();\n		});\n	},\n	render: function(){\n		this.$el.find('.taskGroupLabel').html(this.model.get('label'));\n	},\n	renderToggle: function(){\n		var that = this;\n\n		this.$el.find('.toggle > span').toggleClass('icon-play icon-pause');\n\n		this.$el.slideUp(function(){\n			that.$el.prependTo($('.recorder')).slideDown();\n		});\n\n		// if(this.model.get('running') && this.$el.find('.end').val() !== $('.recorder > div').first().find('.end').val()){\n		// 	this.$el.slideUp(function(){\n		// 		that.$el.prependTo($('.recorder')).slideDown();\n		// 	});\n		// };\n	},\n	events: {\n		'click .toggle': 'toggle',\n		'click .taskGroupLabel': 'modifyLabel'\n	},\n	toggle: function(){\n		this.model.toggle();\n	},\n	modifyLabel: function(){\n		var label = this.$el.find('.taskGroupLabel'),\n			input = $('<input>'),\n			that = this;\n\n		label.after(input).hide();\n\n		input\n		.val(this.model.get('label'))\n		.focus()\n		.blur(function(){\n			var input = $(this);\n			that.model.set({label: input.val()});\n			input.hide();\n			label.show();\n		});\n	}\n});\n\nvar TaskModel = Backbone.Model.extend({\n	urlRoot: 'php/api/Task',\n	initialize: function(){\n		this.attributes.start = Date.now();\n		this.on('change', function(){\n			this.save();\n		});\n	},\n	stop: function(){\n		this.set({end: Date.now()});\n		this.save();\n	},\n	scale: function(){\n		//	trigger event so TaskView will fix itself\n		this.trigger('change:scale');\n	}\n});\n\nvar TaskView = Backbone.View.extend({\n	initialize: function(){\n		\n		var that = this;\n		var template = _.template( $('#task_view_template').html(), {} );\n		this.$el.html( template );\n		this.options.container.prepend( this.el );\n		this.render();\n\n		//	rerender when model changes\n		this.model.on('change:start change:end change:label', function(){\n			that.render();\n		});\n\n		this.model.on('change:scale', function(){\n			that.rescale();\n		});\n	},\n	render: function(){\n\n		var start = this.model.get('start'),\n			end = this.model.get('end');\n\n		var that = this;\n\n		start = new Date(this.model.get('start'));\n		start = getTimeStampFromDate(start);\n\n		if(end){\n			end = new Date(this.model.get('end'));\n			end = getTimeStampFromDate(end);\n		};\n\n		this.$el.find('.start').val(start);\n		this.$el.find('.end').val(end);\n	},\n	events: {\n		'click': 'showTaskModifier',\n		'hover': 'hover'\n	},\n	hover: function(ev){\n		var task = this.$el.find('.task');\n\n		if(ev.type === 'mouseenter'){\n			task.css('box-shadow', '0px 0px 15px ' + task.css('border-color'));\n		} else {\n			task.css('box-shadow', '');\n		};\n		\n	},\n	showTaskModifier: function(){\n		var mod = new TaskModifierView({\n			taskModel: this.model,\n			taskView: this\n		});\n	},\n	deleteTask: function(){\n		var that = this;\n		this.model.destroy({\n			success: function(){\n				that.remove();\n			}\n		});\n	},\n	saveTask: function(){\n		var start,\n			end;\n\n		start = this.$el.find('.start').val();\n		start = getDateFromTimeStamp(start).getTime();\n\n		end = this.$el.find('.end').val();\n		if(end){\n			end = getDateFromTimeStamp(end).getTime();\n		};\n\n		this.model.set({\n			start: start,\n			end: end\n		});\n\n		this.model.save();\n	},\n	rescale: function(){\n		var \n			/**\n			* difference between the start of this graph and now\n			* @property timeSpan\n			* @type number\n			**/\n			timeSpan,\n\n			/**\n			* current width of the .tasks element that contains this .task\n			* @property timelinePixels\n			* @type number\n			**/\n			timelinePixels,\n			left,\n			width,\n\n			MIN_WIDTH = 20,\n			start,\n			end;\n\n		timeSpan = Date.now() - graphStart;\n		timelinePixels = this.$el.closest('.tasks').width();\n		start = this.model.get('start');\n		end = this.model.get('end');\n\n		left = Math.max( 0, (start - graphStart) / timeSpan * timelinePixels );\n		width = end ? (end - start) / timeSpan * timelinePixels : timelinePixels - left;\n		width = Math.max(width, MIN_WIDTH);\n\n		this.$el.find('.task').css({\n			left:left,\n			width:width\n		});\n	}\n});\n\nvar TaskModifierView = Backbone.View.extend({\n	initialize: function(){\n\n		var template = _.template( $('#task_modifier_view_template').html(), {} );\n		this.$el.html(template);\n		this.$el.appendTo( this.options.taskView.$el.find('.task') );\n		this.render();\n	},\n\n	render: function(){\n		var start = this.options.taskModel.get('start'),\n			end = this.options.taskModel.get('end');\n\n		start = getTimeStampFromDate(new Date(start));\n		if(end){\n			end = getTimeStampFromDate(new Date(end));\n		};\n\n		this.$el.find('input').first().focus();\n		$('.start', this.$el).val(start);\n		$('.end', this.$el).val(end);\n	},\n\n	events: {\n		'click': 'preventBubble',\n		'submit form': 'submitForm',\n		'click .delete': 'deleteTask'\n	},\n\n	preventBubble: function(ev){\n		ev.stopPropagation();\n	},\n\n	submitForm: function(){\n\n		var start = $('.start', this.$el),\n			end = $('.end', this.$el);\n\n		start = getDateFromTimeStamp(start.val());\n		end = getDateFromTimeStamp(end.val());\n\n		start = start.getTime();\n		if(end){\n			end = end.getTime();\n		};\n\n		this.options.taskModel.set({\n			start: start,\n			end: end\n		});\n\n		this.remove();\n		return false;\n	},\n\n	deleteTask: function(){\n\n		var that = this,\n			taskModel = this.options.taskModel,\n			taskView = this.options.taskView;\n\n		taskModel.destroy({\n			success: function(){\n				that.remove();\n				taskView.remove();\n			}\n		});\n	}\n});\n\nvar SummaryView = Backbone.View.extend({\n	initialize: function(){\n		var now = new Date();\n\n		var vars = {\n			start: getFriendlyDate(now),\n			end: getFriendlyDateTimeStamp(now)\n		};\n		\n		var template = _.template( $('#summary_view').html(), vars );\n		\n		this.$el.empty().html(template);\n		this.render();\n	},\n	render: function(){\n\n	},\n	events: {\n		'submit form': 'submit'\n	},\n	submit: function(){\n		var start = $('.start', this.$el).val(),\n			end = $('.end', this.$el).val();\n\n		//	convert values to times\n		start = convertUserInputToDate(start).getTime();\n		end = convertUserInputToDate(end).getTime();\n\n		console.log(start, end);\n\n		return false;\n	}\n});\n\n$(function(){\n\n	//=================================================================\n	//	setup routes\n	router = new AppRouter;\n	\n	router.on('route:startRecorder', function(){\n		$('#startRecorder').attr('disabled', 'disabled');\n		$('#loadSummary').removeAttr('disabled');\n		record();\n	});\n\n	router.on('route:loadSummary', function(){\n		$('#loadSummary').attr('disabled', 'disabled');\n		$('#startRecorder').removeAttr('disabled', 'disabled');\n		summary();\n	});\n\n	//	needed so Routers start working\n	Backbone.history.start();\n\n\n	//=================================================================\n	//	events\n	\n});\n\n\n\n\n/**\n* Converts seconds into h:mm:ss format.\n* @param {Date} date\n* @return {string}\n**/\nfunction getTimeStampFromDate(date){\n	var h,\n		m,\n		s;\n\n	if(date === undefined){\n		return;\n	};\n\n	h = date.getHours();\n	m = pad(date.getMinutes());\n	s = pad(date.getSeconds());\n\n	return h + ':' + m + ':' + s;\n\n	function pad(x){\n		if(Number(x) < 10){\n			return '0' + x;\n		};\n		return x;\n	};\n};\n\n\n\n\n/**\n* get Date for today adjusted by h:mm:ss\n* @param {string} time h:mm:ss\n* @return {Date}\n**/\nfunction getDateFromTimeStamp(time){\n	var parts = time.split(':'),\n		date = new Date();\n\n	if(parts.length < 3){\n		return;\n	};\n\n	date.setHours(parts[0]);\n	date.setMinutes(parts[1]);\n	date.setSeconds(parts[2]);\n\n	return date;\n};\n\n\n/**\n* get the mm/dd/yyyy format of a Date\n* @param {Date} date\n* @return {string} mm/dd/yyyy\n**/\nfunction getFriendlyDate(date){\n	var m = date.getMonth() + 1,\n		d = date.getDate(),\n		y = date.getFullYear();\n\n	return m + '/' + d + '/' + y;	\n};\n\n\n/**\n* Converts a valid Date object into m/d/y h:mi:s format.\n* @param {Date} time\n* @return {string}\n**/\nfunction getFriendlyDateTimeStamp(time){\n	var date = getFriendlyDate(time),\n		timeStamp = getTimeStampFromDate(time);\n\n	return date + ' ' + timeStamp;\n};\n\n\n/**\n* [m/d[/y] ]h24[:mi[:s]]\n* @return {Date}\n**/\nfunction convertUserInputToDate(x){\n	//	new Date(year, month, day [, hour, minute, second, millisecond])\n	\n	var parts = [],\n		dayPart,\n		timePart;\n\n	if(x == undefined || x === ''){\n		return undefined;\n	};\n\n	//	What did they provide?\n	if(x.indexOf(' ') !== -1){\n		parts = x.split(' ');\n		dayPart = parts[0];\n		timePart = parts[1];\n\n	} else if(x.indexOf('/') !== -1) {\n		dayPart = x;\n	} else {\n		timePart = x;\n	};\n\n	//	complete the parts\n	dayPart = getDayPart(dayPart);\n	timePart = getTimePart(timePart);\n\n	return new Date(dayPart.y, dayPart.m, dayPart.d, timePart.h, timePart.mi, timePart.s);\n\n	/**\n	* @return {object.m}\n	* @return {object.d}\n	* @return {object.y}\n	**/\n	function getDayPart(dayPart){\n		var m, d, y, \n			parts = [],\n			now = new Date();\n\n		//	set defaults\n		m = now.getMonth() + 1;\n		y = now.getFullYear();\n		d = now.getDate();\n\n		if(dayPart){\n			\n			parts = dayPart.split('/');\n			m = parts[0];\n			d = parts[1];\n\n			//	they provided a year, too\n			if(parts.length === 3){\n				y = parts[2];\n			};\n		};\n		\n		return {\n			m: m - 1,\n			d: d,\n			y: y\n		};\n	};\n\n	/**\n	* @return {object.h}\n	* @return {object.mi}\n	* @return {object.s}\n	**/\n	function getTimePart(timePart){\n		var h, mi, s, \n			parts = [],\n			now = new Date();\n\n		//	set defaults\n		h = 0;\n		mi = 0;\n		s = 0;\n\n		if(timePart){\n			\n			parts = timePart.split(':');\n			h = parts[0];\n			mi = parts[1] || 0;\n\n			//	they provided seconds, too\n			if(parts.length === 3){\n				s = parts[2];\n			};\n		};\n\n		return {\n			h: h,\n			mi: mi,\n			s: s\n		};\n	};\n};\n\n/**\n* tell each TaskGroup to rescale its Tasks\n**/\nfunction refreshGraph(){\n	for(var i = 0; i < taskGroups.length; i++){\n		taskGroups[i].scaleTasks();\n	};\n};\n\n// $.ajaxPrefilter(function(options){\n// 	options.url = 'http://wordtotheblurd.com/dev/timecard/new/' + options.url;\n// });",
-			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
-			"file_size": 12367,
-			"file_write_time": 130045465627163891,
-			"settings":
-			{
-				"buffer_size": 11130,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/main.js",
-			"settings":
-			{
-				"buffer_size": 1744,
+				"buffer_size": 2038,
 				"line_ending": "Windows"
 			}
 		},
@@ -558,23 +539,15 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
 			"settings":
 			{
-				"buffer_size": 6404,
+				"buffer_size": 6672,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/get.php",
 			"settings":
 			{
-				"buffer_size": 1566,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
-			"settings":
-			{
-				"buffer_size": 3250,
+				"buffer_size": 1421,
 				"line_ending": "Windows"
 			}
 		}
@@ -607,6 +580,16 @@
 	},
 	"file_history":
 	[
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/put.php",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/post.php",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/connect.php",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/get.php",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
+		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/main.js",
+		"/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/routers/routers.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models.js",
 		"/C/xampp/htdocs/reergymerej.com/dev/timecard/js/util.js",
@@ -724,17 +707,7 @@
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/utilities/general/functions.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/validations/screenhandler.js",
 		"/C/workspace_wrms/wrms/WebContent/assets/scripts/controller/validation.js",
-		"/C/workspace_wrms/wrms/WebContent/assets/css/grid.css",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example4-model.html",
-		"/C/xampp/htdocs/wrms/slickgrid/controls/slick.pager.js",
-		"/C/xampp/htdocs/wrms/slickgrid/slick.dataview.js",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example5-collapsing.html",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example-header-row.html",
-		"/C/xampp/htdocs/wrms/slickgrid/examples/example-plugin-headermenu.html",
-		"/C/xampp/htdocs/wrms/slickgrid/slick.grid.js",
-		"/C/xampp/htdocs/wrms/throw-event.js",
-		"/C/xampp/htdocs/wrms/main.js",
-		"/C/xampp/htdocs/wrms/test-custom-events.html"
+		"/C/workspace_wrms/wrms/WebContent/assets/css/grid.css"
 	],
 	"find":
 	{
@@ -765,6 +738,13 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"color",
+			"\\n\\n",
+			"convertUserInputToDate",
+			"summary",
+			"deleteTask",
+			"delete",
+			"getDateFromTimeStamp",
 			"graphStart",
 			"View",
 			"getFriendlyDateTimeStamp",
@@ -885,14 +865,7 @@
 			"TaskModel",
 			"TaskView",
 			"TaskModifierView",
-			"delete",
-			"delete(",
-			"delete",
-			"new Task(",
-			"TaskModifierView",
-			"destroy",
-			"summary",
-			"HistoryPro"
+			"delete"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -900,6 +873,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"\\n",
+			"util.convertUserInputToDate",
+			"util.getDateFromTimeStamp",
 			"util.getFriendlyDateTimeStamp",
 			"util.getFriendlyDate",
 			"util.getTimeStampFromDate",
@@ -1024,21 +1000,18 @@
 			"val",
 			"encodeColumns",
 			"setDefaultValues",
-			"setGridPreferences",
-			"",
-			"delimiter",
-			"inputField"
+			"setGridPreferences"
 		],
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1046,15 +1019,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/css/main.scss",
 					"settings":
 					{
-						"buffer_size": 479,
+						"buffer_size": 491,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								311,
-								311
+								300,
+								300
 							]
 						],
 						"settings":
@@ -1063,79 +1036,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 59.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/main.js",
 					"settings":
 					{
-						"buffer_size": 2147,
+						"buffer_size": 2038,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								346,
-								346
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
-					"settings":
-					{
-						"buffer_size": 11130,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								101,
-								101
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/rest-test.js",
-					"settings":
-					{
-						"buffer_size": 11130,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								11005,
-								10848
+								1829,
+								1829
 							]
 						],
 						"settings":
@@ -1150,97 +1069,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "js/main.js",
-					"settings":
-					{
-						"buffer_size": 1744,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								910,
-								910
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 269.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
+					"buffer": 2,
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
 					"settings":
 					{
-						"buffer_size": 6404,
+						"buffer_size": 6672,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3714,
-								3724
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1389.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
-					"settings":
-					{
-						"buffer_size": 1566,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								568,
-								568
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 204.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/util.js",
-					"settings":
-					{
-						"buffer_size": 3250,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3014,
-								3034
+								2343,
+								2343
 							]
 						],
 						"settings":
@@ -1249,7 +1090,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 354.0,
+						"translation.y": 1299.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/php/get.php",
+					"settings":
+					{
+						"buffer_size": 1421,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								923,
+								923
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1298,6 +1166,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"mod",
+				"new/js/models/models.js"
+			],
 			[
 				"inde",
 				"index.html"
