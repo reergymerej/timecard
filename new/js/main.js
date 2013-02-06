@@ -53,7 +53,7 @@ $(function(){
 
 			$('.new-taskGroup').click(function(){
 
-				views.graphStart = views.graphStart || Date.now();
+				views.setGraphStart(Date.now());
 
 				var taskGroup = new models.TaskGroupModel();
 				var taskGroupView = new views.TaskGroupView({

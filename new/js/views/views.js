@@ -132,11 +132,11 @@ define(['js/util'], function(util){
 				end;
 
 			start = this.$el.find('.start').val();
-			start = getDateFromTimeStamp(start).getTime();
+			start = util.getDateFromTimeStamp(start).getTime();
 
 			end = this.$el.find('.end').val();
 			if(end){
-				end = getDateFromTimeStamp(end).getTime();
+				end = util.getDateFromTimeStamp(end).getTime();
 			};
 
 			this.model.set({
@@ -222,8 +222,8 @@ define(['js/util'], function(util){
 			var start = $('.start', this.$el),
 				end = $('.end', this.$el);
 
-			start = getDateFromTimeStamp(start.val());
-			end = getDateFromTimeStamp(end.val());
+			start = util.getDateFromTimeStamp(start.val());
+			end = util.getDateFromTimeStamp(end.val());
 
 			start = start.getTime();
 			if(end){
@@ -288,11 +288,20 @@ define(['js/util'], function(util){
 		}
 	});
 
+	/**
+	* @param {number} time
+	**/
+	function setGraphStart(time){
+		if(graphStart === undefined){
+			graphStart = time;
+		};
+	};
+
 	return {
 		TaskGroupView: TaskGroupView,
 		TaskView: TaskView,
 		TaskModifierView: TaskModifierView,
 		SummaryView: SummaryView,
-		graphStart: graphStart
+		setGraphStart: setGraphStart
 	};
 });
