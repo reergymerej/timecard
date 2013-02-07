@@ -5,7 +5,7 @@ define(['js/util'], function(util){
 	var TaskGroupView = Backbone.View.extend({
 		initialize: function(){
 			var that = this;
-			var template = _.template( $('#task-group-view').html(), {} );
+			var template = _.template( $('#task-group-view').html());
 			this.$el.append(template).prependTo( $('.recorder') );
 			this.render();
 
@@ -256,39 +256,57 @@ define(['js/util'], function(util){
 
 	var SummaryView = Backbone.View.extend({
 		initialize: function(){
+			this.subViewTest = new SubViewTest();
+
+			this.render();
+		},
+		render: function(){
+			console.log('show all tasks in this collection', this.options.taskCollection.toJSON());
 			var now = new Date();
 
 			var vars = {
 				start: util.getFriendlyDate(now),
-				end: util.getFriendlyDateTimeStamp(now)
+				end: util.getFriendlyDateTimeStamp(now),
+				tasks: this.options.taskCollection.toJSON()
 			};
 			
 			var template = _.template( $('#summary_view').html(), vars );
 			
 			this.$el.empty().html(template);
-			this.render();
-		},
-		render: function(){
 
+			this.$el.append(this.subViewTest.$el);
+			this.subViewTest.render();
 		},
 		events: {
 			'submit form': 'submit'
 		},
 		submit: function(){
 			var start = $('.start', this.$el).val(),
-				end = $('.end', this.$el).val();
+				end = $('.end', this.$el).val(),
+				that = this;
 
 			//	convert values to times
 			start = util.convertUserInputToDate(start).getTime();
 			end = util.convertUserInputToDate(end).getTime();
 
-			console.log(start, end);
-
-			$.get('php/api/Task/?start=' + start + '&end=' + end, function(resp){
-				console.log(resp);
+			this.options.taskCollection.fetch({
+				data: {
+					start: start,
+					end: end
+				},
+				success: function(tasks){
+					that.render();
+				}
 			})
 
 			return false;
+		}
+	});
+
+	var SubViewTest = Backbone.View.extend({
+		render: function(){
+			var template = _.template( $('#sub_view_test').html(), {});
+			this.$el.html(template);
 		}
 	});
 

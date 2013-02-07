@@ -75,9 +75,9 @@ $(function(){
 		**/
 		function summary(){
 			var summaryView = new views.SummaryView({
-				el: $('.page')
+				el: $('.page'),
+				taskCollection: new models.TaskCollection()
 			});
-
 		};
 
 		Backbone.history.start();
@@ -90,20 +90,5 @@ $(function(){
 				taskGroups[i].scaleTasks();
 			};
 		};
-
-
-
-		var TaskGroupCollection = Backbone.Collection.extend({
-			model: models.TaskModel,
-			url: 'php/api/Task/'
-		});
-
-		var taskGroupCollection = new TaskGroupCollection();
-		taskGroupCollection.fetch({
-			data: {start: 111, end: 999},
-			success: function(){
-				console.log('success', arguments);
-			}
-		});
 	});
 });

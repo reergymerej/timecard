@@ -46,6 +46,7 @@ define(['views/views'], function(views){
 		}
 	});
 
+
 	var TaskModel = Backbone.Model.extend({
 		urlRoot: 'php/api/Task',
 		initialize: function(){
@@ -63,9 +64,17 @@ define(['views/views'], function(views){
 			this.trigger('change:scale');
 		}
 	});
+	
+
+	var TaskCollection = Backbone.Collection.extend({
+		model: TaskModel,
+		url: 'php/api/Task/'
+	});
+
 
 	return {
 		TaskGroupModel: TaskGroupModel,
-		TaskModel: TaskModel
+		TaskModel: TaskModel,
+		TaskCollection: TaskCollection
 	};
 });

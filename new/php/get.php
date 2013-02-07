@@ -32,12 +32,16 @@ $sql = "SELECT id, start, end, duration, label FROM task ";
 if(isset($id)){
 	//	get single object
 	$sql .= "WHERE user_id = $user_id AND id = $id;";
+
+} elseif( isset( $_GET['running'] ) ) {
+	//	get a collection of running tasks
+	$sql .= "WHERE user_id = $user_id AND end IS NULL ORDER BY start;";
+
 } else {
-	//	get collection
-	// $start = mysql_real_escape_string($_GET['start']);
-	// $end = mysql_real_escape_string($_GET['end']);
-	// $sql .= "WHERE user_id = $user_id AND start >= $start AND end <= $end ORDER BY start;";
-	$sql .= "WHERE user_id = $user_id AND start >= 1360099409792 ORDER BY start;";
+	//	get collection between start and end
+	$start = mysql_real_escape_string($_GET['start']);
+	$end = mysql_real_escape_string($_GET['end']);
+	$sql .= "WHERE user_id = $user_id AND start >= $start AND start <= $end ORDER BY start DESC;";
 };
 
 $result = mysql_query($sql);
