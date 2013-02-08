@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"summa",
+				"summaryModel"
+			],
+			[
 				"taskC",
 				"taskCollection"
 			],
@@ -122,10 +126,6 @@
 			[
 				"label",
 				"labels"
-			],
-			[
-				"summa",
-				"summaryModule"
 			],
 			[
 				"scree",
@@ -531,7 +531,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 			"settings":
 			{
-				"buffer_size": 2246,
+				"buffer_size": 2263,
 				"line_ending": "Windows"
 			}
 		},
@@ -539,15 +539,7 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/main.js",
 			"settings":
 			{
-				"buffer_size": 1775,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
-			"settings":
-			{
-				"buffer_size": 6946,
+				"buffer_size": 1840,
 				"line_ending": "Windows"
 			}
 		},
@@ -555,7 +547,15 @@
 			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
 			"settings":
 			{
-				"buffer_size": 1683,
+				"buffer_size": 2954,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
+			"settings":
+			{
+				"buffer_size": 7337,
 				"line_ending": "Windows"
 			}
 		}
@@ -723,9 +723,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 90.0,
 		"where_history":
 		[
+			"c:\\xampp\\htdocs\\reergymerej.com\\dev\\timecard\\new",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts\\wrms\\",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\css",
 			"C:\\workspace_wrms\\wrms\\WebContent\\assets\\scripts",
@@ -746,6 +747,11 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"TaskCollection",
+			"TaskView",
+			"taskCollection",
+			"task-summary-view",
+			"summary",
 			"taskGroupCollection",
 			"TaskGroupCollection",
 			"color",
@@ -868,12 +874,7 @@
 			"tasks",
 			"TaskView",
 			"deleteTask",
-			"delete",
-			"taskModal",
-			"destroy",
-			"Task",
-			"TaskModel",
-			"TaskView"
+			"delete"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1054,15 +1055,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/index.html",
 					"settings":
 					{
-						"buffer_size": 2246,
+						"buffer_size": 2263,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1009,
-								1009
+								1806,
+								1806
 							]
 						],
 						"settings":
@@ -1071,7 +1072,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 75.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1081,15 +1082,15 @@
 					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/main.js",
 					"settings":
 					{
-						"buffer_size": 1775,
+						"buffer_size": 1840,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1222,
-								1231
+								1524,
+								1524
 							]
 						],
 						"settings":
@@ -1098,25 +1099,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 539.0,
+						"translation.y": 675.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
 					"settings":
 					{
-						"buffer_size": 6946,
+						"buffer_size": 2954,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6041,
-								6041
+								2081,
+								2081
 							]
 						],
 						"settings":
@@ -1125,25 +1126,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/models/models.js",
+					"file": "/c/xampp/htdocs/reergymerej.com/dev/timecard/new/js/views/views.js",
 					"settings":
 					{
-						"buffer_size": 1683,
+						"buffer_size": 7337,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1282,
-								1282
+								6561,
+								6576
 							]
 						],
 						"settings":
@@ -1152,7 +1153,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 532.0,
+						"translation.y": 89.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

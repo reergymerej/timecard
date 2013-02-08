@@ -46,7 +46,67 @@ define(['views/views'], function(views){
 		}
 	});
 
+	/**
+	* Create a model to use as the brains behind a summary of tasks.
+	**/
+	var SummaryModel = Backbone.Model.extend({
+		initialize: function(){
+			console.log('I am a new SummaryModel.');
 
+			var that = this,
+				now = new Date();
+
+			//	These are managed internally.
+			this.tasks = new TaskCollection();
+
+			//	These are public.
+			this.set({
+
+				/**
+				* @type Date
+				**/
+				start: now,
+
+				/**
+				* @type Date
+				**/
+				end: now
+			});
+
+			//	listen for events
+			// this.on('change:start change:end', function(){
+			this.on('change', function(){
+				console.log('something changed', arguments, that.changed);
+
+				//	fetch the collection of tasks
+				that.tasks.fetch({
+					data: {
+						start: that.get('start').getTime(),
+						end: that.get('end').getTime()
+					},
+					success: function(collection, models){
+						that.tasks.each(function(t){
+							console.log(t);
+
+							//	we need to create a view for each of these
+							//	Where should the references be stored?
+						});
+					}
+				})
+
+			});
+		},
+
+		//	validate that changes to this model are OK
+		validate: function(attrs, options){
+			if( attrs.start > attrs.end ){
+				return 'invalid timeframe';
+			};
+		}
+	});
+
+
+	
 	var TaskModel = Backbone.Model.extend({
 		urlRoot: 'php/api/Task',
 		initialize: function(){
@@ -66,15 +126,16 @@ define(['views/views'], function(views){
 	});
 	
 
+	//	Collection must be defined after model
 	var TaskCollection = Backbone.Collection.extend({
 		model: TaskModel,
 		url: 'php/api/Task/'
 	});
 
-
 	return {
 		TaskGroupModel: TaskGroupModel,
 		TaskModel: TaskModel,
-		TaskCollection: TaskCollection
+		TaskCollection: TaskCollection,
+		SummaryModel: SummaryModel
 	};
 });

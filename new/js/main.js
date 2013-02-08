@@ -74,9 +74,12 @@ $(function(){
 		* load the summary page
 		**/
 		function summary(){
+			var summaryModel = new models.SummaryModel();
+			window.summaryModel = summaryModel;
+
 			var summaryView = new views.SummaryView({
-				el: $('.page'),
-				taskCollection: new models.TaskCollection()
+				model: summaryModel,
+				el: $('.page')
 			});
 		};
 

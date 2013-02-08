@@ -254,52 +254,65 @@ define(['js/util'], function(util){
 		}
 	});
 
+	/**
+	* Created by SummaryModel
+	**/
 	var SummaryView = Backbone.View.extend({
 		initialize: function(){
-			this.subViewTest = new SubViewTest();
+
+			var that = this;
+
+			console.log('I am a new SummaryView.');
 
 			this.render();
+
+			//	listen
+			this.model.on('change', function(){
+				that.render();
+			});
 		},
 		render: function(){
-			console.log('show all tasks in this collection', this.options.taskCollection.toJSON());
-			var now = new Date();
-
 			var vars = {
-				start: util.getFriendlyDate(now),
-				end: util.getFriendlyDateTimeStamp(now),
-				tasks: this.options.taskCollection.toJSON()
+				start: util.getFriendlyDate( this.model.get('start') ),
+				end: util.getFriendlyDateTimeStamp( this.model.get('end') )
 			};
 			
 			var template = _.template( $('#summary_view').html(), vars );
 			
 			this.$el.empty().html(template);
-
-			this.$el.append(this.subViewTest.$el);
-			this.subViewTest.render();
 		},
 		events: {
 			'submit form': 'submit'
 		},
 		submit: function(){
 			var start = $('.start', this.$el).val(),
-				end = $('.end', this.$el).val(),
-				that = this;
+				end = $('.end', this.$el).val();
 
 			//	convert values to times
-			start = util.convertUserInputToDate(start).getTime();
-			end = util.convertUserInputToDate(end).getTime();
+			start = util.convertUserInputToDate(start);
+			end = util.convertUserInputToDate(end);
 
-			this.options.taskCollection.fetch({
-				data: {
-					start: start,
-					end: end
-				},
-				success: function(tasks){
-					that.render();
-				}
-			})
+			this.model.set({
+				start: start,
+				end: end
+			});
 
 			return false;
+		}
+	});
+
+	/**
+	* Each task in the SummaryModel's collection will create one of these.
+	**/
+	var SummaryTaskView = Backbone.View.extend({
+		initialize: function(){
+			console.log('I am a new SummaryTaskView.');
+
+			var template = _.template( $('#task-summary-view').html(), { task: this.model.toJSON() } );
+			this.$el.html( template );
+		},
+		render: function(){
+
 		}
 	});
 
@@ -324,6 +337,7 @@ define(['js/util'], function(util){
 		TaskView: TaskView,
 		TaskModifierView: TaskModifierView,
 		SummaryView: SummaryView,
-		setGraphStart: setGraphStart
+		setGraphStart: setGraphStart,
+		SummaryTaskView: SummaryTaskView
 	};
 });
