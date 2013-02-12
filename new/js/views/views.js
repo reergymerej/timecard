@@ -308,8 +308,20 @@ define(['js/util'], function(util){
 		initialize: function(){
 			console.log('I am a new SummaryTaskView.');
 
-			var template = _.template( $('#task-summary-view').html(), { task: this.model.toJSON() } );
+			var taskData,
+				template;
+
+			//	massage the task data so it's easy to use in the view
+			taskData = this.model.toJSON();
+			taskData.start = util.getFriendlyDateTimeStamp(taskData.start);
+			taskData.end = util.getFriendlyDateTimeStamp(taskData.end);
+
+			template = _.template( $('#task-summary-view').html(), {
+				task: taskData
+			});
 			this.$el.html( template );
+
+			this.$el.appendTo('.tasks');
 		},
 		render: function(){
 

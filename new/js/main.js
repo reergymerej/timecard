@@ -24,6 +24,7 @@ $(function(){
 		});
 
 		var router;
+		var taskCollection;
 
 		//	These probably shouldn't live here.
 		var taskGroups = [];

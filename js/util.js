@@ -10,6 +10,16 @@ define(function(){
 	* @return {string}
 	**/
 	function getFriendlyDateTimeStamp(time){
+
+		if(!time){
+			return '';
+		};
+
+		//	convert time to Date if needed
+		if(typeof time === 'number'){
+			time = new Date(time);
+		};
+
 		var m = time.getMonth() + 1,
 			d = time.getDate(),
 			y = time.getFullYear(),
@@ -27,6 +37,10 @@ define(function(){
 			h,
 			mi,
 			s;
+
+		if(!time){
+			return '';
+		};
 
 		//	convert time to Date if needed
 		if(typeof time === 'number'){

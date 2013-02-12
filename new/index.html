@@ -22,6 +22,7 @@
 				<button type="submit" class="btn">load</button>
 			</fieldset>
 		</form>
+		<div class="tasks"></div>
 	</script>
 	
 	<script type="text/template" id="task_view_template">
@@ -59,7 +60,9 @@
 	</script>
 
 	<script type="text/template" id="task-summary-view">
-		<div><% print( JSON.stringify(task) ); %></div>
+		<label><%= task.label %></label>
+		<span class="start"><%= task.start %></span>
+		<span class="end"><%= task.end %></span>
 	</script>
 
 
@@ -74,6 +77,8 @@
 	<a class="btn btn-primary" id="loadSummary" href="#/summary">summary</a>
 	<hr />
 
-	<div class="page"></div>
+	<div class="container">
+		<div class="page"></div>
+	</div>
 </body>
 </html>

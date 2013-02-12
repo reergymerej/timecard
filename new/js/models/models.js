@@ -78,6 +78,9 @@ define(['views/views'], function(views){
 			this.on('change', function(){
 				console.log('something changed', arguments, that.changed);
 
+				//	clear out task collection
+				that.tasks.reset();
+				
 				//	fetch the collection of tasks
 				that.tasks.fetch({
 					data: {
@@ -90,6 +93,7 @@ define(['views/views'], function(views){
 
 							//	we need to create a view for each of these
 							//	Where should the references be stored?
+							var view = new views.SummaryTaskView({model: t});
 						});
 					}
 				})

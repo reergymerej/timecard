@@ -77,6 +77,16 @@ define(function(){
 	* @return {string}
 	**/
 	function getFriendlyDateTimeStamp(time){
+
+		if(!time){
+			return '';
+		};
+
+		//	convert time to Date if needed
+		if(typeof time === 'number' || !isNaN(parseFloat(time))){
+			time = new Date(time);
+		};
+
 		var date = getFriendlyDate(time),
 			timeStamp = getTimeStampFromDate(time);
 
