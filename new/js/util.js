@@ -83,8 +83,12 @@ define(function(){
 		};
 
 		//	convert time to Date if needed
-		if(typeof time === 'number' || !isNaN(parseFloat(time))){
-			time = new Date(time);
+		if(typeof time === 'string'){
+			time = parseFloat(time);
+		};
+
+		if(typeof time === 'number'){
+			time = new Date(parseFloat(time));
 		};
 
 		var date = getFriendlyDate(time),

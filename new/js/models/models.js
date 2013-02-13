@@ -113,8 +113,11 @@ define(['views/views'], function(views){
 	
 	var TaskModel = Backbone.Model.extend({
 		urlRoot: 'php/api/Task',
+		defaults: {
+			"start": Date.now(),
+			"end": undefined
+		},
 		initialize: function(){
-			this.attributes.start = Date.now();
 			this.on('change', function(){
 				this.save();
 			});
