@@ -117,9 +117,11 @@ define(['views/views'], function(views){
 	
 	var TaskModel = Backbone.Model.extend({
 		urlRoot: 'php/api/Task',
-		defaults: {
-			"start": Date.now(),
-			"end": undefined
+		defaults: function(){
+			return {
+				start: Date.now(),
+				end: undefined
+			};
 		},
 		initialize: function(){
 			this.on('change', function(){
