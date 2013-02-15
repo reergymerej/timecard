@@ -60,9 +60,11 @@
 	</script>
 
 	<script type="text/template" id="task-summary-view">
-		<label><%= task.label %></label>
-		<span class="start"><%= task.start %></span> - 
-		<span class="end"><%= task.end %></span>
+		<form class="form-inline">
+			<input name="label" value="<%= task.label %>" />
+			<input name="start" value="<%= task.start %>" />
+			<input name="end" value="<%= task.end %>" />
+		</form>
 	</script>
 
 
@@ -77,7 +79,7 @@
 	<a class="btn btn-primary" id="loadSummary" href="#/summary">summary</a>
 	<hr />
 
-	<div class="container">
+	<div class="">
 		<div class="page"></div>
 	</div>
 </body>

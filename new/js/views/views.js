@@ -306,7 +306,7 @@ define(['js/util'], function(util){
 	**/
 	var SummaryTaskView = Backbone.View.extend({
 		initialize: function(){
-			console.log('I am a new SummaryTaskView.');
+			console.log('I am a new SummaryTaskView.', this.model.toJSON());
 
 			var taskData,
 				template;
@@ -325,6 +325,23 @@ define(['js/util'], function(util){
 		},
 		render: function(){
 
+		},
+		events: {
+			'click label, span': 'edit'
+		},
+		edit: function(ev){
+			
+			//	gather info about this element
+			var elem = $(ev.target),
+				oldVal = $.trim(elem.html());
+
+			console.log(elem);
+
+
+			//	show an input
+			elem.after( $('input').val(oldVal) );
+			//	hide this element
+			elem.hide();
 		}
 	});
 

@@ -56,6 +56,8 @@ define(['views/views'], function(views){
 			var that = this,
 				now = new Date();
 
+			this.taskViews = [];
+
 			//	These are managed internally.
 			this.tasks = new TaskCollection();
 
@@ -77,9 +79,13 @@ define(['views/views'], function(views){
 			// this.on('change:start change:end', function(){
 			this.on('change', function(){
 				console.log('something changed', arguments, that.changed);
+				console.log(that.taskViews);
 
 				//	clear out task collection
 				that.tasks.reset();
+				$.each(that.taskViews, function(i, v){
+					v.remove();
+				});
 				
 				//	fetch the collection of tasks
 				that.tasks.fetch({
@@ -89,11 +95,9 @@ define(['views/views'], function(views){
 					},
 					success: function(collection, models){
 						that.tasks.each(function(t){
-							console.log(t);
 
 							//	we need to create a view for each of these
-							//	Where should the references be stored?
-							var view = new views.SummaryTaskView({model: t});
+							that.taskViews.push( new views.SummaryTaskView({model: t}) );
 						});
 					}
 				})
