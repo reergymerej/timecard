@@ -57,6 +57,7 @@ define(['views/views'], function(views){
 				now = new Date();
 
 			this.taskViews = [];
+			this.taskView;
 
 			//	These are managed internally.
 			this.tasks = new TaskCollection();
@@ -78,8 +79,6 @@ define(['views/views'], function(views){
 			//	listen for events
 			// this.on('change:start change:end', function(){
 			this.on('change', function(){
-				console.log('something changed', arguments, that.changed);
-				console.log(that.taskViews);
 
 				//	clear out task collection
 				that.tasks.reset();
@@ -94,10 +93,8 @@ define(['views/views'], function(views){
 						end: that.get('end').getTime()
 					},
 					success: function(collection, models){
-						that.tasks.each(function(t){
-
-							//	we need to create a view for each of these
-							that.taskViews.push( new views.SummaryTaskView({model: t}) );
+						that.taskView = new views.SummaryTaskView({
+							collection: collection
 						});
 					}
 				})

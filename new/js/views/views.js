@@ -257,34 +257,69 @@ define(['js/util'], function(util){
 	/**
 	* Created by SummaryModel
 	**/
+	// var SummaryView = Backbone.View.extend({
+	// 	initialize: function(){
+
+	// 		var that = this;
+
+	// 		console.log('I am a new SummaryView.');
+
+	// 		this.render();
+
+	// 		//	listen
+	// 		this.model.on('change', function(){
+	// 			that.render();
+	// 		});
+	// 	},
+	// 	render: function(){
+	// 		var vars = {
+	// 			start: util.getFriendlyDate( this.model.get('start') ),
+	// 			end: util.getFriendlyDateTimeStamp( this.model.get('end') )
+	// 		};
+			
+	// 		var template = _.template( $('#summary_view').html(), vars );
+			
+	// 		this.$el.empty().html(template);
+	// 	},
+	// 	events: {
+	// 		'submit form': 'submit'
+	// 	},
+	// 	submit: function(){
+	// 		var start = $('.start', this.$el).val(),
+	// 			end = $('.end', this.$el).val();
+
+	// 		//	convert values to times
+	// 		start = util.convertUserInputToDate(start);
+	// 		end = util.convertUserInputToDate(end);
+
+	// 		this.model.set({
+	// 			start: start,
+	// 			end: end
+	// 		});
+
+	// 		return false;
+	// 	}
+	// });
+
+	//	This is just the form to submit the timeframe for the summary.
 	var SummaryView = Backbone.View.extend({
 		initialize: function(){
-
-			var that = this;
-
-			console.log('I am a new SummaryView.');
-
 			this.render();
-
-			//	listen
-			this.model.on('change', function(){
-				that.render();
-			});
 		},
 		render: function(){
-			var vars = {
-				start: util.getFriendlyDate( this.model.get('start') ),
-				end: util.getFriendlyDateTimeStamp( this.model.get('end') )
-			};
-			
-			var template = _.template( $('#summary_view').html(), vars );
-			
-			this.$el.empty().html(template);
+			var now = new Date();
+			var template = _.template($('#summary_view').html(), {
+				start: util.getFriendlyDate(now),
+				end: util.getFriendlyDateTimeStamp(now)
+			});
+			this.$el.html(template);
+
+			$('.page').empty().html(this.$el);
 		},
 		events: {
-			'submit form': 'submit'
+			'submit form': 'reloadSummary'
 		},
-		submit: function(){
+		reloadSummary: function(){
 			var start = $('.start', this.$el).val(),
 				end = $('.end', this.$el).val();
 
@@ -302,22 +337,17 @@ define(['js/util'], function(util){
 	});
 
 	/**
-	* Each task in the SummaryModel's collection will create one of these.
+	* Used to show a collection of tasks.
 	**/
 	var SummaryTaskView = Backbone.View.extend({
 		initialize: function(){
-			console.log('I am a new SummaryTaskView.', this.model.toJSON());
 
-			var taskData,
-				template;
+			var template;
 
-			//	massage the task data so it's easy to use in the view
-			taskData = this.model.toJSON();
-			taskData.start = util.getFriendlyDateTimeStamp(taskData.start);
-			taskData.end = util.getFriendlyDateTimeStamp(taskData.end);
+			console.log(this.options.collection.toJSON());
 
 			template = _.template( $('#task-summary-view').html(), {
-				task: taskData
+				tasks: this.options.collection.toJSON()
 			});
 			this.$el.html( template );
 
@@ -327,7 +357,8 @@ define(['js/util'], function(util){
 
 		},
 		events: {
-			'click label, span': 'edit'
+			'click label, span': 'edit',
+			'click button': 'deleteTask'
 		},
 		edit: function(ev){
 			
@@ -337,11 +368,22 @@ define(['js/util'], function(util){
 
 			console.log(elem);
 
-
 			//	show an input
 			elem.after( $('input').val(oldVal) );
 			//	hide this element
 			elem.hide();
+		},
+		deleteTask: function(ev){
+			
+
+			//	find the model in the collection
+			var task = this.getTaskFromEvent(ev);
+
+			//	delete it
+			task.destroy();
+		},
+		getTaskFromEvent: function(ev){
+			return this.options.collection.get($(ev.currentTarget).attr('name'));
 		}
 	});
 

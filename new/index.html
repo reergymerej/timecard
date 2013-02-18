@@ -60,11 +60,26 @@
 	</script>
 
 	<script type="text/template" id="task-summary-view">
-		<form class="form-inline">
-			<input name="label" value="<%= task.label %>" />
-			<input name="start" value="<%= task.start %>" />
-			<input name="end" value="<%= task.end %>" />
-		</form>
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>label</th>
+					<th>start</th>
+					<th>end</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% $.each(tasks, function(i, task){ %>
+				<tr>
+					<td><input name="label" value="<%= task.label %>" /></td>
+					<td><input name="start" value="<%= task.start %>" /></td>
+					<td><input name="end" value="<%= task.end %>" /></td>
+					<td><button class="btn remove" name="<%= task.id %>"><i class="icon-remove"></i></button>
+				</tr>
+				<% }); %>
+			</tbody>
+		</table>
 	</script>
 
 

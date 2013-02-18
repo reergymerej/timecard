@@ -25,6 +25,8 @@ $(function(){
 
 		var router;
 		var taskCollection;
+		var pageView;
+
 
 		//	These probably shouldn't live here.
 		var taskGroups = [];
@@ -76,11 +78,8 @@ $(function(){
 		**/
 		function summary(){
 			var summaryModel = new models.SummaryModel();
-			window.summaryModel = summaryModel;
-
-			var summaryView = new views.SummaryView({
-				model: summaryModel,
-				el: $('.page')
+			pageView = new views.SummaryView({
+				model: summaryModel
 			});
 		};
 
