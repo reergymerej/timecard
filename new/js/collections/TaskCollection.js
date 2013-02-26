@@ -1,11 +1,14 @@
 define([
-'models/Task'
-], function(Task){
+	'models/Task'
+], function(
+	Task
+){
 	
-	console.log('task', Task);
-
 	var TaskCollection = Backbone.Collection.extend({
-		model: Task
+		
+		model: Task,
+
+		url: 'php/api/Task/'
 	});
 
 	return TaskCollection;

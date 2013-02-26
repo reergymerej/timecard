@@ -1,0 +1,32 @@
+<div class="container">
+	<form class="form-inline">
+		<fieldset>
+			<legend>Summary</legend>
+			<input type="text" class="start" name="start" value="<%= start %>" placeholder="<%= start %>" />
+			<input type="text" class="end" name="end" value="<%= end %>" placeholder="<%= end %>" />
+			<button type="submit" class="btn">load</button>
+		</fieldset>
+	</form>
+	<div class="tasks">
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>label</th>
+					<th>start</th>
+					<th>end</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% $.each(tasks, function(i, task){ %>
+				<tr>
+					<td><%= task.label %></td>
+					<td><%= task.start %></td>
+					<td><%= task.end %></td>
+					<td><button class="btn remove" name="<%= task.id %>"><i class="icon-remove"></i></button>
+				</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+</div>

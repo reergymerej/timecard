@@ -3,10 +3,12 @@ require.config({
 	// baseUrl: 'js',
 	paths: {
 		'routers': 'routers',
-		'models': 'models',
 		'views': 'views',
+		'collections': 'collections',
+		'models': 'models',
 		'templates': '../templates'
-	}
+	},
+	// urlArgs: '_' + Date.now()
 });
 
 

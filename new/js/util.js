@@ -4,6 +4,10 @@
 **/
 
 define(function(){
+
+	var DATE = 'dateFormat',
+		TIME = 'timeFormat',
+		DATETIME = 'dateTimeFormat';
 	
 	/**
 	* Converts seconds into h:mm:ss format.
@@ -32,9 +36,6 @@ define(function(){
 			return x;
 		};
 	};
-
-
-
 
 	/**
 	* get Date for today adjusted by h:mm:ss
@@ -200,11 +201,61 @@ define(function(){
 		};
 	};
 
+
+	/**
+	* convert unknown user input to a unix timestamp
+	* @param {string} input
+	* @return {number}
+	**/
+	function userInputToTime(input){
+		var date = convertUserInputToDate(input);
+
+		return date.getTime();
+	};
+
+
+	/**
+	* convert a unix timestamp to a formated string
+	* @param {number} time
+	* @param {string} format (DATE, TIME, DATETIME)
+	* @return {string}
+	**/
+	function timeTo(time, format){
+		
+		var formatted = '',
+			date = new Date(time);
+
+		switch(format){
+			case DATE:
+				formatted = getFriendlyDate(date);
+				break;
+
+			case TIME:
+				formatted = getTimeStampFromDate(date);
+				break;
+
+			case DATETIME:
+				formatted = getFriendlyDateTimeStamp(date);
+				break;
+				
+			default:
+				console.error('unknown format: ' + format);
+		};
+
+		return formatted;
+	};
+
 	return {
 		getTimeStampFromDate: getTimeStampFromDate,
 		getDateFromTimeStamp: getDateFromTimeStamp,
 		getFriendlyDate: getFriendlyDate,
 		getFriendlyDateTimeStamp: getFriendlyDateTimeStamp,
-		convertUserInputToDate: convertUserInputToDate
+		convertUserInputToDate: convertUserInputToDate,
+
+		DATE: DATE,
+		TIME: TIME,
+		DATETIME: DATETIME,
+		timeTo: timeTo,
+		userInputToTime: userInputToTime
 	};
 });

@@ -1,6 +1,10 @@
 define([
-	'views/RecorderView'
-], function(RecorderView){
+	'views/RecorderView',
+	'views/SummaryView'
+], function(
+	RecorderView,
+	SummaryView
+){
 	
 	var AppRouter = Backbone.Router.extend({
 		routes: {
@@ -19,7 +23,8 @@ define([
 		});
 
 		router.on('route:showSummary', function(){
-			console.log('summary');
+			var summaryView = new SummaryView();
+			summaryView.render();
 		});
 
 		Backbone.history.start();
