@@ -1,9 +1,11 @@
 define([
 	'text!templates/taskGroupTemplate.html',
-	'collections/TaskCollection'
+	'collections/TaskCollection',
+	'views/TaskView'
 ], function(
 	taskGroupTemplate,
-	TaskCollection
+	TaskCollection,
+	taskView
 ){
 
 	var TaskGroupView = Backbone.View.extend({
@@ -22,16 +24,16 @@ define([
 
 			this.label = 'new task';
 
-			this.collection = new TaskCollection();
+			this.taskViews = [];
 
-			// //	TODO potential redundancy with events
-			this.collection.on('change', function(task, changed){
-				console.log('change', arguments);
-				task.save();
-			});
+			this.collection = new TaskCollection();
 
 			this.collection.on('add', function(task){
 				task.save();
+				task.on('change', function(task, changed){
+					console.log('task changed: ', task.get('id'), changed.changes);
+					task.save();
+				});
 			});
 
 
@@ -47,8 +49,11 @@ define([
 			this.toggle({currentTarget: $('.toggle')});
 		},
 
-		render: function(){
-
+		render: function(data){
+			var that = this;
+			$.each(this.taskViews, function(i, view){
+				view.render($.extend(data, {width: $('.tasks', that.$el).width()}));
+			});
 		},
 
 		events: {
@@ -67,7 +72,7 @@ define([
 
 			//	create a new task or stop any that are running
 			if(this.running){
-				this.collection.add({label: that.label});
+				this.addTask();
 
 			} else {
 
@@ -77,6 +82,23 @@ define([
 					});
 				});
 			};
+		},
+
+		addTask: function(){
+			
+			var task = new this.collection.model({label: this.label}),
+				taskEl = $('<div>'),
+				view;
+
+			//	create a new subview
+			$('.tasks', this.$el).append(taskEl);
+			view = new taskView({
+				el: taskEl,
+				model: task
+			});
+
+			this.collection.add(task);
+			this.taskViews.push(view);
 		},
 
 		editLabel: function(ev){

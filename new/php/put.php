@@ -68,14 +68,11 @@ $sql = substr($sql, 0, strrpos($sql, ',')) . " ";
 
 $sql .= "WHERE id = $id;";
 
-
-
 //	update in DB
 
 $result = mysql_query($sql);
 
 if(mysql_error()){
-
 	return false;
 
 } else {

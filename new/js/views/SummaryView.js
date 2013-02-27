@@ -12,7 +12,19 @@ define([
 		el: $('#page'),
 		
 		initialize: function(){
+
+			var that = this;
+
 			this.collection = new TaskCollection();
+
+			this.collection.on('remove', function(model, collection, options){
+				model.destroy({
+					success: function(model, response){
+						//	TODO use subviews rather than refreshing everything here
+						that.render();
+					}
+				})
+			});
 		},
 
 		render: function(){
@@ -33,7 +45,8 @@ define([
 		},
 
 		events: {
-			'submit form': 'loadTasks'
+			'submit form': 'loadTasks',
+			'click button.remove': 'removeTask'
 		},
 		
 		loadTasks: function(){
@@ -72,6 +85,13 @@ define([
 			})
 
 			return false;
+		},
+
+		removeTask: function(ev){
+			var taskID = $(ev.currentTarget).attr('name'),
+				task = this.collection.get(taskID);
+
+			this.collection.remove(task);
 		}
 	});
 

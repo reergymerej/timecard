@@ -21,10 +21,24 @@ define([
 			* @type array
 			**/
 			this.groups = [];
+
+			this.$el.html(recorderTempate);
+
+			this.start = Date.now();
+
+			setInterval(this.render.bind(this), 2000);
 		},
 
 		render: function(){
-			this.$el.html(recorderTempate);
+
+			var that = this;
+
+			//	TODO trigger an event that groups will subscribe to to manage their own rendering
+			$.each(this.groups, function(i, group){
+				group.render({
+					graphStart: that.start
+				});
+			});
 		},
 
 		events: {

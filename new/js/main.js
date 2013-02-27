@@ -8,7 +8,7 @@ require.config({
 		'models': 'models',
 		'templates': '../templates'
 	},
-	// urlArgs: '_' + Date.now()
+	urlArgs: '_' + Date.now()
 });
 
 
